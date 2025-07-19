@@ -3,98 +3,822 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>flurs.xyz</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <title>Flurs - Professional R6 Boosting Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3B82F6;
+            --primary-dark: #1E40AF;
+            --secondary: #6366F1;
+            --accent: #06D6A0;
+            --dark: #0F172A;
+            --dark-light: #1E293B;
+            --dark-medium: #334155;
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+            --border: rgba(148, 163, 184, 0.1);
+            --glass: rgba(248, 250, 252, 0.03);
+            --glass-border: rgba(248, 250, 252, 0.08);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 50%, var(--dark-medium) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(248, 250, 252, 0.06);
+            color: var(--text-primary);
+            border-color: rgba(248, 250, 252, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-badge:hover {
+            transform: translateY(-2px);
+            background: rgba(248, 250, 252, 0.06);
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 5vw, 72px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: 16px;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            margin: 60px 0;
+            backdrop-filter: blur(20px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* About Section */
+        .about {
+            padding: 120px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .about-content p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            background: rgba(248, 250, 252, 0.06);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--dark-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .success-state {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 32px;
+        }
+
+        .order-id {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 18px;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        .price-display {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(6, 214, 160, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .price-amount {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .about {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero {
+                padding: 100px 0 80px;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-large {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+            
+            .modal {
+                padding: 32px 24px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-actions {
+                gap: 8px;
+            }
+            
+            .btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
 </head>
 <body>
-    <header class="container">
-        <nav class="navbar">
-            <div class="logo">flurs.xyz</div>
-            <ul class="nav-menu">
-                <li><a href="#" class="nav-link active">Home</a></li>
-            </ul>
-            <div class="nav-right">
-                <div class="currency">€</div>
-                <a href="#" class="login-btn">Login</a>
-                <div class="cart">🛒</div>
-            </div>
-        </nav>
-    </header>
-
-    <section class="hero-section container">
-        <span class="new-stock">New Boosting Packages Available 🚨</span>
-        <h1 class="hero-title">flurs is the #1<br>Destination for <span class="highlight">R6 Boosting</span></h1>
-        
-        <div class="rank-selection-container">
-            <form id="rankForm" class="rank-selection">
-                <div class="rank-box">
-                    <label for="rankFrom">Current Rank</label>
-                    <select id="rankFrom" name="rankFrom" required>
-                        <option value="" disabled selected>Select your current rank</option>
-                        <option value="Copper">Copper</option>
-                        <option value="Bronze">Bronze</option>
-                        <option value="Silver">Silver</option>
-                        <option value="Gold">Gold</option>
-                        <option value="Platinum">Platinum</option>
-                        <option value="Emerald">Emerald</option>
-                        <option value="Diamond">Diamond</option>
-                        <option value="Champion">Champion</option>
-                    </select>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">flurs</div>
+                <div class="nav-actions">
+                    <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-secondary" target="_blank">Discord</a>
+                    <button class="btn btn-primary" onclick="showTicketForm()">Get Started</button>
                 </div>
-                <div class="rank-box">
-                    <label for="rankTo">Desired Rank</label>
-                    <select id="rankTo" name="rankTo" required>
-                        <option value="" disabled selected>Select your target rank</option>
-                        <option value="Copper">Copper</option>
-                        <option value="Bronze">Bronze</option>
-                        <option value="Silver">Silver</option>
-                        <option value="Gold">Gold</option>
-                        <option value="Platinum">Platinum</option>
-                        <option value="Emerald">Emerald</option>
-                        <option value="Diamond">Diamond</option>
-                        <option value="Champion">Champion</option>
-                    </select>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">
+                🚀 New Boosting Packages Available
+            </div>
+            <h1 class="hero-title">Professional Rainbow Six Siege Boosting</h1>
+            <p class="hero-subtitle">
+                Reach your desired rank with our premium boosting services. Fast, secure, and reliable - trusted by thousands of players worldwide.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-large" onclick="showTicketForm()">Start Boosting</button>
+                <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-secondary btn-large" target="_blank">Join Community</a>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">5K+</div>
+                    <div class="stat-label">Orders Completed</div>
                 </div>
-                <button type="submit" class="shop-now-btn">Get Boosted</button>
-            </form>
-            <div id="orderMessage" style="display: none; margin-top: 20px; color: #e2e8f0; font-size: 16px; line-height: 1.6;"></div>
-        </div>
-    </section>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">< 24h</div>
+                    <div class="stat-label">Average Start Time</div>
+                </div>
+            </div>
+        </section>
 
-    <section class="about-section container">
-        <div class="about-content">
-            <h2>About Us</h2>
-            <p>Flurs is your premier platform for Rainbow Six Siege boosting services. Created by seasoned players, we know the effort it takes to climb the ranks. Our mission is to deliver fast, secure, and reliable boosting to help you reach your desired rank with ease and confidence.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⭐</div>
-                <h3>Rapid Start</h3>
-                <p>Your boosting order begins instantly, ensuring the fastest path to your target rank.</p>
+        <!-- About Section -->
+        <section class="about">
+            <div class="about-content">
+                <h2>Why Choose Flurs?</h2>
+                <p>
+                    We're the premier destination for Rainbow Six Siege boosting services. Our team of professional players delivers exceptional results with complete security and reliability.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="showTicketForm()">Create Ticket</button>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">⭐</div>
-                <h3>Secure Payments</h3>
-                <p>We use trusted payment systems to keep your transactions safe and your data protected.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Start</h3>
+                    <p>Your boosting begins immediately after order confirmation. No waiting, no delays.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>100% Secure</h3>
+                    <p>Advanced security measures protect your account throughout the entire process.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated team is always available to help with any questions or concerns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Pro Players</h3>
+                    <p>Only skilled, verified players handle your boost to ensure the highest quality.</p>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">⭐</div>
-                <h3>24/7 Support</h3>
-                <p>Our dedicated team is available around the clock to assist with any questions or concerns.</p>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <div class="chat-widget">
-        <div class="chat-bubble">Need Help? We're Here!</div>
-        <div class="chat-button">
-            <div class="chat-icon">💬</div>
+    <!-- Modal -->
+    <div id="ticketModal" class="modal-overlay">
+        <div class="modal">
+            <div id="formStep">
+                <h2>Create Boost Order</h2>
+                <p class="modal-subtitle">Fill in your details to get started with your boost</p>
+                
+                <form id="boostForm">
+                    <div class="form-group">
+                        <label>Current Rank</label>
+                        <input type="text" name="currentRank" class="form-input" placeholder="e.g., Gold" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Current RP</label>
+                        <input type="number" name="currentRP" class="form-input" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Desired Rank</label>
+                        <input type="text" name="desiredRank" class="form-input" placeholder="e.g., Platinum" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Expected ELO Gain per Win</label>
+                        <input type="number" name="eloGain" class="form-input" placeholder="50" required>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideTicketForm()" style="flex: 1;">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Calculate Price</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="successStep" class="success-state" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h2>Order Created!</h2>
+                <p class="modal-subtitle">Your boost order has been successfully created</p>
+                
+                <div class="order-id">
+                    Order ID: <span id="orderIdDisplay"></span>
+                </div>
+                
+                <div id="priceDisplay" class="price-display">
+                    <!-- Price will be inserted here -->
+                </div>
+                
+                <p style="margin: 20px 0; color: var(--text-secondary); line-height: 1.6;">
+                    <strong>Next Steps:</strong><br>
+                    1. Join our Discord server<br>
+                    2. Create a ticket in the "Buy" channel<br>
+                    3. Include your Order ID in the ticket<br>
+                    4. Complete payment when ready
+                </p>
+                
+                <div class="modal-actions">
+                    <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-primary" target="_blank" style="flex: 1;">Join Discord</a>
+                    <button type="button" class="btn btn-secondary" onclick="hideTicketForm()" style="flex: 1;">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let orderId = 'FLR-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+        function showTicketForm() {
+            document.getElementById('ticketModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideTicketForm() {
+            document.getElementById('ticketModal').classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset form
+            setTimeout(() => {
+                document.getElementById('formStep').style.display = 'block';
+                document.getElementById('successStep').style.display = 'none';
+                document.getElementById('boostForm').reset();
+            }, 300);
+        }
+
+        function getPrice(currentRank, desiredRank) {
+            const prices = {
+                'Copper': {
+                    'Bronze': 7, 'Silver': 14, 'Gold': 21, 'Platinum': 28, 'Emerald': 35, 'Diamond': 42, 'Champion': 49
+                },
+                'Bronze': {
+                    'Silver': 7, 'Gold': 14, 'Platinum': 21, 'Emerald': 28, 'Diamond': 35, 'Champion': 42
+                },
+                'Silver': {
+                    'Gold': 7, 'Platinum': 14, 'Emerald': 21, 'Diamond': 28, 'Champion': 35
+                },
+                'Gold': {
+                    'Platinum': 7, 'Emerald': 14, 'Diamond': 21, 'Champion': 28
+                },
+                'Platinum': {
+                    'Emerald': 7, 'Diamond': 14, 'Champion': 21
+                },
+                'Emerald': {
+                    'Diamond': 7, 'Champion': 14
+                },
+                'Diamond': {
+                    'Champion': 7
+                }
+            };
+
+            return prices[currentRank] && prices[currentRank][desiredRank] ? prices[currentRank][desiredRank] : null;
+        }
+
+        function getStripeLink(price) {
+            const stripeLinks = {
+                7: 'https://buy.stripe.com/bJecN4dMpdZ88Io54rgnK01',
+                14: 'https://buy.stripe.com/bJe5kCfUx3kuf6MdAXgnK02',
+                21: 'https://buy.stripe.com/dRm00ifUx1cm2k00ObgnK03',
+                28: 'https://buy.stripe.com/8x2bJ0gYBaMW4s8gN9gnK04',
+                35: 'https://buy.stripe.com/5kQeVcfUxaMWf6MbsPgnK05',
+                42: 'https://buy.stripe.com/8x228q37L5sC3o4cwTgnK06',
+                49: 'https://buy.stripe.com/9B6aEW4bPaMWf6M54rgnK07'
+            };
+            return stripeLinks[price] || '';
+        }
+
+        document.getElementById('boostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const currentRank = formData.get('currentRank').charAt(0).toUpperCase() + formData.get('currentRank').slice(1).toLowerCase();
+            const desiredRank = formData.get('desiredRank').charAt(0).toUpperCase() + formData.get('desiredRank').slice(1).toLowerCase();
+            
+            const data = {
+                currentRank: currentRank,
+                currentRP: formData.get('currentRP'),
+                desiredRank: desiredRank,
+                eloGain: formData.get('eloGain'),
+                orderId: orderId
+            };
+
+            const priceAmount = getPrice(currentRank, desiredRank);
+            
+            if (priceAmount === null) {
+                alert('Invalid rank combination. Please check your current and desired ranks.');
+                return;
+            }
+
+            const stripeLink = getStripeLink(priceAmount);
+            
+            // Update display
+            document.getElementById('orderIdDisplay').textContent = orderId;
+            
+            const priceDisplay = document.getElementById('priceDisplay');
+            priceDisplay.innerHTML = `
+                <div class="price-amount">£${priceAmount}</div>
+                <div style="margin-top: 16px;">
+                    ${stripeLink ? `<a href="${stripeLink}" target="_blank" class="btn btn-primary">Pay with Stripe</a>` : '<p>Contact support for payment details</p>'}
+                </div>
+                ${stripeLink ? `<p style="font-size: 14px; color: var(--text-muted); margin-top: 12px;"><strong>Important:</strong> Include Order ID "${orderId}" in payment notes</p>` : ''}
+            `;
+            
+            // Switch to success step
+            document.getElementById('formStep').style.display = 'none';
+            document.getElementById('successStep').style.display = 'block';
+
+            // Send to Discord webhook
+            fetch('https://discord.com/api/webhooks/1396228307720339598/u9qIPfR8_uC7RvwpvhU4lb_sTO6b9RaVvvaK2T5e_LzWEiiNkirPlb5rDITODTUPE81x', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: '🎮 New Boosting Order',
+                        color: 0x3B82F6,
+                        fields: [
+                            { name: 'Order ID', value: `\`${data.orderId}\``, inline: true },
+                            { name: 'Current Rank', value: data.currentRank, inline: true },
+                            { name: 'Current RP', value: data.currentRP, inline: true },
+                            { name: 'Desired Rank', value: data.desiredRank, inline: true },
+                            { name: 'ELO Gain', value: data.eloGain, inline: true },
+                            { name: 'Price', value: `£${priceAmount}`, inline: true }
+                        ],
+                        timestamp: new Date().toISOString(),
+                        footer: {
+                            text: 'Flurs Boosting Service'
+                        }
+                    }]
+                })
+            }).catch(console.error);
+            
+            // Generate new order ID for next use
+            orderId = 'FLR-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+        });
+
+        // Close modal on outside click
+        document.getElementById('ticketModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideTicketForm();
+            }
+        });
+    </script>
 </body>
 </html>
