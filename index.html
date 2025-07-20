@@ -123,6 +123,109 @@
             transform: translateY(-1px);
         }
 
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-actions.active {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.95);
+                flex-direction: column;
+                padding: 16px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-actions.active {
+                display: flex;
+            }
+
+            .nav-actions .btn {
+                width: 100%;
+                justify-content: flex-start;
+                padding: 12px 16px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .navbar {
+                padding: 8px 0;
+            }
+
+            .nav-content {
+                padding: 8px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 10px 12px;
+                font-size: 13px;
+                min-height: 44px;
+            }
+
+            .hamburger {
+                padding: 6px;
+            }
+
+            .hamburger span {
+                width: 20px;
+                height: 2px;
+                margin: 4px 0;
+            }
+        }
+
         /* Hero Section */
         .hero {
             padding: 120px 0 100px;
@@ -570,10 +673,15 @@
         <div class="container">
             <div class="nav-content">
                 <a href="index.html" class="logo">flurs.xyz</a>
+                <button class="hamburger" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="nav-actions">
                     <a href="products.html" class="btn btn-secondary">Products</a>
                     <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-secondary" target="_blank">Discord</a>
-                    <button class="btn btn-primary" onclick="showTicketForm()">Get Started</button>
+                    <button class="btn btn-primary" onclick="openModal()">Get Started</button>
                 </div>
             </div>
         </div>
@@ -760,6 +868,13 @@
     </div>
 
     <script>
+        
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-actions').classList.toggle('active');
+        });
+
+
         let orderId = 'FLR-' + Math.random().toString(36).substr(2, 8).toUpperCase();
 
         function showTicketForm() {
