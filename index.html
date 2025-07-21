@@ -255,7 +255,7 @@
         .hero-title {
             font-size: clamp(36px, 6vw, 64px);
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1 CHILD: 1.1;
             margin-bottom: 20px;
             letter-spacing: -1px;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
@@ -596,12 +596,6 @@
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
         }
 
-        .rank-selects {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 12px;
-        }
-
         .form-select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230EA5E9' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
@@ -735,10 +729,6 @@
             .modal-actions {
                 flex-direction: column;
             }
-
-            .rank-selects {
-                grid-template-columns: 1fr;
-            }
         }
 
         @media (max-width: 480px) {
@@ -795,8 +785,9 @@
                     <a href="#about" class="nav-link">About</a>
                 </div>
                 <div class="nav-actions">
-                    <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-secondary" target="_blank">Discord</a>
-                    <button class="btn btn-primary" onclick="showTicketForm()">Get Started</button>
+                    <a href="https://discord.gg/ynFuNaha23" class="btn btn-secondary" target="_blank">Discord</a>
+                    <button class="btn btn-primary" onclick="showTicketForm('boost')">Get Started</button>
+                    <button class="btn btn-primary" onclick="showTicketForm('product')">Order Product</button>
                 </div>
                 <button class="mobile-menu">
                     <span></span>
@@ -818,8 +809,9 @@
                 Reach your dream rank with our professional boosting services. Fast, secure, and guaranteed results.
             </p>
             <div class="hero-actions">
-                <button class="btn btn-primary btn-large" onclick="showTicketForm()">Start Your Boost</button>
-                <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-secondary btn-large" target="_blank">Join Discord</a>
+                <button class="btn btn-primary btn-large" onclick="showTicketForm('boost')">Start Your Boost</button>
+                <button class="btn btn-primary btn-large" onclick="showTicketForm('product')">Order Product</button>
+                <a href="https://discord.gg/ynFuNaha23" class="btn btn-secondary btn-large" target="_blank">Join Discord</a>
             </div>
         </section>
 
@@ -927,7 +919,7 @@
                 <div class="product-card">
                     <div class="product-icon">⚔️</div>
                     <h3>Crusaders</h3>
-                    <p>Join the elite with our specialized Crusaders package.</p>
+                    <p>Our most valued cheat.</p>
                     <ul class="pricing-list">
                         <li>Day: <strong>£5</strong></li>
                         <li>Week: <strong>£25</strong></li>
@@ -961,7 +953,7 @@
             <div class="cta-content">
                 <h2>Ready to Rank Up?</h2>
                 <p>Join many customers who have achieved their dream ranks with Flurs.</p>
-                <button class="btn btn-primary btn-large" onclick="showTicketForm()">Start Boosting Now</button>
+                <button class="btn btn-primary btn-large" onclick="showTicketForm('boost')">Start Boosting Now</button>
             </div>
         </section>
 
@@ -990,7 +982,7 @@
     <!-- Modal -->
     <div id="ticketModal" class="modal-overlay">
         <div class="modal">
-            <div id="formStep">
+            <div id="boostFormStep" style="display: none;">
                 <h2>Create Boost Order</h2>
                 <p class="modal-subtitle">Configure your boosting service</p>
                 
@@ -1008,8 +1000,50 @@
                         </select>
                     </div>
 
-                    <div class="price-display" id="priceDisplay" style="display: none;">
-                        <div class="price-amount" id="priceAmount">£0</div>
+                    <div class="price-display" id="boostPriceDisplay" style="display: none;">
+                        <div class="price-amount" id="boostPriceAmount">£0</div>
+                        <div style="color: var(--text-secondary); margin-top: 8px;">Total Price</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Discord Username</label>
+                        <input type="text" name="discordUsername" class="form-input" placeholder="username#1234" required>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideTicketForm()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Order</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="productFormStep" style="display: none;">
+                <h2>Order Product</h2>
+                <p class="modal-subtitle">Select your product and duration</p>
+                
+                <form id="productForm">
+                    <div class="form-group">
+                        <label>Product</label>
+                        <select name="product" class="form-select" required id="productSelect">
+                            <option value="" disabled selected>Select Product</option>
+                            <option value="dogo-recoil">Dogo Recoil</option>
+                            <option value="dogo-full">Dogo Full</option>
+                            <option value="unlock-all">Unlock All</option>
+                            <option value="crusaders">Crusaders</option>
+                            <option value="lethal-full">Lethal Full</option>
+                            <option value="nfa-accounts">NFA Accounts</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="durationGroup" style="display: none;">
+                        <label>Duration</label>
+                        <select name="duration" class="form-select" required id="durationSelect">
+                            <option value="" disabled selected>Select Duration</option>
+                        </select>
+                    </div>
+
+                    <div class="price-display" id="productPriceDisplay" style="display: none;">
+                        <div class="price-amount" id="productPriceAmount">£0</div>
                         <div style="color: var(--text-secondary); margin-top: 8px;">Total Price</div>
                     </div>
 
@@ -1028,7 +1062,7 @@
             <div id="successStep" class="success-state" style="display: none;">
                 <div class="success-icon">✓</div>
                 <h2>Order Created Successfully!</h2>
-                <p style="color: var(--text-secondary); margin: 16px 0;">Your boost order has been submitted.</p>
+                <p style="color: var(--text-secondary); margin: 16px 0;">Your order has been submitted.</p>
                 
                 <div class="order-id" id="orderIdDisplay">
                     ORDER ID: #FL-000000
@@ -1050,7 +1084,7 @@
                 </div>
 
                 <div class="modal-actions">
-                    <a href="https://discord.com/invite/Xhz4Bkkxvt" class="btn btn-primary" target="_blank">Join Discord</a>
+                    <a href="https://discord.gg/ynFuNaha23" class="btn btn-primary" target="_blank">Join Discord</a>
                     <button type="button" class="btn btn-secondary" onclick="hideTicketForm()">Close</button>
                 </div>
             </div>
@@ -1069,21 +1103,31 @@
         });
 
         // Modal functions
-        function showTicketForm() {
+        function showTicketForm(type) {
             document.getElementById('ticketModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            if (type === 'boost') {
+                document.getElementById('boostFormStep').style.display = 'block';
+                document.getElementById('productFormStep').style.display = 'none';
+            } else {
+                document.getElementById('boostFormStep').style.display = 'none';
+                document.getElementById('productFormStep').style.display = 'block';
+            }
+            document.getElementById('successStep').style.display = 'none';
         }
 
         function hideTicketForm() {
             document.getElementById('ticketModal').classList.remove('active');
             document.body.style.overflow = 'auto';
-            
-            // Reset form
             setTimeout(() => {
-                document.getElementById('formStep').style.display = 'block';
+                document.getElementById('boostFormStep').style.display = 'none';
+                document.getElementById('productFormStep').style.display = 'none';
                 document.getElementById('successStep').style.display = 'none';
                 document.getElementById('boostForm').reset();
-                document.getElementById('priceDisplay').style.display = 'none';
+                document.getElementById('productForm').reset();
+                document.getElementById('boostPriceDisplay').style.display = 'none';
+                document.getElementById('productPriceDisplay').style.display = 'none';
+                document.getElementById('durationGroup').style.display = 'none';
             }, 300);
         }
 
@@ -1094,16 +1138,87 @@
             }
         });
 
-        // Price calculation
+        // Product pricing data
+        const productPricing = {
+            'dogo-recoil': [
+                { duration: 'Day', price: 4 },
+                { duration: 'Week', price: 9 },
+                { duration: 'Month', price: 20 },
+                { duration: 'Lifetime', price: 55 }
+            ],
+            'dogo-full': [
+                { duration: 'Day', price: 7 },
+                { duration: 'Week', price: 20 },
+                { duration: 'Month', price: 40 }
+            ],
+            'unlock-all': [
+                { duration: 'Day', price: 3 },
+                { duration: 'Week', price: 6 },
+                { duration: 'Month', price: 15 },
+                { duration: 'Lifetime', price: 55 }
+            ],
+            'crusaders': [
+                { duration: 'Day', price: 5 },
+                { duration: 'Week', price: 25 },
+                { duration: 'Month', price: 45 }
+            ],
+            'lethal-full': [
+                { duration: 'Day', price: 15 },
+                { duration: 'Week', price: 35 },
+                { duration: 'Month', price: 50 },
+                { duration: 'Year', price: 315 }
+            ],
+            'nfa-accounts': []
+        };
+
+        // Update duration options based on product selection
+        document.getElementById('productSelect').addEventListener('change', function() {
+            const product = this.value;
+            const durationSelect = document.getElementById('durationSelect');
+            const durationGroup = document.getElementById('durationGroup');
+            const priceDisplay = document.getElementById('productPriceDisplay');
+            const priceAmount = document.getElementById('productPriceAmount');
+
+            durationSelect.innerHTML = '<option value="" disabled selected>Select Duration</option>';
+            priceDisplay.style.display = 'none';
+
+            if (product === 'nfa-accounts') {
+                durationGroup.style.display = 'none';
+            } else {
+                durationGroup.style.display = 'block';
+                productPricing[product].forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.duration.toLowerCase();
+                    opt.setAttribute('data-price', option.price);
+                    opt.textContent = `${option.duration} - £${option.price}`;
+                    durationSelect.appendChild(opt);
+                });
+            }
+        });
+
+        // Update price on duration selection
+        document.getElementById('durationSelect').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            
+            if (price) {
+                document.getElementById('productPriceDisplay').style.display = 'block';
+                document.getElementById('productPriceAmount').textContent = `£${price}`;
+            } else {
+                document.getElementById('productPriceDisplay').style.display = 'none';
+            }
+        });
+
+        // Boost price calculation
         document.getElementById('boostServiceSelect').addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
             
             if (price) {
-                document.getElementById('priceDisplay').style.display = 'block';
-                document.getElementById('priceAmount').textContent = `£${price}`;
+                document.getElementById('boostPriceDisplay').style.display = 'block';
+                document.getElementById('boostPriceAmount').textContent = `£${price}`;
             } else {
-                document.getElementById('priceDisplay').style.display = 'none';
+                document.getElementById('boostPriceDisplay').style.display = 'none';
             }
         });
 
@@ -1113,22 +1228,23 @@
             return `FL-${randomNum}`;
         }
 
-        // Form submission
+        // Boost form submission
         document.getElementById('boostForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
             const orderData = {
                 orderId: generateOrderId(),
+                type: 'Boost',
                 boostService: formData.get('boostService'),
                 discordUsername: formData.get('discordUsername'),
                 timestamp: new Date().toISOString(),
                 price: document.getElementById('boostServiceSelect').options[document.getElementById('boostServiceSelect').selectedIndex].getAttribute('data-price')
             };
 
-            // Send to webhook (replace with your actual webhook URL)
+            // Send to webhook
             try {
-                await fetch('https://discord.com/api/webhooks/1396228307720339598/u9qIPfR8_uC7RvwpvhU4lb_sTO6b9RaVvvaK2T5e_LzWEiiNkirPlb5rDITODTUPE81x', {
+                await fetch('https://discord.com/api/webhooks/1396972506966921226/C5EAWwDafxuMf3_V7bJqCTIzimgSq2Zb-XNVQmIvUZusL_LXe9vG95TYj3ZPVqlKSHBO', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1168,14 +1284,91 @@
                 });
             } catch (error) {
                 console.log('Webhook error:', error);
-                // Continue anyway for demo purposes
             }
 
             // Show success step
-            document.getElementById('formStep').style.display = 'none';
+            document.getElementById('boostFormStep').style.display = 'none';
             document.getElementById('successStep').style.display = 'block';
             document.getElementById('orderIdDisplay').textContent = `ORDER ID: #${orderData.orderId}`;
             document.getElementById('finalPriceDisplay').textContent = `£${orderData.price}`;
+        });
+
+        // Product form submission
+        document.getElementById('productForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const product = formData.get('product');
+            const duration = formData.get('duration');
+            let price = 'Contact us';
+            if (product !== 'nfa-accounts') {
+                price = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex].getAttribute('data-price');
+            }
+            
+            const orderData = {
+                orderId: generateOrderId(),
+                type: 'Product',
+                product: product,
+                duration: duration || 'N/A',
+                discordUsername: formData.get('discordUsername'),
+                timestamp: new Date().toISOString(),
+                price: price
+            };
+
+            // Send to webhook
+            try {
+                await fetch('https://discord.com/api/webhooks/1396972506966921226/C5EAWwDafxuMf3_V7bJqCTIzimgSq2Zb-XNVQmIvUZusL_LXe9vG95TYj3ZPVqlKSHBO', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: '🛒 New Product Order Created',
+                            color: 0x06D6A0,
+                            fields: [
+                                {
+                                    name: '📋 Order ID',
+                                    value: `\`${orderData.orderId}\``,
+                                    inline: true
+                                },
+                                {
+                                    name: '👤 Discord User',
+                                    value: orderData.discordUsername,
+                                    inline: true
+                                },
+                                {
+                                    name: '💰 Price',
+                                    value: orderData.price === 'Contact us' ? orderData.price : `£${orderData.price}`,
+                                    inline: true
+                                },
+                                {
+                                    name: '🛠️ Product',
+                                    value: document.getElementById('productSelect').options[document.getElementById('productSelect').selectedIndex].text,
+                                    inline: true
+                                },
+                                {
+                                    name: '⏳ Duration',
+                                    value: orderData.duration,
+                                    inline: true
+                                }
+                            ],
+                            timestamp: orderData.timestamp,
+                            footer: {
+                                text: 'Flurs.xyz - R6 Products'
+                            }
+                        }]
+                    })
+                });
+            } catch (error) {
+                console.log('Webhook error:', error);
+            }
+
+            // Show success step
+            document.getElementById('productFormStep').style.display = 'none';
+            document.getElementById('successStep').style.display = 'block';
+            document.getElementById('orderIdDisplay').textContent = `ORDER ID: #${orderData.orderId}`;
+            document.getElementById('finalPriceDisplay').textContent = orderData.price === 'Contact us' ? orderData.price : `£${orderData.price}`;
         });
 
         // Smooth scrolling for anchor links
