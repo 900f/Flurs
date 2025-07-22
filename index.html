@@ -14,28 +14,28 @@
         }
 
         :root {
-            --primary: #0EA5E9;
-            --primary-dark: #0284C7;
-            --secondary: #8B5CF6;
-            --accent: #06D6A0;
-            --warning: #F59E0B;
-            --dark: #0F172A;
-            --dark-card: #1E293B;
-            --dark-hover: #334155;
-            --text-primary: #F8FAFC;
-            --text-secondary: #CBD5E1;
-            --text-muted: #94A3B8;
-            --border: rgba(148, 163, 184, 0.1);
-            --glass: rgba(15, 23, 42, 0.8);
-            --glass-light: rgba(30, 41, 59, 0.6);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #8B5CF6 100%);
-            --gradient-accent: linear-gradient(135deg, #06D6A0 0%, #0EA5E9 100%);
+            --primary: #FF0000;
+            --primary-dark: #8B0000;
+            --secondary: #FF0000;
+            --accent: #FF0000;
+            --warning: #FF0000;
+            --dark: #1C1C1C;
+            --dark-card: #2E2E2E;
+            --dark-hover: #3A3A3A;
+            --text-primary: #E6E6E6;
+            --text-secondary: #B0B0B0;
+            --text-muted: #808080;
+            --border: rgba(128, 128, 128, 0.2);
+            --glass: rgba(28, 28, 28, 0.85);
+            --glass-light: rgba(46, 46, 46, 0.65);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --gradient-primary: linear-gradient(135deg, #FF0000 0%, #FF0000 100%);
+            --gradient-accent: linear-gradient(135deg, #FF0000 0%, #FF0000 100%);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(ellipse at top, #1e293b 0%, #0f172a 100%);
+            background: #1C1C1C;
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
@@ -51,9 +51,9 @@
             height: 100%;
             z-index: -1;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(6, 214, 160, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 0, 0, 0.15) 0%, transparent 50%);
             animation: float 20s ease-in-out infinite;
         }
 
@@ -76,14 +76,14 @@
             left: 0;
             right: 0;
             z-index: 100;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(28, 28, 28, 0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .navbar.scrolled {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(28, 28, 28, 0.95);
             box-shadow: var(--shadow-lg);
         }
 
@@ -185,13 +185,13 @@
 
         .btn-primary {
             background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: var(--text-primary);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
         }
 
         .btn-secondary {
@@ -204,7 +204,7 @@
         .btn-secondary:hover {
             background: var(--glass-light);
             color: var(--text-primary);
-            border-color: rgba(148, 163, 184, 0.2);
+            border-color: rgba(128, 128, 128, 0.3);
         }
 
         .mobile-menu {
@@ -255,7 +255,7 @@
         .hero-title {
             font-size: clamp(36px, 6vw, 64px);
             font-weight: 900;
-            line-height: 1 CHILD: 1.1;
+            line-height: 1.1;
             margin-bottom: 20px;
             letter-spacing: -1px;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
@@ -471,7 +471,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(14, 165, 233, 0.1) 60deg, transparent 120deg);
+            background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 0, 0, 0.15) 60deg, transparent 120deg);
             animation: rotate 20s linear infinite;
         }
 
@@ -593,12 +593,12 @@
         .form-input:focus, .form-select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
         }
 
         .form-select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230EA5E9' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23FF0000' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 12px center;
             background-size: 16px;
@@ -649,8 +649,8 @@
         }
 
         .price-display {
-            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
-            border: 1px solid rgba(6, 214, 160, 0.2);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.15) 0%, rgba(255, 0, 0, 0.15) 100%);
+            border: 1px solid rgba(255, 0, 0, 0.2);
             border-radius: 16px;
             padding: 24px;
             margin: 20px 0;
@@ -885,65 +885,72 @@
             </div>
             <div class="products-grid">
                 <div class="product-card">
-                    <div class="product-icon">🎯</div>
-                    <h3>Dogo Recoil</h3>
-                    <p>Enhance your aim with our advanced recoil control system.</p>
+                    <div class="product-icon">🐶</div>
+                    <h3>Dogo Lite</h3>
+                    <p>R6 Cheat Suite with essential features for enhanced gameplay.</p>
                     <ul class="pricing-list">
                         <li>Day: <strong>£4</strong></li>
                         <li>Week: <strong>£9</strong></li>
                         <li>Month: <strong>£20</strong></li>
                         <li>Lifetime: <strong>£55</strong></li>
                     </ul>
+                    <button class="btn btn-primary" onclick="showTicketForm('product', 'dogo-lite')">Order Now</button>
                 </div>
                 <div class="product-card">
-                    <div class="product-icon">🔥</div>
+                    <div class="product-icon">🐺</div>
                     <h3>Dogo Full</h3>
-                    <p>Complete access to our premium Dogo features for maximum performance.</p>
+                    <p>Advanced R6 Suite with ragebot and legitbot features.</p>
                     <ul class="pricing-list">
                         <li>Day: <strong>£7</strong></li>
                         <li>Week: <strong>£20</strong></li>
                         <li>Month: <strong>£40</strong></li>
                     </ul>
+                    <button class="btn btn-primary" onclick="showTicketForm('product', 'dogo-full')">Order Now</button>
                 </div>
                 <div class="product-card">
-                    <div class="product-icon">🔓</div>
-                    <h3>Unlock All</h3>
-                    <p>Instantly unlock all content for a fully customized experience.</p>
+                    <div class="product-icon">⚫</div>
+                    <h3>Onyx Lite</h3>
+                    <p>Unlock all skins, camos, and operators instantly.</p>
                     <ul class="pricing-list">
-                        <li>Day: <strong>£3</strong></li>
-                        <li>Week: <strong>£6</strong></li>
-                        <li>Month: <strong>£15</strong></li>
-                        <li>Lifetime: <strong>£55</strong></li>
+                        <li>Day: <strong>£4</strong></li>
+                        <li>Week: <strong>£13</strong></li>
+                        <li>Month: <strong>£26</strong></li>
                     </ul>
+                    <button class="btn btn-primary" onclick="showTicketForm('product', 'onyx-lite')">Order Now</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">⚫</div>
+                    <h3>Onyx Full</h3>
+                    <p>Complete unlock package with advanced ESP and anti-recoil.</p>
+                    <ul class="pricing-list">
+                        <li>Day: <strong>£5</strong></li>
+                        <li>Week: <strong>£22</strong></li>
+                        <li>Month: <strong>£44</strong></li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="showTicketForm('product', 'onyx-full')">Order Now</button>
                 </div>
                 <div class="product-card">
                     <div class="product-icon">⚔️</div>
-                    <h3>Crusaders</h3>
-                    <p>Our most valued cheat.</p>
+                    <h3>Crusader</h3>
+                    <p>Ultimate AIMBOT and visuals package for precision gameplay.</p>
                     <ul class="pricing-list">
                         <li>Day: <strong>£5</strong></li>
                         <li>Week: <strong>£25</strong></li>
                         <li>Month: <strong>£45</strong></li>
                     </ul>
+                    <button class="btn btn-primary" onclick="showTicketForm('product', 'crusader')">Order Now</button>
                 </div>
                 <div class="product-card">
-                    <div class="product-icon">💥</div>
+                    <div class="product-icon">☠️</div>
                     <h3>Lethal Full</h3>
-                    <p>Unleash maximum potential with our comprehensive Lethal package.</p>
+                    <p>Premium cheat suite with comprehensive aimbot and ESP features.</p>
                     <ul class="pricing-list">
                         <li>Day: <strong>£15</strong></li>
                         <li>Week: <strong>£35</strong></li>
                         <li>Month: <strong>£50</strong></li>
                         <li>Year: <strong>£315</strong></li>
                     </ul>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">🛠️</div>
-                    <h3>NFA Accounts</h3>
-                    <p>Access non-full access accounts for flexible gaming needs.</p>
-                    <ul class="pricing-list">
-                        <li>Contact us for pricing details</li>
-                    </ul>
+                    <button class="btn btn-primary" onclick="showTicketForm('product', 'lethal-full')">Order Now</button>
                 </div>
             </div>
         </section>
@@ -1026,12 +1033,12 @@
                         <label>Product</label>
                         <select name="product" class="form-select" required id="productSelect">
                             <option value="" disabled selected>Select Product</option>
-                            <option value="dogo-recoil">Dogo Recoil</option>
+                            <option value="dogo-lite">Dogo Lite</option>
                             <option value="dogo-full">Dogo Full</option>
-                            <option value="unlock-all">Unlock All</option>
-                            <option value="crusaders">Crusaders</option>
+                            <option value="onyx-lite">Onyx Lite</option>
+                            <option value="onyx-full">Onyx Full</option>
+                            <option value="crusader">Crusader</option>
                             <option value="lethal-full">Lethal Full</option>
-                            <option value="nfa-accounts">NFA Accounts</option>
                         </select>
                     </div>
 
@@ -1103,7 +1110,7 @@
         });
 
         // Modal functions
-        function showTicketForm(type) {
+        function showTicketForm(type, product = '') {
             document.getElementById('ticketModal').classList.add('active');
             document.body.style.overflow = 'hidden';
             if (type === 'boost') {
@@ -1112,6 +1119,9 @@
             } else {
                 document.getElementById('boostFormStep').style.display = 'none';
                 document.getElementById('productFormStep').style.display = 'block';
+                const productSelect = document.getElementById('productSelect');
+                productSelect.value = product;
+                productSelect.dispatchEvent(new Event('change'));
             }
             document.getElementById('successStep').style.display = 'none';
         }
@@ -1140,7 +1150,7 @@
 
         // Product pricing data
         const productPricing = {
-            'dogo-recoil': [
+            'dogo-lite': [
                 { duration: 'Day', price: 4 },
                 { duration: 'Week', price: 9 },
                 { duration: 'Month', price: 20 },
@@ -1151,13 +1161,17 @@
                 { duration: 'Week', price: 20 },
                 { duration: 'Month', price: 40 }
             ],
-            'unlock-all': [
-                { duration: 'Day', price: 3 },
-                { duration: 'Week', price: 6 },
-                { duration: 'Month', price: 15 },
-                { duration: 'Lifetime', price: 55 }
+            'onyx-lite': [
+                { duration: 'Day', price: 4 },
+                { duration: 'Week', price: 13 },
+                { duration: 'Month', price: 26 }
             ],
-            'crusaders': [
+            'onyx-full': [
+                { duration: 'Day', price: 5 },
+                { duration: 'Week', price: 22 },
+                { duration: 'Month', price: 44 }
+            ],
+            'crusader': [
                 { duration: 'Day', price: 5 },
                 { duration: 'Week', price: 25 },
                 { duration: 'Month', price: 45 }
@@ -1167,8 +1181,7 @@
                 { duration: 'Week', price: 35 },
                 { duration: 'Month', price: 50 },
                 { duration: 'Year', price: 315 }
-            ],
-            'nfa-accounts': []
+            ]
         };
 
         // Update duration options based on product selection
@@ -1182,9 +1195,7 @@
             durationSelect.innerHTML = '<option value="" disabled selected>Select Duration</option>';
             priceDisplay.style.display = 'none';
 
-            if (product === 'nfa-accounts') {
-                durationGroup.style.display = 'none';
-            } else {
+            if (product && productPricing[product]) {
                 durationGroup.style.display = 'block';
                 productPricing[product].forEach(option => {
                     const opt = document.createElement('option');
@@ -1193,6 +1204,8 @@
                     opt.textContent = `${option.duration} - £${option.price}`;
                     durationSelect.appendChild(opt);
                 });
+            } else {
+                durationGroup.style.display = 'none';
             }
         });
 
@@ -1252,7 +1265,7 @@
                     body: JSON.stringify({
                         embeds: [{
                             title: '🚀 New Boost Order Created',
-                            color: 0x0EA5E9,
+                            color: 0xFF0000,
                             fields: [
                                 {
                                     name: '📋 Order ID',
@@ -1300,10 +1313,7 @@
             const formData = new FormData(this);
             const product = formData.get('product');
             const duration = formData.get('duration');
-            let price = 'Contact us';
-            if (product !== 'nfa-accounts') {
-                price = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex].getAttribute('data-price');
-            }
+            const price = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex]?.getAttribute('data-price') || 'Contact us';
             
             const orderData = {
                 orderId: generateOrderId(),
@@ -1325,7 +1335,7 @@
                     body: JSON.stringify({
                         embeds: [{
                             title: '🛒 New Product Order Created',
-                            color: 0x06D6A0,
+                            color: 0xFF0000,
                             fields: [
                                 {
                                     name: '📋 Order ID',
