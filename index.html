@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flurs - Elite R6 Boosting Services</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Flurs - Professional Image Splitter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,1401 +15,743 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #FF0000;
-            --primary-dark: #8B0000;
-            --secondary: #FF0000;
-            --accent: #FF0000;
-            --warning: #FF0000;
-            --dark: #1C1C1C;
-            --dark-card: #2E2E2E;
-            --dark-hover: #3A3A3A;
-            --text-primary: #E6E6E6;
-            --text-secondary: #B0B0B0;
-            --text-muted: #808080;
-            --border: rgba(128, 128, 128, 0.2);
-            --glass: rgba(28, 28, 28, 0.85);
-            --glass-light: rgba(46, 46, 46, 0.65);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-            --gradient-primary: linear-gradient(135deg, #FF0000 0%, #FF0000 100%);
-            --gradient-accent: linear-gradient(135deg, #FF0000 0%, #FF0000 100%);
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #1C1C1C;
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(255, 0, 0, 0.15) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            33% { transform: translateY(-10px) rotate(1deg); }
-            66% { transform: translateY(10px) rotate(-1deg); }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            background: rgba(28, 28, 28, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .navbar.scrolled {
-            background: rgba(28, 28, 28, 0.95);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            position: relative;
-        }
-
-        .nav-links {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--text-primary);
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--glass);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            background: var(--glass-light);
-            color: var(--text-primary);
-            border-color: rgba(128, 128, 128, 0.3);
-        }
-
-        .mobile-menu {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .mobile-menu span {
-            display: block;
-            width: 24px;
-            height: 3px;
-            background: var(--text-primary);
-            margin: 4px 0;
-            transition: all 0.3s ease;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 140px 0 60px;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-            padding: 8px 24px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--accent);
-            margin-bottom: 24px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .hero-title {
-            font-size: clamp(36px, 6vw, 64px);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: slideInUp 1s ease;
-        }
-
-        .hero-subtitle {
-            font-size: 18px;
-            color: var(--text-muted);
-            margin-bottom: 32px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: slideInUp 1s ease 0.2s both;
-        }
-
-        .hero-actions {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            animation: slideInUp 1s ease 0.4s both;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Stats Section */
-        .stats {
-            margin: 80px 0 60px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-            text-align: center;
-        }
-
-        .stat-item {
-            position: relative;
-            padding: 20px 0;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 800;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-            animation: countUp 2s ease;
-        }
-
-        @keyframes countUp {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        /* Features Grid */
-        .features {
-            padding: 60px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .section-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .features-grid, .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .feature-card, .product-card {
-            background: var(--dark-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before, .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .feature-card:hover::before, .product-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-card:hover, .product-card:hover {
-            transform: translateY(-8px);
-            background: var(--dark-hover);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .feature-icon, .product-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--gradient-primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon, .product-card:hover .product-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .feature-card h3, .product-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .feature-card p, .product-card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .pricing-list {
-            margin-top: 16px;
-            padding-left: 20px;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .pricing-list li {
-            margin-bottom: 8px;
-        }
-
-        .pricing-list li strong {
-            color: var(--accent);
-        }
-
-        /* CTA Section */
-        .cta {
-            padding: 80px 0;
-            text-align: center;
-            background: var(--glass);
-            border-radius: 20px;
-            margin: 60px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 0, 0, 0.15) 60deg, transparent 120deg);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta h2 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cta p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 32px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* About Section */
-        .about {
-            padding: 60px 0;
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: var(--dark-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+```
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #3b82f6;
+        --secondary: #f8fafc;
+        --accent: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --border: #e2e8f0;
+        --border-light: #f1f5f9;
+        --surface: #ffffff;
+        --surface-hover: #f8fafc;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #667eea 40%, #f093fb 60%, #f5576c 80%, #4facfe 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        min-height: 100vh;
+        color: var(--text-primary);
+        line-height: 1.6;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .main-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1rem;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .logo-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .logo {
+        width: 48px;
+        height: 48px;
+        background: var(--surface);
+        border-radius: var(--radius-xl);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .brand-name {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--surface);
+        letter-spacing: -0.025em;
+    }
+
+    .tagline {
+        font-size: 1.125rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+    }
+
+    .domain {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        flex: 1;
+    }
+
+    .card {
+        background: var(--surface);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+    }
+
+    .card-content {
+        padding: 2.5rem;
+    }
+
+    .upload-zone {
+        background: var(--secondary);
+        border: 2px dashed var(--border);
+        border-radius: var(--radius-lg);
+        padding: 3rem 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .upload-zone:hover {
+        border-color: var(--primary-light);
+        background: var(--surface-hover);
+    }
+
+    .upload-zone.dragover {
+        border-color: var(--primary);
+        background: rgba(37, 99, 235, 0.05);
+        transform: scale(1.01);
+    }
+
+    .upload-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 1.5rem;
+        background: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--surface);
+    }
+
+    .upload-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .upload-subtitle {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-md);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary {
+        background: var(--primary);
+        color: var(--surface);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-success {
+        background: var(--accent);
+        color: var(--surface);
+    }
+
+    .btn-success:hover {
+        background: #059669;
+        transform: translateY(-1px);
+    }
+
+    .btn-outline {
+        background: var(--surface);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+        background: var(--surface-hover);
+        border-color: var(--primary-light);
+        color: var(--primary);
+    }
+
+    .btn:disabled {
+        background: var(--text-muted);
+        color: var(--surface);
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .controls-section {
+        padding: 2rem 0;
+        border-top: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+        margin: 2rem 0;
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: var(--text-primary);
+        font-size: 0.875rem;
+    }
+
+    .form-input {
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        font-size: 0.875rem;
+        width: 120px;
+        text-align: center;
+        background: var(--surface);
+        transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .preview-section {
+        margin: 2rem 0;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+    }
+
+    .original-image-container {
+        display: inline-block;
+        position: relative;
+        max-width: 100%;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .original-image {
+        max-width: 100%;
+        max-height: 400px;
+        display: block;
+    }
+
+    .image-info {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--surface);
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        border-bottom-left-radius: var(--radius-md);
+    }
+
+    .split-results {
+        margin-top: 3rem;
+    }
+
+    .split-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .split-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.2s ease;
+    }
+
+    .split-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .split-image {
+        max-width: 100%;
+        border-radius: var(--radius-md);
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .split-info {
+        margin-bottom: 1rem;
+    }
+
+    .split-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+    }
+
+    .split-dimensions {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    .actions-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-light);
+        text-align: center;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .loading {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--border);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 3rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 1rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .brand-name {
+            font-size: 2rem;
+        }
+
+        .upload-zone {
+            padding: 2rem 1rem;
+        }
+
+        .controls {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .split-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .success-state {
+        animation: successPulse 0.5s ease;
+    }
+
+    @keyframes successPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 4px;
+        background: var(--border-light);
+        border-radius: 2px;
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--primary);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+        width: 0%;
+    }
+</style>
+```
 
-        .modal-overlay.active .modal {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal h2 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            text-align: center;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .modal-subtitle {
-            color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 32px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
-        }
-
-        .form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23FF0000' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 32px;
-        }
-
-        .success-state {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .success-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--gradient-accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 28px;
-            animation: bounceIn 0.8s ease;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .order-id {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
-            font-size: 16px;
-            text-align: center;
-            color: var(--accent);
-        }
-
-        .price-display {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.15) 0%, rgba(255, 0, 0, 0.15) 100%);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .price-amount {
-            font-size: 32px;
-            font-weight: 800;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            .hero {
-                padding: 120px 0 40px;
-            }
-
-            .hero-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .hero-actions .btn {
-                width: 100%;
-                max-width: 280px;
-            }
-
-            .stats {
-                padding: 32px 20px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
-            }
-
-            .features-grid, .products-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .feature-card, .product-card {
-                padding: 24px 20px;
-            }
-
-            .modal {
-                padding: 32px 24px;
-                margin: 16px;
-            }
-
-            .modal-actions {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .btn {
-                padding: 12px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Utility Classes */
-        .text-gradient {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            to { left: 100%; }
-        }
-    </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <a href="#" class="logo">flurs.xyz</a>
-                <div class="nav-links">
-                    <a href="#features" class="nav-link">Services</a>
-                    <a href="#products" class="nav-link">Products</a>
-                    <a href="#about" class="nav-link">About</a>
-                </div>
-                <div class="nav-actions">
-                    <a href="https://discord.gg/ynFuNaha23" class="btn btn-secondary" target="_blank">Discord</a>
-                    <button class="btn btn-primary" onclick="showTicketForm('boost')">Get Started</button>
-                    <button class="btn btn-primary" onclick="showTicketForm('product')">Order Product</button>
-                </div>
-                <button class="mobile-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+    <div class="main-container">
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo">F</div>
+                <h1 class="brand-name">Flurs</h1>
             </div>
-        </div>
-    </nav>
+            <p class="tagline">Professional Image Splitting Made Simple</p>
+            <p class="domain">flurs.xyz</p>
+        </header>
 
+```
     <div class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-badge">
-                🚀 Premium R6 Boosting Available
-            </div>
-            <h1 class="hero-title">Elite Rainbow Six Siege Boosting</h1>
-            <p class="hero-subtitle">
-                Reach your dream rank with our professional boosting services. Fast, secure, and guaranteed results.
-            </p>
-            <div class="hero-actions">
-                <button class="btn btn-primary btn-large" onclick="showTicketForm('boost')">Start Your Boost</button>
-                <button class="btn btn-primary btn-large" onclick="showTicketForm('product')">Order Product</button>
-                <a href="https://discord.gg/ynFuNaha23" class="btn btn-secondary btn-large" target="_blank">Join Discord</a>
-            </div>
-        </section>
+        <div class="card">
+            <div class="card-content">
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-title">Upload Your Image</div>
+                    <div class="upload-subtitle">Drag and drop your image here, or click to browse</div>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        Choose File
+                    </button>
+                    <div class="upload-subtitle" style="margin-top: 1rem; font-size: 0.75rem;">
+                        Supports JPG, PNG, GIF, WebP up to 50MB
+                    </div>
+                </div>
 
-        <!-- Stats Section -->
-        <section class="stats">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">3+</div>
-                    <div class="stat-label">Completed Orders</div>
+                <div class="controls-section">
+                    <div class="controls">
+                        <div class="form-group">
+                            <label class="form-label" for="segments">Number of Segments</label>
+                            <input type="number" id="segments" class="form-input" min="1" max="50" value="3">
+                        </div>
+                        <button class="btn btn-primary" id="splitBtn" onclick="splitImage()" disabled>
+                            <span id="splitBtnText">Split Image</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">99%</div>
-                    <div class="stat-label">Success Rate</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number"><24h</div>
-                    <div class="stat-label">Start Time</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Features Section -->
-        <section class="features" id="features">
-            <div class="section-header">
-                <h2 class="section-title">Why Choose Flurs?</h2>
-                <p class="section-subtitle">Experience the difference with our premium boosting service</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Instant Start</h3>
-                    <p>Your boost begins immediately after payment confirmation. No delays, no waiting.</p>
+                <div class="preview-section hidden" id="previewSection">
+                    <h2 class="section-title">Original Image</h2>
+                    <div class="original-image-container">
+                        <img id="originalImage" class="original-image" alt="Original">
+                        <div class="image-info" id="imageInfo"></div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>100% Secure</h3>
-                    <p>Advanced security protocols protect your account throughout the entire process.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
-                    <h3>24/7 Support</h3>
-                    <p>Round-the-clock assistance from our dedicated support team via Discord.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Pro Players</h3>
-                    <p>Only verified, high-skilled players handle your boost for guaranteed quality.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Fast Delivery</h3>
-                    <p>Efficient boosting process with regular progress updates and status reports.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💎</div>
-                    <h3>Premium Quality</h3>
-                    <p>All sales are final. We focus on delivering exceptional boosting results.</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- Products Section -->
-        <section class="products" id="products">
-            <div class="section-header">
-                <h2 class="section-title">Our Products</h2>
-                <p class="section-subtitle">Explore our range of premium products for Rainbow Six Siege</p>
-            </div>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-icon">🐶</div>
-                    <h3>Dogo Lite</h3>
-                    <p>R6 Cheat Suite with essential features for enhanced gameplay.</p>
-                    <ul class="pricing-list">
-                        <li>Day: <strong>£4</strong></li>
-                        <li>Week: <strong>£9</strong></li>
-                        <li>Month: <strong>£20</strong></li>
-                        <li>Lifetime: <strong>£55</strong></li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showTicketForm('product', 'dogo-lite')">Order Now</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">🐺</div>
-                    <h3>Dogo Full</h3>
-                    <p>Advanced R6 Suite with ragebot and legitbot features.</p>
-                    <ul class="pricing-list">
-                        <li>Day: <strong>£7</strong></li>
-                        <li>Week: <strong>£20</strong></li>
-                        <li>Month: <strong>£40</strong></li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showTicketForm('product', 'dogo-full')">Order Now</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">⚫</div>
-                    <h3>Onyx Lite</h3>
-                    <p>Unlock all skins, camos, and operators instantly.</p>
-                    <ul class="pricing-list">
-                        <li>Day: <strong>£4</strong></li>
-                        <li>Week: <strong>£13</strong></li>
-                        <li>Month: <strong>£26</strong></li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showTicketForm('product', 'onyx-lite')">Order Now</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">⚫</div>
-                    <h3>Onyx Full</h3>
-                    <p>Complete unlock package with advanced ESP and anti-recoil.</p>
-                    <ul class="pricing-list">
-                        <li>Day: <strong>£5</strong></li>
-                        <li>Week: <strong>£22</strong></li>
-                        <li>Month: <strong>£44</strong></li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showTicketForm('product', 'onyx-full')">Order Now</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">⚔️</div>
-                    <h3>Crusader</h3>
-                    <p>Ultimate AIMBOT and visuals package for precision gameplay.</p>
-                    <ul class="pricing-list">
-                        <li>Day: <strong>£5</strong></li>
-                        <li>Week: <strong>£25</strong></li>
-                        <li>Month: <strong>£45</strong></li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showTicketForm('product', 'crusader')">Order Now</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">☠️</div>
-                    <h3>Lethal Full</h3>
-                    <p>Premium cheat suite with comprehensive aimbot and ESP features.</p>
-                    <ul class="pricing-list">
-                        <li>Day: <strong>£15</strong></li>
-                        <li>Week: <strong>£35</strong></li>
-                        <li>Month: <strong>£50</strong></li>
-                        <li>Year: <strong>£315</strong></li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showTicketForm('product', 'lethal-full')">Order Now</button>
+                <div class="split-results hidden" id="splitResults">
+                    <h2 class="section-title">Split Results</h2>
+                    <div class="progress-bar hidden" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="split-grid" id="splitGrid"></div>
+                    
+                    <div class="actions-section">
+                        <button class="btn btn-success" id="downloadAllBtn" onclick="downloadAllImages()">
+                            💾 Download All Segments
+                        </button>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta">
-            <div class="cta-content">
-                <h2>Ready to Rank Up?</h2>
-                <p>Join many customers who have achieved their dream ranks with Flurs.</p>
-                <button class="btn btn-primary btn-large" onclick="showTicketForm('boost')">Start Boosting Now</button>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section class="about" id="about">
-            <div class="section-header">
-                <h2 class="section-title">About Flurs</h2>
-                <p class="section-subtitle">Learn more about our mission to enhance your Rainbow Six Siege experience</p>
-            </div>
-            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <p style="color: var(--text-secondary); font-size: 16px;">
-                    At Flurs, we're dedicated to providing top-tier boosting services and premium products for Rainbow Six Siege players. 
-                    Our team of experienced professionals ensures fast, secure, and high-quality services to help you achieve your gaming goals.
-                </p>
-            </div>
-        </section>
+        </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p>© 2025 Flurs.xyz - Premium R6 Boosting Services. All rights reserved.</p>
-        </div>
+        <p>&copy; 2025 Flurs.xyz - Professional image processing tools</p>
     </footer>
+</div>
 
-    <!-- Modal -->
-    <div id="ticketModal" class="modal-overlay">
-        <div class="modal">
-            <div id="boostFormStep" style="display: none;">
-                <h2>Create Boost Order</h2>
-                <p class="modal-subtitle">Configure your boosting service</p>
-                
-                <form id="boostForm">
-                    <div class="form-group">
-                        <label>Boosting Service</label>
-                        <select name="boostService" class="form-select" required id="boostServiceSelect">
-                            <option value="" disabled selected>Select Service</option>
-                            <option value="bronze-champion" data-price="20">Bronze → Champion - £20</option>
-                            <option value="silver-champion" data-price="20">Silver → Champion - £20</option>
-                            <option value="gold-champion" data-price="20">Gold → Champion - £20</option>
-                            <option value="platinum-champion" data-price="15">Platinum → Champion - £15</option>
-                            <option value="emerald-champion" data-price="10">Emerald → Champion - £10</option>
-                            <option value="diamond-champion" data-price="5">Diamond → Champion - £5</option>
-                        </select>
-                    </div>
+<script>
+    let originalImageData = null;
+    let splitImagesData = [];
+    let originalImageDimensions = { width: 0, height: 0 };
 
-                    <div class="price-display" id="boostPriceDisplay" style="display: none;">
-                        <div class="price-amount" id="boostPriceAmount">£0</div>
-                        <div style="color: var(--text-secondary); margin-top: 8px;">Total Price</div>
-                    </div>
+    // File input handling
+    document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+    
+    // Drag and drop handling
+    const uploadZone = document.getElementById('uploadZone');
+    uploadZone.addEventListener('dragover', handleDragOver);
+    uploadZone.addEventListener('dragleave', handleDragLeave);
+    uploadZone.addEventListener('drop', handleDrop);
 
-                    <div class="form-group">
-                        <label>Discord Username</label>
-                        <input type="text" name="discordUsername" class="form-input" placeholder="username#1234" required>
-                    </div>
-
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" onclick="hideTicketForm()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Create Order</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="productFormStep" style="display: none;">
-                <h2>Order Product</h2>
-                <p class="modal-subtitle">Select your product and duration</p>
-                
-                <form id="productForm">
-                    <div class="form-group">
-                        <label>Product</label>
-                        <select name="product" class="form-select" required id="productSelect">
-                            <option value="" disabled selected>Select Product</option>
-                            <option value="dogo-lite">Dogo Lite</option>
-                            <option value="dogo-full">Dogo Full</option>
-                            <option value="onyx-lite">Onyx Lite</option>
-                            <option value="onyx-full">Onyx Full</option>
-                            <option value="crusader">Crusader</option>
-                            <option value="lethal-full">Lethal Full</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="durationGroup" style="display: none;">
-                        <label>Duration</label>
-                        <select name="duration" class="form-select" required id="durationSelect">
-                            <option value="" disabled selected>Select Duration</option>
-                        </select>
-                    </div>
-
-                    <div class="price-display" id="productPriceDisplay" style="display: none;">
-                        <div class="price-amount" id="productPriceAmount">£0</div>
-                        <div style="color: var(--text-secondary); margin-top: 8px;">Total Price</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Discord Username</label>
-                        <input type="text" name="discordUsername" class="form-input" placeholder="username#1234" required>
-                    </div>
-
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" onclick="hideTicketForm()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Create Order</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="successStep" class="success-state" style="display: none;">
-                <div class="success-icon">✓</div>
-                <h2>Order Created Successfully!</h2>
-                <p style="color: var(--text-secondary); margin: 16px 0;">Your order has been submitted.</p>
-                
-                <div class="order-id" id="orderIdDisplay">
-                    ORDER ID: #FL-000000
-                </div>
-
-                <div class="price-display">
-                    <div class="price-amount" id="finalPriceDisplay">£0</div>
-                    <div style="color: var(--text-secondary); margin-top: 8px;">Total Amount Due</div>
-                </div>
-
-                <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 20px 0; text-align: left;">
-                    <h3 style="color: var(--accent); margin-bottom: 12px;">Next Steps:</h3>
-                    <ol style="color: var(--text-secondary); padding-left: 20px; line-height: 1.8;">
-                        <li>Join our Discord server</li>
-                        <li>Create a ticket in the support channel</li>
-                        <li>Paste your Order ID in the ticket</li>
-                        <li>Our staff will assist you shortly</li>
-                    </ol>
-                </div>
-
-                <div class="modal-actions">
-                    <a href="https://discord.gg/ynFuNaha23" class="btn btn-primary" target="_blank">Join Discord</a>
-                    <button type="button" class="btn btn-secondary" onclick="hideTicketForm()">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Navigation scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+    function handleFileSelect(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            if (file.size > 50 * 1024 * 1024) { // 50MB limit
+                alert('File size must be less than 50MB');
+                return;
             }
-        });
-
-        // Modal functions
-        function showTicketForm(type, product = '') {
-            document.getElementById('ticketModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            if (type === 'boost') {
-                document.getElementById('boostFormStep').style.display = 'block';
-                document.getElementById('productFormStep').style.display = 'none';
-            } else {
-                document.getElementById('boostFormStep').style.display = 'none';
-                document.getElementById('productFormStep').style.display = 'block';
-                const productSelect = document.getElementById('productSelect');
-                productSelect.value = product;
-                productSelect.dispatchEvent(new Event('change'));
-            }
-            document.getElementById('successStep').style.display = 'none';
+            loadImage(file);
         }
+    }
 
-        function hideTicketForm() {
-            document.getElementById('ticketModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            setTimeout(() => {
-                document.getElementById('boostFormStep').style.display = 'none';
-                document.getElementById('productFormStep').style.display = 'none';
-                document.getElementById('successStep').style.display = 'none';
-                document.getElementById('boostForm').reset();
-                document.getElementById('productForm').reset();
-                document.getElementById('boostPriceDisplay').style.display = 'none';
-                document.getElementById('productPriceDisplay').style.display = 'none';
-                document.getElementById('durationGroup').style.display = 'none';
-            }, 300);
-        }
+    function handleDragOver(e) {
+        e.preventDefault();
+        uploadZone.classList.add('dragover');
+    }
 
-        // Close modal when clicking outside
-        document.getElementById('ticketModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideTicketForm();
+    function handleDragLeave(e) {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size must be less than 50MB');
+                return;
             }
-        });
+            loadImage(file);
+        }
+    }
 
-        // Product pricing data
-        const productPricing = {
-            'dogo-lite': [
-                { duration: 'Day', price: 4 },
-                { duration: 'Week', price: 9 },
-                { duration: 'Month', price: 20 },
-                { duration: 'Lifetime', price: 55 }
-            ],
-            'dogo-full': [
-                { duration: 'Day', price: 7 },
-                { duration: 'Week', price: 20 },
-                { duration: 'Month', price: 40 }
-            ],
-            'onyx-lite': [
-                { duration: 'Day', price: 4 },
-                { duration: 'Week', price: 13 },
-                { duration: 'Month', price: 26 }
-            ],
-            'onyx-full': [
-                { duration: 'Day', price: 5 },
-                { duration: 'Week', price: 22 },
-                { duration: 'Month', price: 44 }
-            ],
-            'crusader': [
-                { duration: 'Day', price: 5 },
-                { duration: 'Week', price: 25 },
-                { duration: 'Month', price: 45 }
-            ],
-            'lethal-full': [
-                { duration: 'Day', price: 15 },
-                { duration: 'Week', price: 35 },
-                { duration: 'Month', price: 50 },
-                { duration: 'Year', price: 315 }
-            ]
+    function loadImage(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                originalImageDimensions = { width: img.width, height: img.height };
+                
+                const originalImageEl = document.getElementById('originalImage');
+                originalImageEl.src = e.target.result;
+                originalImageData = e.target.result;
+                
+                // Update image info
+                const imageInfo = document.getElementById('imageInfo');
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                imageInfo.textContent = `${img.width} × ${img.height} px • ${fileSize} MB`;
+                
+                document.getElementById('previewSection').classList.remove('hidden');
+                document.getElementById('splitBtn').disabled = false;
+                
+                // Hide previous split results
+                document.getElementById('splitResults').classList.add('hidden');
+                
+                // Add success animation
+                uploadZone.classList.add('success-state');
+                setTimeout(() => uploadZone.classList.remove('success-state'), 500);
+            };
+            img.src = e.target.result;
         };
+        reader.readAsDataURL(file);
+    }
 
-        // Update duration options based on product selection
-        document.getElementById('productSelect').addEventListener('change', function() {
-            const product = this.value;
-            const durationSelect = document.getElementById('durationSelect');
-            const durationGroup = document.getElementById('durationGroup');
-            const priceDisplay = document.getElementById('productPriceDisplay');
-            const priceAmount = document.getElementById('productPriceAmount');
+    function splitImage() {
+        if (!originalImageData) return;
 
-            durationSelect.innerHTML = '<option value="" disabled selected>Select Duration</option>';
-            priceDisplay.style.display = 'none';
-
-            if (product && productPricing[product]) {
-                durationGroup.style.display = 'block';
-                productPricing[product].forEach(option => {
-                    const opt = document.createElement('option');
-                    opt.value = option.duration.toLowerCase();
-                    opt.setAttribute('data-price', option.price);
-                    opt.textContent = `${option.duration} - £${option.price}`;
-                    durationSelect.appendChild(opt);
-                });
-            } else {
-                durationGroup.style.display = 'none';
-            }
-        });
-
-        // Update price on duration selection
-        document.getElementById('durationSelect').addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const price = selectedOption.getAttribute('data-price');
-            
-            if (price) {
-                document.getElementById('productPriceDisplay').style.display = 'block';
-                document.getElementById('productPriceAmount').textContent = `£${price}`;
-            } else {
-                document.getElementById('productPriceDisplay').style.display = 'none';
-            }
-        });
-
-        // Boost price calculation
-        document.getElementById('boostServiceSelect').addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const price = selectedOption.getAttribute('data-price');
-            
-            if (price) {
-                document.getElementById('boostPriceDisplay').style.display = 'block';
-                document.getElementById('boostPriceAmount').textContent = `£${price}`;
-            } else {
-                document.getElementById('boostPriceDisplay').style.display = 'none';
-            }
-        });
-
-        // Generate random order ID
-        function generateOrderId() {
-            const randomNum = Math.floor(Math.random() * 900000) + 100000;
-            return `FL-${randomNum}`;
+        const segments = parseInt(document.getElementById('segments').value);
+        if (segments < 1 || segments > 50) {
+            alert('Please enter a number between 1 and 50');
+            return;
         }
 
-        // Boost form submission
-        document.getElementById('boostForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const orderData = {
-                orderId: generateOrderId(),
-                type: 'Boost',
-                boostService: formData.get('boostService'),
-                discordUsername: formData.get('discordUsername'),
-                timestamp: new Date().toISOString(),
-                price: document.getElementById('boostServiceSelect').options[document.getElementById('boostServiceSelect').selectedIndex].getAttribute('data-price')
-            };
+        // Show loading state
+        const splitBtn = document.getElementById('splitBtn');
+        const splitBtnText = document.getElementById('splitBtnText');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        
+        splitBtn.disabled = true;
+        splitBtnText.innerHTML = '<div class="loading"><div class="spinner"></div>Processing...</div>';
+        progressBar.classList.remove('hidden');
 
-            // Send to webhook
-            try {
-                await fetch('https://discord.com/api/webhooks/1396972506966921226/C5EAWwDafxuMf3_V7bJqCTIzimgSq2Zb-XNVQmIvUZusL_LXe9vG95TYj3ZPVqlKSHBO', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        embeds: [{
-                            title: '🚀 New Boost Order Created',
-                            color: 0xFF0000,
-                            fields: [
-                                {
-                                    name: '📋 Order ID',
-                                    value: `\`${orderData.orderId}\``,
-                                    inline: true
-                                },
-                                {
-                                    name: '👤 Discord User',
-                                    value: orderData.discordUsername,
-                                    inline: true
-                                },
-                                {
-                                    name: '💰 Price',
-                                    value: `£${orderData.price}`,
-                                    inline: true
-                                },
-                                {
-                                    name: '⚡ Service',
-                                    value: document.getElementById('boostServiceSelect').options[document.getElementById('boostServiceSelect').selectedIndex].text,
-                                    inline: true
-                                }
-                            ],
-                            timestamp: orderData.timestamp,
-                            footer: {
-                                text: 'Flurs.xyz - R6 Boosting'
-                            }
-                        }]
-                    })
-                });
-            } catch (error) {
-                console.log('Webhook error:', error);
-            }
+        setTimeout(() => {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                const segmentWidth = Math.floor(img.width / segments);
+                splitImagesData = [];
+                
+                // Clear previous results
+                const splitGrid = document.getElementById('splitGrid');
+                splitGrid.innerHTML = '';
 
-            // Show success step
-            document.getElementById('boostFormStep').style.display = 'none';
-            document.getElementById('successStep').style.display = 'block';
-            document.getElementById('orderIdDisplay').textContent = `ORDER ID: #${orderData.orderId}`;
-            document.getElementById('finalPriceDisplay').textContent = `£${orderData.price}`;
-        });
-
-        // Product form submission
-        document.getElementById('productForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const product = formData.get('product');
-            const duration = formData.get('duration');
-            const price = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex]?.getAttribute('data-price') || 'Contact us';
-            
-            const orderData = {
-                orderId: generateOrderId(),
-                type: 'Product',
-                product: product,
-                duration: duration || 'N/A',
-                discordUsername: formData.get('discordUsername'),
-                timestamp: new Date().toISOString(),
-                price: price
-            };
-
-            // Send to webhook
-            try {
-                await fetch('https://discord.com/api/webhooks/1396972506966921226/C5EAWwDafxuMf3_V7bJqCTIzimgSq2Zb-XNVQmIvUZusL_LXe9vG95TYj3ZPVqlKSHBO', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        embeds: [{
-                            title: '🛒 New Product Order Created',
-                            color: 0xFF0000,
-                            fields: [
-                                {
-                                    name: '📋 Order ID',
-                                    value: `\`${orderData.orderId}\``,
-                                    inline: true
-                                },
-                                {
-                                    name: '👤 Discord User',
-                                    value: orderData.discordUsername,
-                                    inline: true
-                                },
-                                {
-                                    name: '💰 Price',
-                                    value: orderData.price === 'Contact us' ? orderData.price : `£${orderData.price}`,
-                                    inline: true
-                                },
-                                {
-                                    name: '🛠️ Product',
-                                    value: document.getElementById('productSelect').options[document.getElementById('productSelect').selectedIndex].text,
-                                    inline: true
-                                },
-                                {
-                                    name: '⏳ Duration',
-                                    value: orderData.duration,
-                                    inline: true
-                                }
-                            ],
-                            timestamp: orderData.timestamp,
-                            footer: {
-                                text: 'Flurs.xyz - R6 Products'
-                            }
-                        }]
-                    })
-                });
-            } catch (error) {
-                console.log('Webhook error:', error);
-            }
-
-            // Show success step
-            document.getElementById('productFormStep').style.display = 'none';
-            document.getElementById('successStep').style.display = 'block';
-            document.getElementById('orderIdDisplay').textContent = `ORDER ID: #${orderData.orderId}`;
-            document.getElementById('finalPriceDisplay').textContent = orderData.price === 'Contact us' ? orderData.price : `£${orderData.price}`;
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
+                for (let i = 0; i < segments; i++) {
+                    // Update progress
+                    progressFill.style.width = `${(i / segments) * 100}%`;
+                    
+                    const x = i * segmentWidth;
+                    const width = (i === segments - 1) ? img.width - x : segmentWidth;
+                    
+                    canvas.width = width;
+                    canvas.height = img.height;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, x, 0, width, img.height, 0, 0, width, img.height);
+                    
+                    const segmentDataURL = canvas.toDataURL('image/png', 0.95);
+                    splitImagesData.push(segmentDataURL);
+                    
+                    // Create UI element
+                    const segmentDiv = document.createElement('div');
+                    segmentDiv.className = 'split-item';
+                    segmentDiv.innerHTML = `
+                        <img src="${segmentDataURL}" alt="Segment ${i + 1}" class="split-image">
+                        <div class="split-info">
+                            <div class="split-title">Segment ${i + 1}</div>
+                            <div class="split-dimensions">${width} × ${img.height} pixels</div>
+                        </div>
+                        <button class="btn btn-outline" onclick="downloadImage(${i}, 'flurs-segment-${i + 1}.png')">
+                            ⬇️ Download
+                        </button>
+                    `;
+                    splitGrid.appendChild(segmentDiv);
+                }
+                
+                // Complete progress and show results
+                progressFill.style.width = '100%';
+                setTimeout(() => {
+                    progressBar.classList.add('hidden');
+                    document.getElementById('splitResults').classList.remove('hidden');
+                    
+                    // Reset button
+                    splitBtn.disabled = false;
+                    splitBtnText.textContent = 'Split Image';
+                    
+                    // Animate split items
+                    const splitItems = document.querySelectorAll('.split-item');
+                    splitItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(20px)';
+                            item.style.transition = 'all 0.3s ease';
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, 50);
+                        }, index * 100);
                     });
-                }
-            });
-        });
+                }, 500);
+            };
+            
+            img.src = originalImageData;
+        }, 100);
+    }
 
-        // Add loading animation to buttons
-        document.querySelectorAll('.btn-primary').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (this.type === 'submit') {
-                    this.classList.add('loading');
+    function downloadImage(index, filename) {
+        const link = document.createElement('a');
+        link.href = splitImagesData[index];
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function downloadAllImages() {
+        const downloadBtn = document.getElementById('downloadAllBtn');
+        const originalText = downloadBtn.innerHTML;
+        
+        downloadBtn.innerHTML = '<div class="loading"><div class="spinner"></div>Preparing downloads...</div>';
+        downloadBtn.disabled = true;
+        
+        splitImagesData.forEach((dataURL, index) => {
+            setTimeout(() => {
+                downloadImage(index, `flurs-segment-${index + 1}.png`);
+                
+                if (index === splitImagesData.length - 1) {
                     setTimeout(() => {
-                        this.classList.remove('loading');
-                    }, 2000);
+                        downloadBtn.innerHTML = originalText;
+                        downloadBtn.disabled = false;
+                    }, 1000);
                 }
-            });
+            }, index * 300);
         });
-    </script>
+    }
+
+    // Allow Enter key to trigger split
+    document.getElementById('segments').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !document.getElementById('splitBtn').disabled) {
+            splitImage();
+        }
+    });
+
+    // Auto-adjust segments based on image aspect ratio
+    document.getElementById('originalImage').addEventListener('load', function() {
+        const img = this;
+        const aspectRatio = img.naturalWidth / img.naturalHeight;
+        
+        if (aspectRatio > 3) {
+            document.getElementById('segments').value = Math.min(Math.ceil(aspectRatio), 10);
+        }
+    });
+</script>
+```
+
 </body>
 </html>
