@@ -1,756 +1,396 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flurs - Professional Image Splitter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-:root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-light: #3b82f6;
-    --secondary: #f8fafc;
-    --accent: #10b981;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --text-muted: #94a3b8;
-    --border: #e2e8f0;
-    --border-light: #f1f5f9;
-    --surface: #ffffff;
-    --surface-hover: #f8fafc;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-}
-
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #667eea 40%, #f093fb 60%, #f5576c 80%, #4facfe 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    min-height: 100vh;
-    color: var(--text-primary);
-    line-height: 1.6;
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.main-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 1rem;
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.logo-container {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-
-.logo {
-    width: 48px;
-    height: 48px;
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    box-shadow: var(--shadow-lg);
-}
-
-.brand-name {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--surface);
-    letter-spacing: -0.025em;
-}
-
-.tagline {
-    font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
-    margin-bottom: 0.5rem;
-}
-
-.domain {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 500;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    flex: 1;
-}
-
-.card {
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-}
-
-.card-content {
-    padding: 2.5rem;
-}
-
-.upload-zone {
-    background: var(--secondary);
-    border: 2px dashed var(--border);
-    border-radius: var(--radius-lg);
-    padding: 3rem 2rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.upload-zone:hover {
-    border-color: var(--primary-light);
-    background: var(--surface-hover);
-}
-
-.upload-zone.dragover {
-    border-color: var(--primary);
-    background: rgba(37, 99, 235, 0.05);
-    transform: scale(1.01);
-}
-
-.upload-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 1.5rem;
-    background: var(--primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: var(--surface);
-}
-
-.upload-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.upload-subtitle {
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-}
-
-.file-input {
-    display: none;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
-    font-weight: 500;
-    font-size: 0.875rem;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary {
-    background: var(--primary);
-    color: var(--surface);
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-primary:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-success {
-    background: var(--accent);
-    color: var(--surface);
-}
-
-.btn-success:hover {
-    background: #059669;
-    transform: translateY(-1px);
-}
-
-.btn-outline {
-    background: var(--surface);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-}
-
-.btn-outline:hover {
-    background: var(--surface-hover);
-    border-color: var(--primary-light);
-    color: var(--primary);
-}
-
-.btn:disabled {
-    background: var(--text-muted);
-    color: var(--surface);
-    cursor: not-allowed;
-    transform: none;
-}
-
-.controls-section {
-    padding: 2rem 0;
-    border-top: 1px solid var(--border-light);
-    border-bottom: 1px solid var(--border-light);
-    margin: 2rem 0;
-}
-
-.controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-label {
-    font-weight: 500;
-    color: var(--text-primary);
-    font-size: 0.875rem;
-}
-
-.form-input {
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 0.875rem;
-    width: 120px;
-    text-align: center;
-    background: var(--surface);
-    transition: all 0.2s ease;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.preview-section {
-    margin: 2rem 0;
-    text-align: center;
-}
-
-.section-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-}
-
-.original-image-container {
-    display: inline-block;
-    position: relative;
-    max-width: 100%;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-}
-
-.original-image {
-    max-width: 100%;
-    max-height: 400px;
-    display: block;
-}
-
-.image-info {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.8);
-    color: var(--surface);
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    border-bottom-left-radius: var(--radius-md);
-}
-
-.split-results {
-    margin-top: 3rem;
-}
-
-.split-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.split-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    text-align: center;
-    transition: all 0.2s ease;
-}
-
-.split-item:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.split-image {
-    max-width: 100%;
-    border-radius: var(--radius-md);
-    margin-bottom: 1rem;
-    box-shadow: var(--shadow-sm);
-}
-
-.split-info {
-    margin-bottom: 1rem;
-}
-
-.split-title {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.split-dimensions {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-.actions-section {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-light);
-    text-align: center;
-}
-
-.hidden {
-    display: none;
-}
-
-.loading {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--border);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.footer {
-    text-align: center;
-    margin-top: 3rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.875rem;
-}
-
-@media (max-width: 768px) {
-    .main-container {
-        padding: 1rem;
-    }
-
-    .card-content {
-        padding: 1.5rem;
-    }
-
-    .brand-name {
-        font-size: 2rem;
-    }
-
-    .upload-zone {
-        padding: 2rem 1rem;
-    }
-
-    .controls {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .split-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.success-state {
-    animation: successPulse 0.5s ease;
-}
-
-@keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--border-light);
-    border-radius: 2px;
-    overflow: hidden;
-    margin: 1rem 0;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--primary);
-    border-radius: 2px;
-    transition: width 0.3s ease;
-    width: 0%;
-}
-
-</style>
-
+    <title>Flurs - Script Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="./images/Flurs.png?v=1">
 </head>
 <body>
-    <div class="main-container">
-        <header class="header">
-            <div class="logo-container">
-                <div class="logo">F</div>
-                <h1 class="brand-name">Flurs</h1>
-            </div>
-            <p class="tagline">Professional Image Splitting Made Simple</p>
-            <p class="domain">flurs.xyz</p>
-        </header>
+    <div class="animated-bg">
+        <div class="floating-particles"></div>
+    </div>
 
-<div class="container">
-    <div class="card">
-        <div class="card-content">
-            <div class="upload-zone" id="uploadZone">
-                <div class="upload-icon">📁</div>
-                <div class="upload-title">Upload Your Image</div>
-                <div class="upload-subtitle">Drag and drop your image here, or click to browse</div>
-                <input type="file" id="fileInput" class="file-input" accept="image/*">
-                <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
-                    Choose File
-                </button>
-                <div class="upload-subtitle" style="margin-top: 1rem; font-size: 0.75rem;">
-                    Supports JPG, PNG, GIF, WebP up to 50MB
-                </div>
-            </div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-icon"></span>
+                Flurs
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-page="home" aria-current="page"><span class="nav-icon">⌂</span>Home</a></li>
+                <li><a href="#about" class="nav-link" data-page="about"><span class="nav-icon">ⓘ</span>About</a></li>
+                <li><a href="#scripts" class="nav-link" data-page="scripts"><span class="nav-icon">⚡</span>Scripts</a></li>
+            </ul>
+        </div>
+    </nav>
 
-            <div class="controls-section">
-                <div class="controls">
-                    <div class="form-group">
-                        <label class="form-label" for="segments">Number of Segments</label>
-                        <input type="number" id="segments" class="form-input" min="1" max="50" value="3">
+    <div id="image-modal" class="image-modal">
+        <div class="modal-overlay"></div>
+        <img id="enlarged-image" class="enlarged-image" src="" alt="Enlarged Script Image">
+    </div>
+
+    <div id="home-page" class="page active">
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="hero-badge">
+                            <span class="status-dot"></span>
+                            Script Hub Active
+                        </div>
+                        <h1 class="hero-title">
+                            <span class="title-line">Flurs Cheating</span>
+                            <span class="title-line">Script Hub for</span>
+                            <span class="title-line gradient-text">Roblox</span>
+                        </h1>
+                        <p class="hero-description">
+                            Access Roblox cheating scripts to gain an advantage in games. Join our Discord community to share and discover scripts, and follow our TikTok and YouTube for tutorials and updates.
+                        </p>
                     </div>
-                    <button class="btn btn-primary" id="splitBtn" onclick="splitImage()" disabled>
-                        <span id="splitBtnText">Split Image</span>
-                    </button>
+                    <div class="download-section">
+                        <div class="download-preview">
+                            <div class="preview-container">
+                                <img src="./images/Hub.png" alt="Script Hub Preview" class="preview-image">
+                                <div class="preview-overlay">
+                                    <div class="preview-stats">
+                                        <div class="stat">
+                                            <span class="stat-value">Many</span>
+                                            <span class="stat-label">Users</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-value">Daily</span>
+                                            <span class="stat-label">Script Shares</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-value">5+</span>
+                                            <span class="stat-label">Scripts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="download-controls">
+                            <button id="download-btn" class="download-btn">
+                                <span class="btn-content">
+                                    <span class="btn-icon">⬇</span>
+                                    <span class="btn-text">
+                                        <span class="btn-title">Join Discord</span>
+                                        <span class="btn-subtitle">Free • Connect Now</span>
+                                    </span>
+                                </span>
+                                <span class="btn-progress"></span>
+                            </button>
+                            <div class="download-options">
+                                <button class="option-btn" id="tiktok-btn">
+                                    <span class="option-icon">🎥</span>
+                                    Follow on TikTok
+                                </button>
+                                <button class="option-btn" id="youtube-btn">
+                                    <span class="option-icon">▶</span>
+                                    Subscribe on YouTube
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="preview-section hidden" id="previewSection">
-                <h2 class="section-title">Original Image</h2>
-                <div class="original-image-container">
-                    <img id="originalImage" class="original-image" alt="Original">
-                    <div class="image-info" id="imageInfo"></div>
+        <section class="features-section">
+            <div class="container">
+                <header class="section-header">
+                    <h2 class="section-title">Why Choose Flurs?</h2>
+                    <p class="section-subtitle">Discover the benefits of our Roblox cheating script community.</p>
+                </header>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <span class="feature-icon">📜</span>
+                            <h3>Script Library</h3>
+                        </div>
+                        <p>Explore a wide range of Roblox cheating scripts, including aimbots, speed hacks, and more.</p>
+                        <div class="feature-metrics">
+                            <span class="metric">1000+ Scripts</span>
+                            <span class="metric">User Tested</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <span class="feature-icon">🤝</span>
+                            <h3>Active Community</h3>
+                        </div>
+                        <p>Connect with other users to exchange cheating scripts and strategies for Roblox games.</p>
+                        <div class="feature-metrics">
+                            <span class="metric">Daily Shares</span>
+                            <span class="metric">24/7 Support</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <span class="feature-icon">🎓</span>
+                            <h3>Tutorials</h3>
+                        </div>
+                        <p>Learn how to use cheating scripts effectively with our detailed guides and video tutorials.</p>
+                        <div class="feature-metrics">
+                            <span class="metric">Video Tutorials</span>
+                            <span class="metric">Script Guides</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <span class="feature-icon">🌟</span>
+                            <h3>New Scripts</h3>
+                        </div>
+                        <p>Stay updated with the latest cheating scripts through our social media channels and community.</p>
+                        <div class="feature-metrics">
+                            <span class="metric">Weekly Updates</span>
+                            <span class="metric">Giveaways</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <span class="feature-icon">💬</span>
+                            <h3>User Feedback</h3>
+                        </div>
+                        <p>Share your ideas to improve our script library and help shape the community.</p>
+                        <div class="feature-metrics">
+                            <span class="metric">Open Feedback</span>
+                            <span class="metric">Community Driven</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <span class="feature-icon">🔗</span>
+                            <h3>Multi-Platform Access</h3>
+                        </div>
+                        <p>Join us on Discord, TikTok, and YouTube for a seamless community experience.</p>
+                        <div class="feature-metrics">
+                            <span class="metric">Cross-Platform</span>
+                            <span class="metric">Instant Access</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="split-results hidden" id="splitResults">
-                <h2 class="section-title">Split Results</h2>
-                <div class="progress-bar hidden" id="progressBar">
-                    <div class="progress-fill" id="progressFill"></div>
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="Many">0</span>
+                        <span class="stat-label">Users</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="100">0</span>
+                        <span class="stat-label">Uptime %</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="1">0</span>
+                        <span class="stat-label">Daily Scripts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="24">0</span>
+                        <span class="stat-label">Support Hours</span>
+                    </div>
                 </div>
-                <div class="split-grid" id="splitGrid"></div>
-                
-                <div class="actions-section">
-                    <button class="btn btn-success" id="downloadAllBtn" onclick="downloadAllImages()">
-                        💾 Download All Segments
-                    </button>
+            </div>
+        </section>
+    </div>
+
+    <div id="about-page" class="page">
+        <div class="container">
+            <header class="page-header">
+                <h2 class="page-title">About Flurs Script Hub</h2>
+                <p class="page-subtitle">A community for Roblox cheating scripts</p>
+            </header>
+            <div class="about-content">
+                <div class="about-grid">
+                    <div class="about-text">
+                        <h3>Our Purpose</h3>
+                        <p>Flurs Script Hub is dedicated to providing Roblox players with cheating scripts to enhance their gameplay experience. Our platform allows users to discover and share scripts for various games.</p>
+                        <h3>Why We Do It</h3>
+                        <p>We created Flurs to support players who want to gain an edge in Roblox through cheating scripts. Our goal is to offer a reliable source for scripts that help users dominate their favorite games.</p>
+                        <h3>Our Community</h3>
+                        <p>Join our Discord to connect with other players, share scripts, and get the latest updates. Our TikTok and YouTube channels provide tutorials and showcases to help you use scripts effectively.</p>
+                        <h3>Our Commitment</h3>
+                        <p>We are committed to maintaining an active and supportive community where users can access high-quality cheating scripts and contribute their own. Flurs is your go-to hub for Roblox cheating.</p>
+                    </div>
+                    <div class="about-visual">
+                        <div class="visual-card">
+                            <h4>Community Metrics</h4>
+                            <div class="metrics-chart">
+                                <div class="metric-bar">
+                                    <span class="metric-label">Engagement</span>
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="85%"></div>
+                                    </div>
+                                    <span class="metric-value">85%</span>
+                                </div>
+                                <div class="metric-bar">
+                                    <span class="metric-label">Activity</span>
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="90%"></div>
+                                    </div>
+                                    <span class="metric-value">90%</span>
+                                </div>
+                                <div class="metric-bar">
+                                    <span class="metric-label">Growth</span>
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="75%"></div>
+                                    </div>
+                                    <span class="metric-value">75%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<footer class="footer">
-    <p>&copy; 2025 Flurs.xyz - Professional image processing tools</p>
-</footer>
-
-</div>
-
-<script>
-    let originalImageData = null;
-    let splitImagesData = [];
-    let originalImageDimensions = { width: 0, height: 0 };
-
-    // File input handling
-    document.getElementById('fileInput').addEventListener('change', handleFileSelect);
-    
-    // Drag and drop handling
-    const uploadZone = document.getElementById('uploadZone');
-    uploadZone.addEventListener('dragover', handleDragOver);
-    uploadZone.addEventListener('dragleave', handleDragLeave);
-    uploadZone.addEventListener('drop', handleDrop);
-
-    function handleFileSelect(e) {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            if (file.size > 50 * 1024 * 1024) { // 50MB limit
-                alert('File size must be less than 50MB');
-                return;
-            }
-            loadImage(file);
-        }
-    }
-
-    function handleDragOver(e) {
-        e.preventDefault();
-        uploadZone.classList.add('dragover');
-    }
-
-    function handleDragLeave(e) {
-        e.preventDefault();
-        uploadZone.classList.remove('dragover');
-    }
-
-    function handleDrop(e) {
-        e.preventDefault();
-        uploadZone.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            if (file.size > 50 * 1024 * 1024) {
-                alert('File size must be less than 50MB');
-                return;
-            }
-            loadImage(file);
-        }
-    }
-
-    function loadImage(file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                originalImageDimensions = { width: img.width, height: img.height };
-                
-                const originalImageEl = document.getElementById('originalImage');
-                originalImageEl.src = e.target.result;
-                originalImageData = e.target.result;
-                
-                // Update image info
-                const imageInfo = document.getElementById('imageInfo');
-                const fileSize = (file.size / 1024 / 1024).toFixed(2);
-                imageInfo.textContent = `${img.width} × ${img.height} px • ${fileSize} MB`;
-                
-                document.getElementById('previewSection').classList.remove('hidden');
-                document.getElementById('splitBtn').disabled = false;
-                
-                // Hide previous split results
-                document.getElementById('splitResults').classList.add('hidden');
-                
-                // Add success animation
-                uploadZone.classList.add('success-state');
-                setTimeout(() => uploadZone.classList.remove('success-state'), 500);
-            };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function splitImage() {
-        if (!originalImageData) return;
-
-        const segments = parseInt(document.getElementById('segments').value);
-        if (segments < 1 || segments > 50) {
-            alert('Please enter a number between 1 and 50');
-            return;
-        }
-
-        // Show loading state
-        const splitBtn = document.getElementById('splitBtn');
-        const splitBtnText = document.getElementById('splitBtnText');
-        const progressBar = document.getElementById('progressBar');
-        const progressFill = document.getElementById('progressFill');
-        
-        splitBtn.disabled = true;
-        splitBtnText.innerHTML = '<div class="loading"><div class="spinner"></div>Processing...</div>';
-        progressBar.classList.remove('hidden');
-
-        setTimeout(() => {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                
-                const segmentWidth = Math.floor(img.width / segments);
-                splitImagesData = [];
-                
-                // Clear previous results
-                const splitGrid = document.getElementById('splitGrid');
-                splitGrid.innerHTML = '';
-
-                for (let i = 0; i < segments; i++) {
-                    // Update progress
-                    progressFill.style.width = `${(i / segments) * 100}%`;
-                    
-                    const x = i * segmentWidth;
-                    const width = (i === segments - 1) ? img.width - x : segmentWidth;
-                    
-                    canvas.width = width;
-                    canvas.height = img.height;
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, x, 0, width, img.height, 0, 0, width, img.height);
-                    
-                    const segmentDataURL = canvas.toDataURL('image/png', 0.95);
-                    splitImagesData.push(segmentDataURL);
-                    
-                    // Create UI element
-                    const segmentDiv = document.createElement('div');
-                    segmentDiv.className = 'split-item';
-                    segmentDiv.innerHTML = `
-                        <img src="${segmentDataURL}" alt="Segment ${i + 1}" class="split-image">
-                        <div class="split-info">
-                            <div class="split-title">Segment ${i + 1}</div>
-                            <div class="split-dimensions">${width} × ${img.height} pixels</div>
+    <div id="scripts-page" class="page">
+        <div class="container">
+            <header class="page-header">
+                <h2 class="page-title">Script Library</h2>
+                <p class="page-subtitle">Cheating scripts for Roblox games</p>
+            </header>
+            <div class="scripts-container">
+                <div class="search-bar">
+                    <input type="text" id="script-search" placeholder="Search scripts by name or tag..." aria-label="Search scripts">
+                </div>
+                <div class="scripts-grid">
+                    <div class="script-card" data-name="Infinite Yield" data-tags="lua cmds universal">
+                        <div class="script-image">
+                            <img src="./images/IY.png?v=1" alt="Infinite Yield">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
                         </div>
-                        <button class="btn btn-outline" onclick="downloadImage(${i}, 'flurs-segment-${i + 1}.png')">
-                            ⬇️ Download
-                        </button>
-                    `;
-                    splitGrid.appendChild(segmentDiv);
-                }
-                
-                // Complete progress and show results
-                progressFill.style.width = '100%';
-                setTimeout(() => {
-                    progressBar.classList.add('hidden');
-                    document.getElementById('splitResults').classList.remove('hidden');
-                    
-                    // Reset button
-                    splitBtn.disabled = false;
-                    splitBtnText.textContent = 'Split Image';
-                    
-                    // Animate split items
-                    const splitItems = document.querySelectorAll('.split-item');
-                    splitItems.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.style.opacity = '0';
-                            item.style.transform = 'translateY(20px)';
-                            item.style.transition = 'all 0.3s ease';
-                            setTimeout(() => {
-                                item.style.opacity = '1';
-                                item.style.transform = 'translateY(0)';
-                            }, 50);
-                        }, index * 100);
-                    });
-                }, 500);
-            };
-            
-            img.src = originalImageData;
-        }, 100);
-    }
+                        <div class="script-content">
+                            <h3 class="script-name">Infinite Yield</h3>
+                            <p class="script-description">Admin commands for every game</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()</code>
+                                <button class="copy-btn">📋</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Cmds</span>
+                                <span class="tag">Universal</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Weed Client" data-tags="arsenal lua rivals">
+                        <div class="script-image">
+                            <img src="./images/Weed.png" alt="Weed Client">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Weed Client</h3>
+                            <p class="script-description">Universal Aimbot + ESP.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/ex55/weed-client/refs/heads/main/main.lua"))()</code>
+                                <button class="copy-btn">📋</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Arsenal</span>
+                                <span class="tag">Universal</span>
+                                <span class="tag">Rivals</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Argon" data-tags="Argon Blade Ball Bladeball">
+                        <div class="script-image">
+                            <img src="./images/Argon.png" alt="Argon">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Argon Cheat - Blade Ball</h3>
+                            <p class="script-description">Blade ball cheats for the best gameplay.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/SoyAdriYT/PitbullHubX/refs/heads/main/PitbullHubX.lua", true))()</code>
+                                <button class="copy-btn">📋</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Blade Ball</span>
+                                <span class="tag">Argon</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Plutonium Cheat" data-tags="Bladeball Blade Ball cheat hub cheathub">
+                        <div class="script-image">
+                            <img src="./images/Plut.png" alt="Plut">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Plutonium Cheat</h3>
+                            <p class="script-description">Advanced cheat hub for a variety of games.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/PawsThePaw/Plutonium.AA/main/Plutonium.Loader.lua", true))()</code>
+                                <button class="copy-btn">📋</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Cheat</span>
+                                <span class="tag">Hub</span>
+                                <span class="tag">Blade Ball</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Thunder Hub" data-tags="mm2 cheat murder">
+                        <div class="script-image">
+                            <img src="./images/Thunder.png" alt="Thunder">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Thunder Hub</h3>
+                            <p class="script-description">Dominate people in Murder Mystery 2.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()</code>
+                                <button class="copy-btn">📋</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">MM2</span>
+                                <span class="tag">Murder Mystery</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Piano" data-tags="Piano Talentless Autoplay Auto play">
+                        <div class="script-image">
+                            <img src="./images/Piano.png" alt="Piano Autoplay">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">TALENTLESS</h3>
+                            <p class="script-description">Play roblox digital piano in any game automatically with 400 songs to choose from.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">pcall(function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/TALENTLESS", true))()
+end)</code>
+                                <button class="copy-btn">📋</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Piano</span>
+                                <span class="tag">TALENTLESS</span>
+                                <span class="tag">Auto Play</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    function downloadImage(index, filename) {
-        const link = document.createElement('a');
-        link.href = splitImagesData[index];
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function downloadAllImages() {
-        const downloadBtn = document.getElementById('downloadAllBtn');
-        const originalText = downloadBtn.innerHTML;
-        
-        downloadBtn.innerHTML = '<div class="loading"><div class="spinner"></div>Preparing downloads...</div>';
-        downloadBtn.disabled = true;
-        
-        splitImagesData.forEach((dataURL, index) => {
-            setTimeout(() => {
-                downloadImage(index, `flurs-segment-${index + 1}.png`);
-                
-                if (index === splitImagesData.length - 1) {
-                    setTimeout(() => {
-                        downloadBtn.innerHTML = originalText;
-                        downloadBtn.disabled = false;
-                    }, 1000);
-                }
-            }, index * 300);
-        });
-    }
-
-    // Allow Enter key to trigger split
-    document.getElementById('segments').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !document.getElementById('splitBtn').disabled) {
-            splitImage();
-        }
-    });
-
-    // Auto-adjust segments based on image aspect ratio
-    document.getElementById('originalImage').addEventListener('load', function() {
-        const img = this;
-        const aspectRatio = img.naturalWidth / img.naturalHeight;
-        
-        if (aspectRatio > 3) {
-            document.getElementById('segments').value = Math.min(Math.ceil(aspectRatio), 10);
-        }
-    });
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
-
