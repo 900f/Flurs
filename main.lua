@@ -19,425 +19,624 @@ local function playSound(soundId, loudness)
     sound:Play()
 end
 
--- Gui to Lua
--- Version: 3.2
+-- SaucyKeys UI - Complete Revamp
+-- Modern Glass-morphic Design
 
 -- Instances:
-
 local ScreenGui = Instance.new("ScreenGui")
-local frame = Instance.new("Frame")
-local closeButton = Instance.new("TextButton")
-local infoButton = Instance.new("TextButton")
-local title = Instance.new("TextLabel")
-local uic2 = Instance.new("UICorner")
-local uic1 = Instance.new("UICorner")
-local categoriesFrame = Instance.new("ScrollingFrame")
-local categoriesLayout = Instance.new("UIListLayout")
-local categoriesPadding = Instance.new("UIPadding")
-local scroll = Instance.new("ScrollingFrame")
-local listLayout = Instance.new("UIListLayout")
-local barlist = Instance.new("UIListLayout")
-local barpadding = Instance.new("UIPadding")
-local padding = Instance.new("UIPadding")
-local creds = Instance.new("TextLabel")
-local bar = Instance.new("Frame")
-local songname = Instance.new("TextLabel")
-local bpmbox = Instance.new("TextBox")
-local playsong = Instance.new("TextButton")
-local toggle = Instance.new("TextButton")
-local searchframe = Instance.new("Frame")
-local searchbar = Instance.new("TextBox")
+local MainContainer = Instance.new("Frame")
+local GlassEffect = Instance.new("Frame")
+local TopBar = Instance.new("Frame")
+local LogoContainer = Instance.new("Frame")
+local LogoIcon = Instance.new("TextLabel")
+local AppTitle = Instance.new("TextLabel")
+local AppSubtitle = Instance.new("TextLabel")
+local WindowControls = Instance.new("Frame")
+local MinimizeBtn = Instance.new("ImageButton")
+local CloseBtn = Instance.new("ImageButton")
+local InfoBtn = Instance.new("ImageButton")
+
+local ContentArea = Instance.new("Frame")
+local SidePanel = Instance.new("Frame")
+local CategoriesHeader = Instance.new("TextLabel")
+local CategoriesScroll = Instance.new("ScrollingFrame")
+local CategoriesLayout = Instance.new("UIListLayout")
+
+local MainPanel = Instance.new("Frame")
+local SearchSection = Instance.new("Frame")
+local SearchContainer = Instance.new("Frame")
+local SearchIcon = Instance.new("TextLabel")
+local SearchInput = Instance.new("TextBox")
+local SongsContainer = Instance.new("ScrollingFrame")
+local SongsLayout = Instance.new("UIListLayout")
+
+local ControlPanel = Instance.new("Frame")
+local NowPlayingCard = Instance.new("Frame")
+local SongDisplayTitle = Instance.new("TextLabel")
+local SongDisplayArtist = Instance.new("TextLabel")
+local PlaybackControls = Instance.new("Frame")
+local BpmContainer = Instance.new("Frame")
+local BpmLabel = Instance.new("TextLabel")
+local BpmInput = Instance.new("TextBox")
+local PlayButton = Instance.new("TextButton")
+local PlayIcon = Instance.new("TextLabel")
+
+local BottomBar = Instance.new("Frame")
+local CreditsText = Instance.new("TextLabel")
+local VersionText = Instance.new("TextLabel")
+
+local FloatingToggle = Instance.new("Frame")
+local ToggleButton = Instance.new("TextButton")
+local ToggleIcon = Instance.new("TextLabel")
+
+-- Create gradient backgrounds
+local function createGradient(parent, colors, rotation)
+    local gradient = Instance.new("UIGradient")
+    gradient.Color = colors
+    gradient.Rotation = rotation or 0
+    gradient.Parent = parent
+    return gradient
+end
+
+-- Create corner radius
+local function createCorner(parent, radius)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, radius)
+    corner.Parent = parent
+    return corner
+end
+
+-- Create padding
+local function createPadding(parent, all)
+    local padding = Instance.new("UIPadding")
+    padding.PaddingTop = UDim.new(0, all)
+    padding.PaddingBottom = UDim.new(0, all)
+    padding.PaddingLeft = UDim.new(0, all)
+    padding.PaddingRight = UDim.new(0, all)
+    padding.Parent = parent
+    return padding
+end
 
 --Properties:
-
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-frame.Name = "frame"
-frame.Parent = ScreenGui
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 36)  -- Darker background for cleaner look
-frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.Size = UDim2.new(0, 600, 0, 350)  -- Slightly larger for better layout
-frame.BorderSizePixel = 0
+-- Main Container (Glass morphism style)
+MainContainer.Name = "MainContainer"
+MainContainer.Parent = ScreenGui
+MainContainer.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+MainContainer.BackgroundTransparency = 0.1
+MainContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainContainer.AnchorPoint = Vector2.new(0.5, 0.5)
+MainContainer.Size = UDim2.new(0, 900, 0, 550)
+MainContainer.BorderSizePixel = 0
+createCorner(MainContainer, 20)
 
-closeButton.Name = "closeButton"
-closeButton.Parent = frame
-closeButton.BackgroundTransparency = 1
-closeButton.LayoutOrder = 1
-closeButton.Position = UDim2.new(1, -35, 0, 5)
-closeButton.Size = UDim2.new(0, 30, 0, 30)
-closeButton.ZIndex = 5
-closeButton.Font = Enum.Font.GothamBold
-closeButton.Text = "X"
-closeButton.TextColor3 = Color3.fromRGB(255, 100, 100)  -- Red for close
-closeButton.TextScaled = true
+-- Glass effect overlay
+GlassEffect.Name = "GlassEffect"
+GlassEffect.Parent = MainContainer
+GlassEffect.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+GlassEffect.BackgroundTransparency = 0.3
+GlassEffect.Size = UDim2.new(1, 0, 1, 0)
+createCorner(GlassEffect, 20)
+createGradient(GlassEffect, ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 60)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(20, 20, 30)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 45))
+}, 45)
 
-infoButton.Name = "infoButton"
-infoButton.Parent = frame
-infoButton.BackgroundTransparency = 1
-infoButton.LayoutOrder = 2
-infoButton.Position = UDim2.new(0, 5, 0, 5)
-infoButton.Size = UDim2.new(0, 30, 0, 30)
-infoButton.ZIndex = 5
-infoButton.Font = Enum.Font.GothamBold
-infoButton.Text = "?"
-infoButton.TextColor3 = Color3.fromRGB(100, 200, 255)  -- Blue for info
-infoButton.TextScaled = true
+-- Top Bar
+TopBar.Name = "TopBar"
+TopBar.Parent = MainContainer
+TopBar.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+TopBar.BackgroundTransparency = 0.2
+TopBar.Size = UDim2.new(1, 0, 0, 70)
+TopBar.BorderSizePixel = 0
+createCorner(TopBar, 20)
 
-title.Name = "title"
-title.Parent = frame
-title.BackgroundColor3 = Color3.fromRGB(40, 40, 48)  -- Slightly lighter for contrast
-title.Size = UDim2.new(1, 0, 0, 50)
-title.Font = Enum.Font.GothamBlack
-title.Text = "TALENTLESS"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.TextSize = 32  -- Smaller font for cleaner look
-title.ZIndex = 2
-title.TextXAlignment = Enum.TextXAlignment.Center  -- Centered title
+-- Logo Container
+LogoContainer.Name = "LogoContainer"
+LogoContainer.Parent = TopBar
+LogoContainer.BackgroundTransparency = 1
+LogoContainer.Position = UDim2.new(0, 25, 0, 10)
+LogoContainer.Size = UDim2.new(0, 300, 1, -20)
 
-uic2.CornerRadius = UDim.new(0, 8)  -- Softer corners
-uic2.Name = "uic2"
-uic2.Parent = title
+-- Logo Icon (Musical note symbol)
+LogoIcon.Name = "LogoIcon"
+LogoIcon.Parent = LogoContainer
+LogoIcon.BackgroundTransparency = 1
+LogoIcon.Position = UDim2.new(0, 0, 0, 0)
+LogoIcon.Size = UDim2.new(0, 50, 1, 0)
+LogoIcon.Font = Enum.Font.GothamBold
+LogoIcon.Text = "🎹"
+LogoIcon.TextColor3 = Color3.fromRGB(255, 120, 80)
+LogoIcon.TextSize = 32
+LogoIcon.TextXAlignment = Enum.TextXAlignment.Center
 
-uic1.CornerRadius = UDim.new(0, 8)
-uic1.Name = "uic1"
-uic1.Parent = frame
+-- App Title
+AppTitle.Name = "AppTitle"
+AppTitle.Parent = LogoContainer
+AppTitle.BackgroundTransparency = 1
+AppTitle.Position = UDim2.new(0, 60, 0, 5)
+AppTitle.Size = UDim2.new(1, -60, 0, 30)
+AppTitle.Font = Enum.Font.GothamBlack
+AppTitle.Text = "SaucyKeys"
+AppTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+AppTitle.TextSize = 24
+AppTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-categoriesFrame.Name = "categoriesFrame"
-categoriesFrame.Parent = frame
-categoriesFrame.Active = true
-categoriesFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 42)  -- Subtle contrast
-categoriesFrame.BackgroundTransparency = 0.95
-categoriesFrame.Position = UDim2.new(0, 10, 0, 60)
-categoriesFrame.Size = UDim2.new(0, 140, 1, -70)
-categoriesFrame.ZIndex = 0
-categoriesFrame.ScrollBarThickness = 4
-categoriesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-categoriesFrame.BorderSizePixel = 0
+-- App Subtitle
+AppSubtitle.Name = "AppSubtitle"
+AppSubtitle.Parent = LogoContainer
+AppSubtitle.BackgroundTransparency = 1
+AppSubtitle.Position = UDim2.new(0, 60, 0, 30)
+AppSubtitle.Size = UDim2.new(1, -60, 0, 20)
+AppSubtitle.Font = Enum.Font.Gotham
+AppSubtitle.Text = "Piano Autoplayer Suite"
+AppSubtitle.TextColor3 = Color3.fromRGB(150, 150, 170)
+AppSubtitle.TextSize = 12
+AppSubtitle.TextXAlignment = Enum.TextXAlignment.Left
 
-categoriesLayout.Name = "categoriesLayout"
-categoriesLayout.Parent = categoriesFrame
-categoriesLayout.SortOrder = Enum.SortOrder.LayoutOrder
-categoriesLayout.Padding = UDim.new(0, 8)
-categoriesLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+-- Window Controls
+WindowControls.Name = "WindowControls"
+WindowControls.Parent = TopBar
+WindowControls.BackgroundTransparency = 1
+WindowControls.AnchorPoint = Vector2.new(1, 0)
+WindowControls.Position = UDim2.new(1, -20, 0, 15)
+WindowControls.Size = UDim2.new(0, 120, 0, 40)
 
-categoriesPadding.Name = "categoriesPadding"
-categoriesPadding.Parent = categoriesFrame
-categoriesPadding.PaddingLeft = UDim.new(0, 8)
-categoriesPadding.PaddingRight = UDim.new(0, 8)
-categoriesPadding.PaddingTop = UDim.new(0, 8)
-categoriesPadding.PaddingBottom = UDim.new(0, 8)
+local controlsLayout = Instance.new("UIListLayout")
+controlsLayout.Parent = WindowControls
+controlsLayout.FillDirection = Enum.FillDirection.Horizontal
+controlsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+controlsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+controlsLayout.Padding = UDim.new(0, 10)
 
-scroll.Name = "scroll"
-scroll.Parent = frame
-scroll.Active = true
-scroll.BackgroundColor3 = Color3.fromRGB(35, 35, 42)
-scroll.BackgroundTransparency = 0.95
-scroll.BorderSizePixel = 0
-scroll.Position = UDim2.new(0.25, 0, 0.2, 0)  -- Adjusted for better centering
-scroll.Size = UDim2.new(0.5, 0, 0.75, 0)
-scroll.CanvasPosition = Vector2.new(0, 17.4999962)
-scroll.HorizontalScrollBarInset = Enum.ScrollBarInset.Always
-scroll.ScrollBarThickness = 4
-scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+-- Info Button
+InfoBtn.Name = "InfoBtn"
+InfoBtn.Parent = WindowControls
+InfoBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 255)
+InfoBtn.Size = UDim2.new(0, 35, 0, 35)
+InfoBtn.BorderSizePixel = 0
+InfoBtn.LayoutOrder = 1
+createCorner(InfoBtn, 8)
 
-listLayout.Name = "listLayout"
-listLayout.Parent = scroll
-listLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-listLayout.SortOrder = Enum.SortOrder.LayoutOrder
-listLayout.Padding = UDim.new(0, 12)  -- More spacing
+local infoBtnText = Instance.new("TextLabel")
+infoBtnText.Parent = InfoBtn
+infoBtnText.BackgroundTransparency = 1
+infoBtnText.Size = UDim2.new(1, 0, 1, 0)
+infoBtnText.Font = Enum.Font.GothamBold
+infoBtnText.Text = "i"
+infoBtnText.TextColor3 = Color3.fromRGB(255, 255, 255)
+infoBtnText.TextSize = 16
 
-padding.Name = "padding"
-padding.Parent = scroll
-padding.PaddingTop = UDim.new(0, 10)
-padding.PaddingBottom = UDim.new(0, 10)
-padding.PaddingLeft = UDim.new(0, 10)
-padding.PaddingRight = UDim.new(0, 10)
+-- Close Button
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Parent = WindowControls
+CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 95, 95)
+CloseBtn.Size = UDim2.new(0, 35, 0, 35)
+CloseBtn.BorderSizePixel = 0
+CloseBtn.LayoutOrder = 2
+createCorner(CloseBtn, 8)
 
-searchframe.Name = "searchframe"
-searchframe.Parent = frame
-searchframe.BackgroundColor3 = Color3.fromRGB(40, 40, 48)
-searchframe.BorderSizePixel = 0
-searchframe.Position = UDim2.new(0.25, 0, 0.14, 0)  -- Above songs list
-searchframe.Size = UDim2.new(0.5, 0, 0, 35)
+local closeBtnText = Instance.new("TextLabel")
+closeBtnText.Parent = CloseBtn
+closeBtnText.BackgroundTransparency = 1
+closeBtnText.Size = UDim2.new(1, 0, 1, 0)
+closeBtnText.Font = Enum.Font.GothamBold
+closeBtnText.Text = "×"
+closeBtnText.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtnText.TextSize = 20
 
-searchbar.Name = "searchbar"
-searchbar.Parent = searchframe
-searchbar.BackgroundColor3 = Color3.fromRGB(50, 50, 58)  -- Lighter for input
-searchbar.BorderSizePixel = 0
-searchbar.Position = UDim2.new(0, 0, 0, 0)
-searchbar.Size = UDim2.new(1, 0, 1, 0)
-searchbar.Font = Enum.Font.Gotham
-searchbar.PlaceholderText = "Search songs..."
-searchbar.Text = ""
-searchbar.TextColor3 = Color3.fromRGB(200, 200, 200)
-searchbar.TextSize = 16
-searchbar.TextWrapped = true
-searchbar.TextXAlignment = Enum.TextXAlignment.Left
+-- Content Area
+ContentArea.Name = "ContentArea"
+ContentArea.Parent = MainContainer
+ContentArea.BackgroundTransparency = 1
+ContentArea.Position = UDim2.new(0, 0, 0, 80)
+ContentArea.Size = UDim2.new(1, 0, 1, -130)
 
-local uicSearch = Instance.new("UICorner")
-uicSearch.CornerRadius = UDim.new(0, 6)
-uicSearch.Parent = searchbar
+-- Side Panel (Categories)
+SidePanel.Name = "SidePanel"
+SidePanel.Parent = ContentArea
+SidePanel.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+SidePanel.BackgroundTransparency = 0.3
+SidePanel.Position = UDim2.new(0, 20, 0, 0)
+SidePanel.Size = UDim2.new(0, 180, 1, 0)
+SidePanel.BorderSizePixel = 0
+createCorner(SidePanel, 15)
 
-creds.Name = "creds"
-creds.Parent = frame
-creds.AnchorPoint = Vector2.new(0.5, 1)
-creds.BackgroundTransparency = 1
-creds.Position = UDim2.new(0.5, 0, 0.98, 0)
-creds.Size = UDim2.new(1, 0, 0, 20)
-creds.Font = Enum.Font.Gotham
-creds.Text = "Piano autoplayer by hellohellohell012321"
-creds.TextColor3 = Color3.fromRGB(150, 150, 150)  -- Muted gray
-creds.TextSize = 12
-creds.TextTransparency = 0
-creds.ZIndex = 2
-creds.TextXAlignment = Enum.TextXAlignment.Center
+-- Categories Header
+CategoriesHeader.Name = "CategoriesHeader"
+CategoriesHeader.Parent = SidePanel
+CategoriesHeader.BackgroundTransparency = 1
+CategoriesHeader.Position = UDim2.new(0, 0, 0, 15)
+CategoriesHeader.Size = UDim2.new(1, 0, 0, 30)
+CategoriesHeader.Font = Enum.Font.GothamBold
+CategoriesHeader.Text = "CATEGORIES"
+CategoriesHeader.TextColor3 = Color3.fromRGB(255, 120, 80)
+CategoriesHeader.TextSize = 14
+CategoriesHeader.TextXAlignment = Enum.TextXAlignment.Center
 
-bar.Name = "bar"
-bar.Parent = frame
-bar.Active = true
-bar.BackgroundColor3 = Color3.fromRGB(35, 35, 42)
-bar.BackgroundTransparency = 0.95
-bar.BorderSizePixel = 0
-bar.Position = UDim2.new(0.76, 0, 0.14, 0)
-bar.Size = UDim2.new(0.23, 0, 0.8, 0)
-bar.ZIndex = 0
+-- Categories Scroll
+CategoriesScroll.Name = "CategoriesScroll"
+CategoriesScroll.Parent = SidePanel
+CategoriesScroll.Active = true
+CategoriesScroll.BackgroundTransparency = 1
+CategoriesScroll.Position = UDim2.new(0, 15, 0, 50)
+CategoriesScroll.Size = UDim2.new(1, -30, 1, -65)
+CategoriesScroll.BorderSizePixel = 0
+CategoriesScroll.ScrollBarThickness = 3
+CategoriesScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+CategoriesScroll.ScrollBarImageColor3 = Color3.fromRGB(255, 120, 80)
 
-songname.Name = "songname"
-songname.Parent = bar
-songname.BackgroundColor3 = Color3.fromRGB(45, 45, 53)
-songname.BorderSizePixel = 0
-songname.Position = UDim2.new(0, 10, 0, 10)
-songname.Size = UDim2.new(1, -20, 0, 40)
-songname.ZIndex = -5
-songname.Font = Enum.Font.GothamBold
-songname.Text = "SONG NAME"
-songname.TextColor3 = Color3.fromRGB(255, 255, 255)
-songname.TextSize = 18
-songname.TextWrapped = true
-songname.LayoutOrder = 1
-songname.TextTruncate = Enum.TextTruncate.SplitWord
+CategoriesLayout.Name = "CategoriesLayout"
+CategoriesLayout.Parent = CategoriesScroll
+CategoriesLayout.SortOrder = Enum.SortOrder.LayoutOrder
+CategoriesLayout.Padding = UDim.new(0, 8)
 
-local uicSong = Instance.new("UICorner")
-uicSong.CornerRadius = UDim.new(0, 6)
-uicSong.Parent = songname
+createPadding(CategoriesScroll, 5)
 
-bpmbox.Name = "bpmbox"
-bpmbox.Parent = bar
-bpmbox.BackgroundColor3 = Color3.fromRGB(50, 50, 58)
-bpmbox.BorderSizePixel = 0
-bpmbox.Position = UDim2.new(0, 10, 0.3, 0)
-bpmbox.Size = UDim2.new(1, -20, 0, 35)
-bpmbox.Font = Enum.Font.Gotham
-bpmbox.PlaceholderText = "BPM"
-bpmbox.Text = ""
-bpmbox.TextColor3 = Color3.fromRGB(200, 200, 200)
-bpmbox.TextSize = 16
-bpmbox.TextWrapped = true
-bpmbox.LayoutOrder = 2
+-- Main Panel
+MainPanel.Name = "MainPanel"
+MainPanel.Parent = ContentArea
+MainPanel.BackgroundTransparency = 1
+MainPanel.Position = UDim2.new(0, 220, 0, 0)
+MainPanel.Size = UDim2.new(0, 420, 1, 0)
 
-local uicBpm = Instance.new("UICorner")
-uicBpm.CornerRadius = UDim.new(0, 6)
-uicBpm.Parent = bpmbox
+-- Search Section
+SearchSection.Name = "SearchSection"
+SearchSection.Parent = MainPanel
+SearchSection.BackgroundTransparency = 1
+SearchSection.Size = UDim2.new(1, 0, 0, 50)
 
-playsong.Name = "playsong"
-playsong.Parent = bar
-playsong.BackgroundColor3 = Color3.fromRGB(0, 120, 255)  -- Bright blue accent
-playsong.BorderSizePixel = 0
-playsong.Position = UDim2.new(0, 10, 0.5, 0)
-playsong.Size = UDim2.new(1, -20, 0, 40)
-playsong.Font = Enum.Font.GothamBold
-playsong.Text = "Play Song"
-playsong.TextColor3 = Color3.fromRGB(255, 255, 255)
-playsong.TextSize = 18
-playsong.LayoutOrder = 3
+-- Search Container
+SearchContainer.Name = "SearchContainer"
+SearchContainer.Parent = SearchSection
+SearchContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+SearchContainer.BackgroundTransparency = 0.2
+SearchContainer.Position = UDim2.new(0, 0, 0, 10)
+SearchContainer.Size = UDim2.new(1, 0, 0, 40)
+SearchContainer.BorderSizePixel = 0
+createCorner(SearchContainer, 12)
 
-local uicPlay = Instance.new("UICorner")
-uicPlay.CornerRadius = UDim.new(0, 6)
-uicPlay.Parent = playsong
+-- Search Icon
+SearchIcon.Name = "SearchIcon"
+SearchIcon.Parent = SearchContainer
+SearchIcon.BackgroundTransparency = 1
+SearchIcon.Position = UDim2.new(0, 15, 0, 0)
+SearchIcon.Size = UDim2.new(0, 30, 1, 0)
+SearchIcon.Font = Enum.Font.GothamBold
+SearchIcon.Text = "🔍"
+SearchIcon.TextColor3 = Color3.fromRGB(150, 150, 170)
+SearchIcon.TextSize = 16
+SearchIcon.TextXAlignment = Enum.TextXAlignment.Center
 
-barlist.Name = "barlist"
-barlist.Parent = bar
-barlist.SortOrder = Enum.SortOrder.LayoutOrder
-barlist.Padding = UDim.new(0, 12)
-barlist.HorizontalAlignment = Enum.HorizontalAlignment.Center
+-- Search Input
+SearchInput.Name = "SearchInput"
+SearchInput.Parent = SearchContainer
+SearchInput.BackgroundTransparency = 1
+SearchInput.Position = UDim2.new(0, 50, 0, 0)
+SearchInput.Size = UDim2.new(1, -60, 1, 0)
+SearchInput.Font = Enum.Font.Gotham
+SearchInput.PlaceholderText = "Search your favorite songs..."
+SearchInput.Text = ""
+SearchInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+SearchInput.TextSize = 14
+SearchInput.TextXAlignment = Enum.TextXAlignment.Left
 
-barpadding.Name = "categoriesPadding"
-barpadding.Parent = bar
-barpadding.PaddingLeft = UDim.new(0, 10)
-barpadding.PaddingRight = UDim.new(0, 10)
-barpadding.PaddingTop = UDim.new(0, 20)
-barpadding.PaddingBottom = UDim.new(0, 20)
+-- Songs Container
+SongsContainer.Name = "SongsContainer"
+SongsContainer.Parent = MainPanel
+SongsContainer.Active = true
+SongsContainer.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+SongsContainer.BackgroundTransparency = 0.3
+SongsContainer.Position = UDim2.new(0, 0, 0, 70)
+SongsContainer.Size = UDim2.new(1, 0, 1, -70)
+SongsContainer.BorderSizePixel = 0
+SongsContainer.ScrollBarThickness = 4
+SongsContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
+SongsContainer.ScrollBarImageColor3 = Color3.fromRGB(255, 120, 80)
+createCorner(SongsContainer, 15)
 
-toggle.Name = "toggle"
-toggle.Parent = ScreenGui
-toggle.BackgroundColor3 = Color3.fromRGB(40, 40, 48)
-toggle.BorderSizePixel = 0
-toggle.AnchorPoint = Vector2.new(0, 0.5)
-toggle.Position = UDim2.new(0, 10, 0.5, 0)
-toggle.Size = UDim2.new(0, 120, 0, 35)
-toggle.Font = Enum.Font.GothamBold
-toggle.Text = "Toggle UI"
-toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggle.TextSize = 16
+SongsLayout.Name = "SongsLayout"
+SongsLayout.Parent = SongsContainer
+SongsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+SongsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+SongsLayout.Padding = UDim.new(0, 8)
 
-local uicToggle = Instance.new("UICorner")
-uicToggle.CornerRadius = UDim.new(0, 6)
-uicToggle.Parent = toggle
+createPadding(SongsContainer, 15)
 
-toggle.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
-    if frame.Visible then
+-- Control Panel
+ControlPanel.Name = "ControlPanel"
+ControlPanel.Parent = ContentArea
+ControlPanel.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+ControlPanel.BackgroundTransparency = 0.3
+ControlPanel.Position = UDim2.new(1, -260, 0, 0)
+ControlPanel.Size = UDim2.new(0, 240, 1, 0)
+ControlPanel.BorderSizePixel = 0
+createCorner(ControlPanel, 15)
+
+-- Now Playing Card
+NowPlayingCard.Name = "NowPlayingCard"
+NowPlayingCard.Parent = ControlPanel
+NowPlayingCard.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+NowPlayingCard.BackgroundTransparency = 0.2
+NowPlayingCard.Position = UDim2.new(0, 15, 0, 20)
+NowPlayingCard.Size = UDim2.new(1, -30, 0, 100)
+NowPlayingCard.BorderSizePixel = 0
+createCorner(NowPlayingCard, 12)
+createGradient(NowPlayingCard, ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 120, 80)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 120))
+}, 45)
+
+-- Song Display Title
+SongDisplayTitle.Name = "SongDisplayTitle"
+SongDisplayTitle.Parent = NowPlayingCard
+SongDisplayTitle.BackgroundTransparency = 1
+SongDisplayTitle.Position = UDim2.new(0, 15, 0, 15)
+SongDisplayTitle.Size = UDim2.new(1, -30, 0, 25)
+SongDisplayTitle.Font = Enum.Font.GothamBold
+SongDisplayTitle.Text = "Select a Song"
+SongDisplayTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+SongDisplayTitle.TextSize = 16
+SongDisplayTitle.TextXAlignment = Enum.TextXAlignment.Left
+SongDisplayTitle.TextTruncate = Enum.TextTruncate.AtEnd
+
+-- Song Display Artist
+SongDisplayArtist.Name = "SongDisplayArtist"
+SongDisplayArtist.Parent = NowPlayingCard
+SongDisplayArtist.BackgroundTransparency = 1
+SongDisplayArtist.Position = UDim2.new(0, 15, 0, 40)
+SongDisplayArtist.Size = UDim2.new(1, -30, 0, 20)
+SongDisplayArtist.Font = Enum.Font.Gotham
+SongDisplayArtist.Text = "Choose from library"
+SongDisplayArtist.TextColor3 = Color3.fromRGB(255, 255, 255)
+SongDisplayArtist.TextSize = 12
+SongDisplayArtist.TextTransparency = 0.3
+SongDisplayArtist.TextXAlignment = Enum.TextXAlignment.Left
+SongDisplayArtist.TextTruncate = Enum.TextTruncate.AtEnd
+
+-- Playback Controls
+PlaybackControls.Name = "PlaybackControls"
+PlaybackControls.Parent = ControlPanel
+PlaybackControls.BackgroundTransparency = 1
+PlaybackControls.Position = UDim2.new(0, 15, 0, 140)
+PlaybackControls.Size = UDim2.new(1, -30, 0, 200)
+
+-- BPM Container
+BpmContainer.Name = "BpmContainer"
+BpmContainer.Parent = PlaybackControls
+BpmContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+BpmContainer.BackgroundTransparency = 0.2
+BpmContainer.Position = UDim2.new(0, 0, 0, 0)
+BpmContainer.Size = UDim2.new(1, 0, 0, 60)
+BpmContainer.BorderSizePixel = 0
+createCorner(BpmContainer, 10)
+
+-- BPM Label
+BpmLabel.Name = "BpmLabel"
+BpmLabel.Parent = BpmContainer
+BpmLabel.BackgroundTransparency = 1
+BpmLabel.Position = UDim2.new(0, 15, 0, 5)
+BpmLabel.Size = UDim2.new(1, -30, 0, 20)
+BpmLabel.Font = Enum.Font.GothamBold
+BpmLabel.Text = "PLAYBACK SPEED"
+BpmLabel.TextColor3 = Color3.fromRGB(255, 120, 80)
+BpmLabel.TextSize = 12
+BpmLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+-- BPM Input
+BpmInput.Name = "BpmInput"
+BpmInput.Parent = BpmContainer
+BpmInput.BackgroundTransparency = 1
+BpmInput.Position = UDim2.new(0, 15, 0, 25)
+BpmInput.Size = UDim2.new(1, -30, 0, 30)
+BpmInput.Font = Enum.Font.Gotham
+BpmInput.PlaceholderText = "Enter BPM value"
+BpmInput.Text = ""
+BpmInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+BpmInput.TextSize = 14
+BpmInput.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Play Button
+PlayButton.Name = "PlayButton"
+PlayButton.Parent = PlaybackControls
+PlayButton.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+PlayButton.Position = UDim2.new(0, 0, 0, 80)
+PlayButton.Size = UDim2.new(1, 0, 0, 50)
+PlayButton.BorderSizePixel = 0
+PlayButton.Font = Enum.Font.GothamBold
+PlayButton.Text = "  ▶  PLAY SONG"
+PlayButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlayButton.TextSize = 16
+createCorner(PlayButton, 12)
+createGradient(PlayButton, ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(80, 220, 120)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 180, 90))
+}, 45)
+
+-- Bottom Bar
+BottomBar.Name = "BottomBar"
+BottomBar.Parent = MainContainer
+BottomBar.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
+BottomBar.BackgroundTransparency = 0.2
+BottomBar.Position = UDim2.new(0, 0, 1, -50)
+BottomBar.Size = UDim2.new(1, 0, 0, 50)
+BottomBar.BorderSizePixel = 0
+createCorner(BottomBar, 20)
+
+-- Credits Text
+CreditsText.Name = "CreditsText"
+CreditsText.Parent = BottomBar
+CreditsText.BackgroundTransparency = 1
+CreditsText.Position = UDim2.new(0, 25, 0, 0)
+CreditsText.Size = UDim2.new(0.7, 0, 1, 0)
+CreditsText.Font = Enum.Font.Gotham
+CreditsText.Text = "Piano autoplayer by kahu"
+CreditsText.TextColor3 = Color3.fromRGB(150, 150, 170)
+CreditsText.TextSize = 12
+CreditsText.TextXAlignment = Enum.TextXAlignment.Left
+CreditsText.TextYAlignment = Enum.TextYAlignment.Center
+
+-- Version Text
+VersionText.Name = "VersionText"
+VersionText.Parent = BottomBar
+VersionText.BackgroundTransparency = 1
+VersionText.AnchorPoint = Vector2.new(1, 0)
+VersionText.Position = UDim2.new(1, -25, 0, 0)
+VersionText.Size = UDim2.new(0.3, 0, 1, 0)
+VersionText.Font = Enum.Font.Gotham
+VersionText.Text = "v2.0 • SaucyKeys"
+VersionText.TextColor3 = Color3.fromRGB(255, 120, 80)
+VersionText.TextSize = 12
+VersionText.TextXAlignment = Enum.TextXAlignment.Right
+VersionText.TextYAlignment = Enum.TextYAlignment.Center
+
+-- Floating Toggle Button
+FloatingToggle.Name = "FloatingToggle"
+FloatingToggle.Parent = ScreenGui
+FloatingToggle.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+FloatingToggle.BackgroundTransparency = 0.1
+FloatingToggle.Position = UDim2.new(0, 20, 0.5, -30)
+FloatingToggle.Size = UDim2.new(0, 60, 0, 60)
+FloatingToggle.BorderSizePixel = 0
+createCorner(FloatingToggle, 30)
+createGradient(FloatingToggle, ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 120, 80)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 120))
+}, 45)
+
+-- Toggle Button
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Parent = FloatingToggle
+ToggleButton.BackgroundTransparency = 1
+ToggleButton.Size = UDim2.new(1, 0, 1, 0)
+ToggleButton.Font = Enum.Font.GothamBold
+ToggleButton.Text = "🎹"
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.TextSize = 24
+
+-- Add glow effect to toggle button
+local toggleGlow = Instance.new("ImageLabel")
+toggleGlow.Name = "ToggleGlow"
+toggleGlow.Parent = FloatingToggle
+toggleGlow.BackgroundTransparency = 1
+toggleGlow.Position = UDim2.new(0.5, 0, 0.5, 0)
+toggleGlow.AnchorPoint = Vector2.new(0.5, 0.5)
+toggleGlow.Size = UDim2.new(1.5, 0, 1.5, 0)
+toggleGlow.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+toggleGlow.ImageColor3 = Color3.fromRGB(255, 120, 80)
+toggleGlow.ImageTransparency = 0.7
+toggleGlow.ZIndex = -1
+
+-- Event Connections
+ToggleButton.MouseButton1Click:Connect(function()
+    MainContainer.Visible = not MainContainer.Visible
+    if MainContainer.Visible then
         playSound(70452176150315, 0.1)
     else
         playSound(1524549907, 0.1)
     end
 end)
 
+CloseBtn.MouseButton1Click:Connect(function()
+    MainContainer.Visible = false
+    playSound(1524549907, 0.1)
+end)
 
+-- Drag functionality for floating toggle
 local UserInputService = game:GetService("UserInputService")
 
-local gui = toggle
+local dragging = false
+local dragInput = nil
+local dragStart = nil
+local startPos = nil
 
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local function update(input)
+local function updateDrag(input)
     local delta = input.Position - dragStart
-    gui.Position =
-        UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    FloatingToggle.Position = UDim2.new(
+        startPos.X.Scale, 
+        startPos.X.Offset + delta.X, 
+        startPos.Y.Scale, 
+        startPos.Y.Offset + delta.Y
+    )
 end
 
-gui.InputBegan:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = gui.Position
+FloatingToggle.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = FloatingToggle.Position
 
-            input.Changed:Connect(
-                function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
-                    end
-                end
-            )
-        end
-    end
-)
-
-gui.InputChanged:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end
-)
-
-UserInputService.InputChanged:Connect(
-    function(input)
-        if input == dragInput and dragging then
-            update(input)
-        end
-    end
-)
-
-
-
-local gameId = game.GameId
-
-local spoofMidiPlz = false
-
-if gameId == 3929033413 then
-
-    -- Gui to Lua
-    -- Version: 3.2
-
-    -- Instances:
-
-    local spoofMidiInfo = Instance.new("TextButton")
-    local spoofMidi = Instance.new("TextButton")
-    local underline = Instance.new("TextLabel")
-
-    --Properties:
-
-    spoofMidiInfo.Name = "spoofMidiInfo"
-    spoofMidiInfo.Parent = frame
-    spoofMidiInfo.BackgroundColor3 = Color3.fromRGB(45, 45, 53)
-    spoofMidiInfo.BorderSizePixel = 0
-    spoofMidiInfo.LayoutOrder = 3
-    spoofMidiInfo.Position = UDim2.new(0.02, 0, 0.92, 0)
-    spoofMidiInfo.Size = UDim2.new(0, 25, 0, 25)
-    spoofMidiInfo.Font = Enum.Font.Gotham
-    spoofMidiInfo.Text = "?"
-    spoofMidiInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
-    spoofMidiInfo.TextSize = 18
-
-    local uicSpoofInfo = Instance.new("UICorner")
-    uicSpoofInfo.CornerRadius = UDim.new(0, 6)
-    uicSpoofInfo.Parent = spoofMidiInfo
-
-    spoofMidiInfo.MouseButton1Click:Connect(
-        function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/spoofMidiInfo.lua", true))()
-        end
-    )
-
-    spoofMidi.Name = "spoofMidi"
-    spoofMidi.Parent = frame
-    spoofMidi.BackgroundColor3 = Color3.fromRGB(45, 45, 53)
-    spoofMidi.BackgroundTransparency = 0
-    spoofMidi.BorderSizePixel = 0
-    spoofMidi.LayoutOrder = 3
-    spoofMidi.Position = UDim2.new(0.08, 0, 0.92, 0)
-    spoofMidi.Size = UDim2.new(0, 120, 0, 25)
-    spoofMidi.Font = Enum.Font.Gotham
-    spoofMidi.Text = "Spoof MIDI [ ]"
-    spoofMidi.TextColor3 = Color3.fromRGB(255, 255, 255)
-    spoofMidi.TextSize = 16
-    spoofMidi.TextXAlignment = Enum.TextXAlignment.Left
-
-    local uicSpoof = Instance.new("UICorner")
-    uicSpoof.CornerRadius = UDim.new(0, 6)
-    uicSpoof.Parent = spoofMidi
-
-    spoofMidi.MouseButton1Click:Connect(
-        function()
-            spoofMidiPlz = not spoofMidiPlz
-            if spoofMidiPlz then
-                spoofMidi.Text = "Spoof MIDI [x]"
-                playSound(6493287948, 0.1)
-                NotificationLibrary:SendNotification("Success", "midi spoofing is turned on. click the question mark for more info.", 5)
-            else
-                spoofMidi.Text = "Spoof MIDI [ ]"
-                playSound(6493287948, 0.1) -- replace with actual sound ID for disabling
-                NotificationLibrary:SendNotification("Success", "midi spoofing is turned off", 5)
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
             end
-        end
-    )
+        end)
+    end
+end)
 
-    underline.Name = "underline"
-    underline.Parent = spoofMidi
-    underline.BackgroundTransparency = 1.000
-    underline.BorderSizePixel = 0
-    underline.Position = UDim2.new(0, 0, 1, 0)
-    underline.Size = UDim2.new(1, 0, 0, 1)
-    underline.Font = Enum.Font.SourceSans
-    underline.Text = ""
-    underline.TextColor3 = Color3.fromRGB(255, 255, 255)
-    underline.TextSize = 14.000
-    underline.BackgroundColor3 = Color3.fromRGB(60, 60, 68)  -- Subtle underline
+FloatingToggle.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        updateDrag(input)
+    end
+end)
+
+-- Drag functionality for main window
+local mainDragging = false
+local mainDragInput = nil
+local mainDragStart = nil
+local mainStartPos = nil
+
+local function updateMainDrag(input)
+    local delta = input.Position - mainDragStart
+    MainContainer.Position = UDim2.new(
+        mainStartPos.X.Scale, 
+        mainStartPos.X.Offset + delta.X, 
+        mainStartPos.Y.Scale, 
+        mainStartPos.Y.Offset + delta.Y
+    )
 end
 
+TopBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        mainDragging = true
+        mainDragStart = input.Position
+        mainStartPos = MainContainer.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                mainDragging = false
+            end
+        end)
+    end
+end)
+
+TopBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        mainDragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == mainDragInput and mainDragging then
+        updateMainDrag(input)
+    end
+end)
+
+-- Search functionality
 local function filterSongs(query)
     query = query:lower()
-    scroll.CanvasPosition = Vector2.new(0, 0)
-    for _, child in pairs(scroll:GetChildren()) do
-        if child:IsA("TextButton")  then
-            -- Regular song buttons
+    SongsContainer.CanvasPosition = Vector2.new(0, 0)
+    for _, child in pairs(SongsContainer:GetChildren()) do
+        if child:IsA("TextButton") then
             local songName = child.Text:lower()
             local alternateNamesStr = child:GetAttribute("AlternateNames") or ""
             local alternateNames = alternateNamesStr:split(",")
@@ -456,7 +655,6 @@ local function filterSongs(query)
             end
             child.Visible = matchFound
         elseif child:IsA("Frame") and child:FindFirstChildOfClass("TextButton") then
-            -- Custom song frames
             local button = child:FindFirstChildOfClass("TextButton")
             local songName = button.Text:lower()
             local matchFound = songName:find(query)
@@ -465,115 +663,218 @@ local function filterSongs(query)
     end
 end
 
-searchbar:GetPropertyChangedSignal("Text"):Connect(
-    function()
-        filterSongs(searchbar.Text)
-    end
-)
+SearchInput:GetPropertyChangedSignal("Text"):Connect(function()
+    filterSongs(SearchInput.Text)
+end)
 
-filterSongs("")
-
--- drag script (not mince)
-
-local UserInputService = game:GetService("UserInputService")
-
-local gui = frame
-
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local function update(input)
-    local delta = input.Position - dragStart
-    gui.Position =
-        UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-gui.InputBegan:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = gui.Position
-
-            input.Changed:Connect(
-                function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
-                    end
-                end
-            )
-        end
-    end
-)
-
-gui.InputChanged:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end
-)
-
-UserInputService.InputChanged:Connect(
-    function(input)
-        if input == dragInput and dragging then
-            update(input)
-        end
-    end
-)
-
+-- Song button creation function
 local function newSongButton(name, textsize, alternateNames)
+    local buttonContainer = Instance.new("Frame")
+    buttonContainer.Name = name .. "Container"
+    buttonContainer.Parent = SongsContainer
+    buttonContainer.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+    buttonContainer.BackgroundTransparency = 0.2
+    buttonContainer.Size = UDim2.new(1, -10, 0, 55)
+    buttonContainer.BorderSizePixel = 0
+    createCorner(buttonContainer, 12)
+
     local button = Instance.new("TextButton")
     button.Name = name
-    button.Parent = scroll
-    button.BackgroundColor3 = Color3.fromRGB(45, 45, 53)
-    button.BorderSizePixel = 0
-    button.Size = UDim2.new(1, -20, 0, 40)  -- Wider buttons
-    button.Font = Enum.Font.Gotham
+    button.Parent = buttonContainer
+    button.BackgroundTransparency = 1
+    button.Position = UDim2.new(0, 15, 0, 0)
+    button.Size = UDim2.new(1, -60, 1, 0)
+    button.Font = Enum.Font.GothamSemibold
     button.Text = name
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.TextSize = textsize
+    button.TextSize = textsize or 14
     button.TextXAlignment = Enum.TextXAlignment.Left
-    button.TextTruncate = Enum.TextTruncate.SplitWord
-
-    local uicBtn = Instance.new("UICorner")
-    uicBtn.CornerRadius = UDim.new(0, 6)
-    uicBtn.Parent = button
+    button.TextYAlignment = Enum.TextYAlignment.Center
+    button.TextTruncate = Enum.TextTruncate.AtEnd
 
     button:SetAttribute("AlternateNames", table.concat(alternateNames or {}, ","))
 
-    local favButton = Instance.new("ImageButton") -- star button for favourites
-
-    favButton.Parent = button
-    favButton.BackgroundTransparency = 1.000
-    favButton.BorderSizePixel = 0
-    favButton.AnchorPoint = Vector2.new(1, 0.5)
-    favButton.Position = UDim2.new(1, -10, 0.5, 0)
-    favButton.Size = UDim2.new(0, 25, 0, 25)
-    favButton.Image = "rbxassetid://76156993128854" -- unfav icon
-    favButton.Visible = false
+    -- Favorite button
+    local favButton = Instance.new("ImageButton")
     favButton.Name = "favButton"
+    favButton.Parent = buttonContainer
+    favButton.BackgroundTransparency = 1
+    favButton.AnchorPoint = Vector2.new(1, 0.5)
+    favButton.Position = UDim2.new(1, -15, 0.5, 0)
+    favButton.Size = UDim2.new(0, 25, 0, 25)
+    favButton.Image = "rbxassetid://76156993128854"
+    favButton.ImageColor3 = Color3.fromRGB(255, 120, 80)
+    favButton.Visible = false
+
+    -- Hover effects
+    button.MouseEnter:Connect(function()
+        local tween = game:GetService("TweenService"):Create(
+            buttonContainer,
+            TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+            {BackgroundColor3 = Color3.fromRGB(45, 45, 60)}
+        )
+        tween:Play()
+        favButton.Visible = true
+    end)
+
+    button.MouseLeave:Connect(function()
+        local tween = game:GetService("TweenService"):Create(
+            buttonContainer,
+            TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+            {BackgroundColor3 = Color3.fromRGB(35, 35, 50)}
+        )
+        tween:Play()
+        favButton.Visible = false
+    end)
+
+    button.MouseButton1Click:Connect(function()
+        SongDisplayTitle.Text = name
+        SongDisplayArtist.Text = "Ready to play"
+        playSound(6493287948, 0.1)
+    end)
 
     return button
 end
 
--- newSongButton("", 27, {})
+-- Game-specific features
+local gameId = game.GameId
+local spoofMidiPlz = false
 
-LOOPRANDOM = newSongButton("SHUFFLE PLAY SONGS", 18, {})
-PLAYRANDOM = newSongButton("PLAY A RANDOM SONG", 18, {})
+if gameId == 3929033413 then
+    -- Add MIDI spoof controls for Piano Tiles
+    local midiControls = Instance.new("Frame")
+    midiControls.Name = "MidiControls"
+    midiControls.Parent = PlaybackControls
+    midiControls.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    midiControls.BackgroundTransparency = 0.2
+    midiControls.Position = UDim2.new(0, 0, 0, 150)
+    midiControls.Size = UDim2.new(1, 0, 0, 80)
+    midiControls.BorderSizePixel = 0
+    createCorner(midiControls, 10)
 
-local seperator = Instance.new("Frame")
-seperator.Name = "seperator"
-seperator.Parent = scroll
-seperator.BackgroundColor3 = Color3.fromRGB(50, 50, 58)
-seperator.Size = UDim2.new(1, 0, 0, 1)
+    local midiLabel = Instance.new("TextLabel")
+    midiLabel.Name = "MidiLabel"
+    midiLabel.Parent = midiControls
+    midiLabel.BackgroundTransparency = 1
+    midiLabel.Position = UDim2.new(0, 15, 0, 5)
+    midiLabel.Size = UDim2.new(1, -30, 0, 25)
+    midiLabel.Font = Enum.Font.GothamBold
+    midiLabel.Text = "MIDI SPOOFING"
+    midiLabel.TextColor3 = Color3.fromRGB(255, 120, 80)
+    midiLabel.TextSize = 12
+    midiLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-if game.Players.LocalPlayer.Name == "4BCQA" or game.Players.LocalPlayer.Name == "fredoggins" then
-    AVRIL_14 = newSongButton("AVRIL 14", 18, {})
-else
+    local spoofToggle = Instance.new("TextButton")
+    spoofToggle.Name = "SpoofToggle"
+    spoofToggle.Parent = midiControls
+    spoofToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+    spoofToggle.Position = UDim2.new(0, 15, 0, 35)
+    spoofToggle.Size = UDim2.new(1, -50, 0, 30)
+    spoofToggle.Font = Enum.Font.Gotham
+    spoofToggle.Text = "Spoof MIDI [ ]"
+    spoofToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    spoofToggle.TextSize = 12
+    spoofToggle.TextXAlignment = Enum.TextXAlignment.Left
+    createCorner(spoofToggle, 8)
+
+    local spoofInfo = Instance.new("TextButton")
+    spoofInfo.Name = "SpoofInfo"
+    spoofInfo.Parent = midiControls
+    spoofInfo.BackgroundColor3 = Color3.fromRGB(70, 130, 255)
+    spoofInfo.Position = UDim2.new(1, -30, 0, 35)
+    spoofInfo.Size = UDim2.new(0, 25, 0, 30)
+    spoofInfo.Font = Enum.Font.GothamBold
+    spoofInfo.Text = "?"
+    spoofInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
+    spoofInfo.TextSize = 14
+    createCorner(spoofInfo, 8)
+
+    spoofToggle.MouseButton1Click:Connect(function()
+        spoofMidiPlz = not spoofMidiPlz
+        if spoofMidiPlz then
+            spoofToggle.Text = "Spoof MIDI [x]"
+            spoofToggle.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+            playSound(6493287948, 0.1)
+            -- Add notification here if you have notification system
+        else
+            spoofToggle.Text = "Spoof MIDI [ ]"
+            spoofToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+            playSound(6493287948, 0.1)
+        end
+    end)
+
+    spoofInfo.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/spoofMidiInfo.lua", true))()
+    end)
 end
+
+-- Create initial songs
+filterSongs("")
+
+LOOPRANDOM = newSongButton("SHUFFLE PLAY SONGS", 16, {})
+PLAYRANDOM = newSongButton("PLAY A RANDOM SONG", 16, {})
+
+-- Create separator
+local separator = Instance.new("Frame")
+separator.Name = "separator"
+separator.Parent = SongsContainer
+separator.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+separator.BackgroundTransparency = 0.5
+separator.Size = UDim2.new(1, -20, 0, 2)
+createCorner(separator, 1)
+
+-- Special songs for specific users
+if game.Players.LocalPlayer.Name == "4BCQA" or game.Players.LocalPlayer.Name == "fredoggins" then
+    AVRIL_14 = newSongButton("AVRIL 14", 16, {})
+end
+
+-- Add some example categories
+local function createCategoryButton(name)
+    local categoryBtn = Instance.new("TextButton")
+    categoryBtn.Name = name
+    categoryBtn.Parent = CategoriesScroll
+    categoryBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+    categoryBtn.BackgroundTransparency = 0.3
+    categoryBtn.Size = UDim2.new(1, -10, 0, 35)
+    categoryBtn.Font = Enum.Font.Gotham
+    categoryBtn.Text = name
+    categoryBtn.TextColor3 = Color3.fromRGB(200, 200, 220)
+    categoryBtn.TextSize = 12
+    categoryBtn.BorderSizePixel = 0
+    createCorner(categoryBtn, 8)
+    
+    categoryBtn.MouseEnter:Connect(function()
+        local tween = game:GetService("TweenService"):Create(
+            categoryBtn,
+            TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+            {BackgroundColor3 = Color3.fromRGB(255, 120, 80), TextColor3 = Color3.fromRGB(255, 255, 255)}
+        )
+        tween:Play()
+    end)
+    
+    categoryBtn.MouseLeave:Connect(function()
+        local tween = game:GetService("TweenService"):Create(
+            categoryBtn,
+            TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+            {BackgroundColor3 = Color3.fromRGB(35, 35, 50), TextColor3 = Color3.fromRGB(200, 200, 220)}
+        )
+        tween:Play()
+    end)
+    
+    return categoryBtn
+end
+
+-- Create example categories
+createCategoryButton("All Songs")
+createCategoryButton("Favorites")
+createCategoryButton("Classical")
+createCategoryButton("Pop")
+createCategoryButton("Rock")
+createCategoryButton("Jazz")
+createCategoryButton("Electronic")
+createCategoryButton("Recent")
+
+print("SaucyKeys v2.0 loaded successfully!")
 
 A505 = newSongButton("505", 18, {"arctic monkeys", "artic monkeys"})
 A7_WEEKS_3_DAYS = newSongButton("7 WEEKS & 3 DAYS", 18, {""})
@@ -2215,15 +2516,3 @@ for _, songFrame in ipairs(customsongbuttons) do
     end
 end
 
-print([[
-
-
-
- __ __|   \     |      ____|   \  | __ __|  |      ____|   ___|   ___|
-    |    _ \    |      __|      \ |    |    |      __|   \___ \ \___ \
-    |   ___ \   |      |      |\  |    |    |      |           |      |
-   _| _/    _\ _____| _____| _| \_|   _|   _____| _____| _____/ _____/
-
-
-
-]])
