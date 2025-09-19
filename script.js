@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (tiktokBtn) {
         tiktokBtn.addEventListener('click', function() {
-            window.open('https://tiktok.com/404', '_blank').focus(); // Replace with actual TikTok profile
+            window.open('https://tiktok.com/@flurs.xyz', '_blank').focus(); // Replace with actual TikTok profile
         });
         
         tiktokBtn.addEventListener('keydown', function(e) {
@@ -178,11 +178,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Enhanced copy functionality for script codes
+    // Enhanced copy functionality for script codes, config codes, and path codes
     const copyBtns = document.querySelectorAll('.copy-btn');
     copyBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            const codeElement = this.parentElement.querySelector('.script-code');
+            const codeElement = this.parentElement.querySelector('.script-code') || 
+                               this.parentElement.querySelector('.config-code') || 
+                               this.parentElement.querySelector('.path-code');
             if (!codeElement) return;
             
             const code = codeElement.textContent;
@@ -195,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.transform = 'scale(1.2)';
                 
                 // Show notification
-                showNotification('Script copied to clipboard!', 'success');
+                showNotification('Content copied to clipboard!', 'success');
                 
                 // Reset after delay
                 setTimeout(() => {
@@ -205,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 2000);
             }).catch(err => {
                 console.error('Failed to copy: ', err);
-                showNotification('Failed to copy script. Try again.', 'error');
+                showNotification('Failed to copy content. Try again.', 'error');
             });
         });
         
@@ -218,12 +220,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Expand/Collapse functionality for config details
+    const expandBtns = document.querySelectorAll('.expand-btn');
+    expandBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const details = this.parentElement.querySelector('.config-details');
+            if (details.style.display === 'none' || !details.style.display) {
+                details.style.display = 'block';
+                details.style.opacity = '0';
+                details.style.maxHeight = '0';
+                this.textContent = 'Collapse';
+                this.classList.add('active');
+                requestAnimationFrame(() => {
+                    details.style.transition = 'opacity 0.3s ease, max-height 0.3s ease';
+                    details.style.opacity = '1';
+                    details.style.maxHeight = '1000px'; // Large enough to accommodate content
+                });
+            } else {
+                details.style.opacity = '0';
+                details.style.maxHeight = '0';
+                this.textContent = 'Expand';
+                this.classList.remove('active');
+                setTimeout(() => {
+                    details.style.display = 'none';
+                }, 300);
+            }
+        });
+        
+        // Accessibility: Keyboard interaction
+        btn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+    });
+    
     // Script search functionality
-    const searchInput = document.getElementById('script-search');
+    const scriptSearchInput = document.getElementById('script-search');
     const scriptCards = document.querySelectorAll('.script-card');
     
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
+    if (scriptSearchInput) {
+        scriptSearchInput.addEventListener('input', function() {
             const searchTerm = this.value.trim().toLowerCase();
             
             scriptCards.forEach(card => {
@@ -252,7 +290,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Accessibility: Clear search on escape key
-        searchInput.addEventListener('keydown', function(e) {
+        scriptSearchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                // Trigger input event to show all cards
+                const event = new Event('input');
+                this.dispatchEvent(event);
+            }
+        });
+    }
+    
+    // Config search functionality
+    const configSearchInput = document.getElementById('config-search');
+    const configCards = document.querySelectorAll('.config-card');
+    
+    if (configSearchInput) {
+        configSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+            
+            configCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                
+                // Show cards that match name only (partial match)
+                if (searchTerm === '' || name.includes(searchTerm)) {
+                    card.style.display = '';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    requestAnimationFrame(() => {
+                        card.style.transition = 'all 0.4s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 400);
+                }
+            });
+        });
+        
+        // Accessibility: Clear search on escape key
+        configSearchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 this.value = '';
                 // Trigger input event to show all cards
@@ -331,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Animate elements based on their class
                 if (element.classList.contains('feature-card')) {
                     animateFeatureCard(element);
-                } else if (element.classList.contains('script-card')) {
+                } else if (element.classList.contains('script-card') || element.classList.contains('config-card')) {
                     animateScriptCard(element);
                 } else if (element.classList.contains('stat-number')) {
                     const target = parseInt(element.getAttribute('data-count')) || 0;
@@ -360,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Animate script cards
+    // Animate script and config cards
     function animateScriptCard(card) {
         card.style.opacity = '0';
         card.style.transform = 'translateY(40px)';
@@ -370,8 +451,8 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
             
-            // Animate script code
-            const code = card.querySelector('.script-code');
+            // Animate script or config code
+            const code = card.querySelector('.script-code') || card.querySelector('.config-code');
             if (code) {
                 code.style.opacity = '0';
                 code.style.transform = 'translateX(20px)';
@@ -385,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Observe all animatable elements
-    document.querySelectorAll('.feature-card, .script-card, .stat-number').forEach(element => {
+    document.querySelectorAll('.feature-card, .script-card, .config-card, .stat-number').forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(40px)';
         observer.observe(element);
@@ -428,42 +509,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.body.prepend(skipLink);
     
-    // Handle window resize for responsive animations
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            // Re-observe elements on resize to handle layout shifts
-            document.querySelectorAll('.feature-card, .script-card, .stat-number').forEach(element => {
-                if (element.getBoundingClientRect().top > window.innerHeight) {
-                    element.style.opacity = '0';
-                    element.style.transform = 'translateY(40px)';
-                    observer.observe(element);
-                }
-            });
-        }, 100);
-    });
+    // Image modal functionality for script previews
+    const scriptImages = document.querySelectorAll('.script-image img');
+    const imageModal = document.getElementById('image-modal');
+    const enlargedImage = document.getElementById('enlarged-image');
+    const modalOverlay = document.querySelector('.modal-overlay');
     
-    // Lazy load images
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.getAttribute('data-src');
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
-            }
+    scriptImages.forEach(img => {
+        img.addEventListener('click', function() {
+            enlargedImage.src = this.src;
+            enlargedImage.alt = this.alt;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
-    }, { threshold: 0.1 });
-    
-    images.forEach(img => imageObserver.observe(img));
-    
-    // Keyboard navigation for cards
-    const cards = document.querySelectorAll('.feature-card, .script-card');
-    cards.forEach(card => {
-        card.setAttribute('tabindex', '0');
-        card.addEventListener('keydown', function(e) {
+        
+        img.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 this.click();
@@ -471,93 +531,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Error boundary for critical operations
-    function withErrorBoundary(fn, errorMessage) {
-        try {
-            return fn();
-        } catch (error) {
-            console.error(error);
-            showNotification(errorMessage || 'An error occurred. Try again.', 'error');
-        }
-    }
-    
-    // Initialize stats with realistic values
-    const stats = document.querySelectorAll('.stat-number');
-    stats.forEach(stat => {
-        const target = parseInt(stat.getAttribute('data-count')) || 13;
-        stat.setAttribute('data-count', target);
-    });
-    
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', function() {
+            imageModal.classList.remove('active');
+            document.body.style.overflow = '';
         });
-    });
-    
-    // Performance optimization: Debounce scroll handler
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                if (scrollTop > scrollThreshold) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // Image Modal Functionality
-    const modal = document.getElementById('image-modal');
-    const enlargedImage = document.getElementById('enlarged-image');
-    const modalOverlay = document.querySelector('.modal-overlay');
-    const scriptImages = document.querySelectorAll('.script-image img');
-
-    if (modal && enlargedImage && modalOverlay && scriptImages) {
-        scriptImages.forEach(img => {
-            img.addEventListener('click', () => {
-                withErrorBoundary(() => {
-                    enlargedImage.src = img.src;
-                    enlargedImage.alt = img.alt;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling
-                }, 'Failed to open image. Try again.');
-            });
-
-            // Accessibility: Keyboard interaction
-            img.setAttribute('tabindex', '0');
-            img.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
-        });
-
-        modalOverlay.addEventListener('click', () => {
-            withErrorBoundary(() => {
-                modal.classList.remove('active');
-                enlargedImage.src = '';
-                enlargedImage.alt = '';
-                document.body.style.overflow = ''; // Restore scrolling
-            }, 'Failed to close image. Try again.');
-        });
-
-        // Accessibility: Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                modalOverlay.click();
+        
+        modalOverlay.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                imageModal.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
     }
+    
+    // Handle window resize for responsive animations
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // Re-observe elements on resize to ensure animations trigger correctly
+            document.querySelectorAll('.feature-card, .script-card, .config-card, .stat-number').forEach(element => {
+                if (!element.style.opacity || element.style.opacity === '0') {
+                    observer.observe(element);
+                }
+            });
+        }, 200);
+    });
 });
