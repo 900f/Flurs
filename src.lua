@@ -1,2193 +1,2337 @@
-local ContentProvider = game:GetService("ContentProvider")
-
-local assetsToPreload = {
-    "rbxassetid://76156993128854", -- unfav icon
-    "rbxassetid://137655053511068", -- fav icon
-    "rbxassetid://70452176150315",
-    "rbxassetid://1524549907",
-    "rbxassetid://6493287948",
-    "rbxassetid://104269922408932",
-}
-
-ContentProvider:PreloadAsync(assetsToPreload)
-
-local function playSound(soundId, loudness)
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://" .. soundId
-    sound.Parent = game.Players.LocalPlayer.Character or game.Players.LocalPlayer
-    sound.Volume = loudness or 1
-    sound:Play()
-end
-
--- Gui to Lua
--- Version: 3.2
-
--- Instances:
-
-local ScreenGui = Instance.new("ScreenGui")
-local frame = Instance.new("Frame")
-local closeButton = Instance.new("TextButton")
-local infoButton = Instance.new("TextButton")
-local title = Instance.new("TextLabel")
-local uic2 = Instance.new("UICorner")
-local uic1 = Instance.new("UICorner")
-local categoriesFrame = Instance.new("ScrollingFrame")
-local categoriesLayout = Instance.new("UIListLayout")
-local categoriesPadding = Instance.new("UIPadding")
-local scroll = Instance.new("ScrollingFrame")
-local listLayout = Instance.new("UIListLayout")
-local barlist = Instance.new("UIListLayout")
-local barpadding = Instance.new("UIPadding")
-local padding = Instance.new("UIPadding")
-local creds = Instance.new("TextLabel")
-local bar = Instance.new("Frame")
-local songname = Instance.new("TextLabel")
-local bpmbox = Instance.new("TextBox")
-local playsong = Instance.new("TextButton")
-local toggle = Instance.new("TextButton")
-local searchframe = Instance.new("Frame")
-local searchbar = Instance.new("TextBox")
-
---Properties:
-
-ScreenGui.Parent = game:GetService("CoreGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-frame.Name = "frame"
-frame.Parent = ScreenGui
-frame.BackgroundColor3 = Color3.fromRGB(33, 33, 41)
-frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.Size = UDim2.new(0, 475, 0, 272)
-
-closeButton.Name = "closeButton"
-closeButton.Parent = frame
-closeButton.BackgroundTransparency = 1
-closeButton.LayoutOrder = 1
-closeButton.Position = UDim2.new(1, -35, 0, 5)
-closeButton.Size = UDim2.new(0, 30, 0, 30)
-closeButton.ZIndex = 5
-closeButton.Font = Enum.Font.SourceSansBold
-closeButton.Text = "X"
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.TextScaled = true
-
-infoButton.Name = "infoButton"
-infoButton.Parent = frame
-infoButton.BackgroundTransparency = 1
-infoButton.LayoutOrder = 2
-infoButton.Position = UDim2.new(0, 5, 0, 5)
-infoButton.Size = UDim2.new(0, 30, 0, 30)
-infoButton.ZIndex = 5
-infoButton.Font = Enum.Font.SourceSansBold
-infoButton.Text = "?"
-infoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-infoButton.TextScaled = true
-
-title.Name = "title"
-title.Parent = frame
-title.BackgroundColor3 = Color3.fromRGB(50, 57, 73)
-title.Size = UDim2.new(1, 0, 0, 50)
-title.Font = Enum.Font.SourceSansBold
-title.Text = "TALENTLESS"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.TextSize = 46
-title.ZIndex = 2
-
-uic2.CornerRadius = UDim.new(0, 4)
-uic2.Name = "uic2"
-uic2.Parent = title
-
-uic1.CornerRadius = UDim.new(0, 4)
-uic1.Name = "uic1"
-uic1.Parent = frame
-
-categoriesFrame.Name = "categoriesFrame"
-categoriesFrame.Parent = frame
-categoriesFrame.Active = true
-categoriesFrame.BackgroundColor3 = Color3.fromRGB(46, 46, 46)
-categoriesFrame.BackgroundTransparency = 1.000
-categoriesFrame.Position = UDim2.new(0.0105263162, 0, 0.183819935, 0)
-categoriesFrame.Size = UDim2.new(0, 111, 0, 222)
-categoriesFrame.ZIndex = 0
-categoriesFrame.ScrollBarThickness = 3
-categoriesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
-categoriesLayout.Name = "categoriesLayout"
-categoriesLayout.Parent = categoriesFrame
-categoriesLayout.SortOrder = Enum.SortOrder.LayoutOrder
-categoriesLayout.Padding = UDim.new(0, 10)
-categoriesLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-
-categoriesPadding.Name = "categoriesPadding"
-categoriesPadding.Parent = categoriesFrame
-categoriesPadding.PaddingLeft = UDim.new(0, 5)
-categoriesPadding.PaddingRight = UDim.new(0, 5)
-categoriesPadding.PaddingTop = UDim.new(0, 5)
-categoriesPadding.PaddingBottom = UDim.new(0, 5)
-
-scroll.Name = "scroll"
-scroll.Parent = frame
-scroll.Active = true
-scroll.BackgroundColor3 = Color3.fromRGB(46, 46, 46)
-scroll.BackgroundTransparency = 1.000
-scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
-scroll.BorderSizePixel = 0
-scroll.Position = UDim2.new(0.266860753, 0, 0.183819935, 0)
-scroll.Size = UDim2.new(0, 198, 0, 222)
-scroll.CanvasPosition = Vector2.new(0, 17.4999962)
-scroll.HorizontalScrollBarInset = Enum.ScrollBarInset.Always
-scroll.ScrollBarThickness = 3
-scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
-listLayout.Name = "listLayout"
-listLayout.Parent = scroll
-listLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-listLayout.SortOrder = Enum.SortOrder.LayoutOrder
-listLayout.Padding = UDim.new(0, 20)
-
-padding.Name = "padding"
-padding.Parent = scroll
-padding.PaddingTop = UDim.new(0, 50)
-padding.PaddingBottom = UDim.new(0, 20)
-
-searchframe.Name = "searchframe"
-searchframe.Parent = frame
-searchframe.BackgroundColor3 = Color3.fromRGB(33, 33, 41)
-searchframe.BorderColor3 = Color3.fromRGB(0, 0, 0)
-searchframe.BorderSizePixel = 0
-searchframe.Position = UDim2.new(0.246315792, 0, 0.183823526, 0)
-searchframe.Size = UDim2.new(0, 208, 0, 38)
-
-searchbar.Name = "searchbar"
-searchbar.Parent = searchframe
-searchbar.BackgroundColor3 = Color3.fromRGB(96, 102, 121)
-searchbar.BorderColor3 = Color3.fromRGB(0, 0, 0)
-searchbar.BorderSizePixel = 0
-searchbar.Position = UDim2.new(0.158292323, 0, 0.278571635, 0)
-searchbar.Size = UDim2.new(0, 150, 0, 20)
-searchbar.Font = Enum.Font.SourceSansBold
-searchbar.PlaceholderText = "search..."
-searchbar.Text = ""
-searchbar.TextColor3 = Color3.fromRGB(255, 255, 255)
-searchbar.TextScaled = true
-searchbar.TextSize = 14.000
-searchbar.TextWrapped = true
-
-creds.Name = "creds"
-creds.Parent = frame
-creds.AnchorPoint = Vector2.new(0.5, 0.5)
-creds.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-creds.BackgroundTransparency = 1
-creds.Position = UDim2.new(0.5, 0, 0.189999998, 0)
-creds.Size = UDim2.new(0, 314, 0, 26)
-creds.Font = Enum.Font.LuckiestGuy
-creds.Text = "piano autoplayer by hellohellohell012321"
-creds.TextColor3 = Color3.fromRGB(255, 254, 255)
-creds.TextScaled = true
-creds.TextSize = 14.000
-creds.TextTransparency = 0.320
-creds.ZIndex = 2
-
-bar.Name = "bar"
-bar.Parent = frame
-bar.Active = true
-bar.BackgroundColor3 = Color3.fromRGB(46, 46, 46)
-bar.BackgroundTransparency = 1.000
-bar.BorderColor3 = Color3.fromRGB(0, 0, 0)
-bar.BorderSizePixel = 0
-bar.Position = UDim2.new(1.05001855, -173, 0.20220229, 0)
-bar.Size = UDim2.new(0, 143, 0, 150)
-bar.ZIndex = 0
-
-songname.Name = "songname"
-songname.Parent = bar
-songname.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-songname.BorderColor3 = Color3.fromRGB(64, 68, 90)
-songname.BorderSizePixel = 4
-songname.Position = UDim2.new(0.0689100027, 0, 0.0855299979, 0)
-songname.Size = UDim2.new(0, 125, 0, 34)
-songname.ZIndex = -5
-songname.Font = Enum.Font.SourceSansBold
-songname.Text = "SONG NAME"
-songname.TextColor3 = Color3.fromRGB(255, 255, 255)
-songname.TextScaled = true
-songname.TextSize = 23.000
-songname.TextWrapped = true
-songname.LayoutOrder = 1
-
-bpmbox.Name = "bpmbox"
-bpmbox.Parent = bar
-bpmbox.BackgroundColor3 = Color3.fromRGB(96, 102, 121)
-bpmbox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-bpmbox.BorderSizePixel = 0
-bpmbox.Position = UDim2.new(0.163100004, 0, 0.612699986, 0)
-bpmbox.Size = UDim2.new(0, 90, 0, 20)
-bpmbox.Font = Enum.Font.SourceSansBold
-bpmbox.PlaceholderText = "bpm"
-bpmbox.Text = ""
-bpmbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-bpmbox.TextScaled = true
-bpmbox.TextSize = 14.000
-bpmbox.TextWrapped = true
-bpmbox.LayoutOrder = 2
-
-playsong.Name = "playsong"
-playsong.Parent = bar
-playsong.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-playsong.BorderColor3 = Color3.fromRGB(64, 68, 90)
-playsong.BorderSizePixel = 4
-playsong.Position = UDim2.new(0.0689100027, 0, 0.38815999, 0)
-playsong.Size = UDim2.new(0, 125, 0, 27)
-playsong.Font = Enum.Font.SourceSansBold
-playsong.Text = "play song !"
-playsong.TextColor3 = Color3.fromRGB(255, 255, 255)
-playsong.TextSize = 25.000
-playsong.LayoutOrder = 3
-
-barlist.Name = "barlist"
-barlist.Parent = bar
-barlist.SortOrder = Enum.SortOrder.LayoutOrder
-barlist.Padding = UDim.new(0, 10)
-barlist.HorizontalAlignment = Enum.HorizontalAlignment.Center
-
-barpadding.Name = "categoriesPadding"
-barpadding.Parent = bar
-barpadding.PaddingLeft = UDim.new(0, 5)
-barpadding.PaddingRight = UDim.new(0, 5)
-barpadding.PaddingTop = UDim.new(0, 10)
-barpadding.PaddingBottom = UDim.new(0, 5)
-
-toggle.Name = "toggle"
-toggle.Parent = ScreenGui
-toggle.BackgroundColor3 = Color3.fromRGB(50, 57, 73)
-toggle.BorderColor3 = Color3.fromRGB(64, 68, 90)
-toggle.BorderSizePixel = 4
-toggle.AnchorPoint = Vector2.new(0, 0.5)
-toggle.Position = UDim2.new(0, 0, 0.5, 0)
-toggle.Size = UDim2.new(0, 136, 0, 40)
-toggle.Font = Enum.Font.SourceSansBold
-toggle.Text = "toggle ui"
-toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggle.TextSize = 29.000
-
-toggle.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
-    if frame.Visible then
-        playSound(70452176150315, 0.1)
-    else
-        playSound(1524549907, 0.1)
-    end
-end)
-
-
-local UserInputService = game:GetService("UserInputService")
-
-local gui = toggle
-
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local function update(input)
-    local delta = input.Position - dragStart
-    gui.Position =
-        UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-gui.InputBegan:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = gui.Position
-
-            input.Changed:Connect(
-                function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
-                    end
-                end
-            )
-        end
-    end
-)
-
-gui.InputChanged:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end
-)
-
-UserInputService.InputChanged:Connect(
-    function(input)
-        if input == dragInput and dragging then
-            update(input)
-        end
-    end
-)
-
-
-
-local gameId = game.GameId
-
-local spoofMidiPlz = false
-
-if gameId == 3929033413 then
-
-    -- Gui to Lua
-    -- Version: 3.2
-
-    -- Instances:
-
-    local spoofMidiInfo = Instance.new("TextButton")
-    local spoofMidi = Instance.new("TextButton")
-    local underline = Instance.new("TextLabel")
-
-    --Properties:
-
-    spoofMidiInfo.Name = "spoofMidiInfo"
-    spoofMidiInfo.Parent = frame
-    spoofMidiInfo.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-    spoofMidiInfo.BorderColor3 = Color3.fromRGB(64, 68, 90)
-    spoofMidiInfo.BorderSizePixel = 2
-    spoofMidiInfo.LayoutOrder = 3
-    spoofMidiInfo.Position = UDim2.new(0.919436276, 0, 0.884484231, 0)
-    spoofMidiInfo.Size = UDim2.new(0, 23, 0, 23)
-    spoofMidiInfo.Font = Enum.Font.SourceSansItalic
-    spoofMidiInfo.Text = "?"
-    spoofMidiInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
-    spoofMidiInfo.TextSize = 25.000
-
-    spoofMidiInfo.MouseButton1Click:Connect(
-        function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/spoofMidiInfo.lua", true))()
-        end
-    )
-
-    spoofMidi.Name = "spoofMidi"
-    spoofMidi.Parent = frame
-    spoofMidi.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-    spoofMidi.BackgroundTransparency = 1.000
-    spoofMidi.BorderColor3 = Color3.fromRGB(64, 68, 90)
-    spoofMidi.BorderSizePixel = 4
-    spoofMidi.LayoutOrder = 3
-    spoofMidi.Position = UDim2.new(0.68785733, 0, 0.899189472, 0)
-    spoofMidi.Size = UDim2.new(0, 103, 0, 15)
-    spoofMidi.Font = Enum.Font.SourceSansItalic
-    spoofMidi.Text = "spoof midi [ ]"
-    spoofMidi.TextColor3 = Color3.fromRGB(255, 255, 255)
-    spoofMidi.TextSize = 23.000
-    spoofMidi.TextXAlignment = Enum.TextXAlignment.Left
-
-    spoofMidi.MouseButton1Click:Connect(
-        function()
-            spoofMidiPlz = not spoofMidiPlz
-            if spoofMidiPlz then
-                spoofMidi.Text = "spoof midi [x]"
-                playSound(6493287948, 0.1)
-                NotificationLibrary:SendNotification("Success", "midi spoofing is turned on. click the question mark for more info.", 5)
-            else
-                spoofMidi.Text = "spoof midi [ ]"
-                playSound(6493287948, 0.1) -- replace with actual sound ID for disabling
-                NotificationLibrary:SendNotification("Success", "midi spoofing is turned off", 5)
-            end
-        end
-    )
-
-    underline.Name = "underline"
-    underline.Parent = spoofMidi
-    underline.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    underline.BackgroundTransparency = 1.000
-    underline.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    underline.BorderSizePixel = 0
-    underline.Position = UDim2.new(-0.121739127, 0, -0.0386352539, 0)
-    underline.Size = UDim2.new(0, 102, 0, 22)
-    underline.Font = Enum.Font.SourceSans
-    underline.Text = "_____________"
-    underline.TextColor3 = Color3.fromRGB(255, 255, 255)
-    underline.TextSize = 14.000
-end
-
-local function filterSongs(query)
-    query = query:lower()
-    scroll.CanvasPosition = Vector2.new(0, 0)
-    for _, child in pairs(scroll:GetChildren()) do
-        if child:IsA("TextButton")  then
-            -- Regular song buttons
-            local songName = child.Text:lower()
-            local alternateNamesStr = child:GetAttribute("AlternateNames") or ""
-            local alternateNames = alternateNamesStr:split(",")
-            local matchFound = false
-
-            if songName:find(query) then
-                matchFound = true
-            else
-                for _, altName in pairs(alternateNames) do
-                    if matchFound == false then
-                        if altName:lower():find(query) then
-                            matchFound = true
-                        end
-                    end
-                end
-            end
-            child.Visible = matchFound
-        elseif child:IsA("Frame") and child:FindFirstChildOfClass("TextButton") then
-            -- Custom song frames
-            local button = child:FindFirstChildOfClass("TextButton")
-            local songName = button.Text:lower()
-            local matchFound = songName:find(query)
-            child.Visible = matchFound
-        end
-    end
-end
-
-searchbar:GetPropertyChangedSignal("Text"):Connect(
-    function()
-        filterSongs(searchbar.Text)
-    end
-)
-
-filterSongs("")
-
--- drag script (not mince)
-
-local UserInputService = game:GetService("UserInputService")
-
-local gui = frame
-
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local function update(input)
-    local delta = input.Position - dragStart
-    gui.Position =
-        UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-gui.InputBegan:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = gui.Position
-
-            input.Changed:Connect(
-                function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
-                    end
-                end
-            )
-        end
-    end
-)
-
-gui.InputChanged:Connect(
-    function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end
-)
-
-UserInputService.InputChanged:Connect(
-    function(input)
-        if input == dragInput and dragging then
-            update(input)
-        end
-    end
-)
-
-local function newSongButton(name, textsize, alternateNames)
-    local button = Instance.new("TextButton")
-    button.Name = name
-    button.Parent = scroll
-    button.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-    button.BorderColor3 = Color3.fromRGB(64, 68, 90)
-    button.BorderSizePixel = 4
-    button.Size = UDim2.new(0, 175, 0, 35)
-    button.Font = Enum.Font.SourceSansBold
-    button.Text = name
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.TextSize = textsize
-
-    button:SetAttribute("AlternateNames", table.concat(alternateNames or {}, ","))
-
-    local favButton = Instance.new("ImageButton") -- star button for favourites
-
-    favButton.Parent = button
-    favButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    favButton.BackgroundTransparency = 1.000
-    favButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    favButton.BorderSizePixel = 0
-    favButton.AnchorPoint = Vector2.new(0, 0.5)
-    favButton.Position = UDim2.new(0, 0, 0.5, 0)
-    favButton.Size = UDim2.new(0, 25, 0, 25)
-    favButton.Image = "rbxassetid://76156993128854" -- unfav icon
-    favButton.Visible = false
-    favButton.Name = "favButton"
-
-    return button
-end
-
--- newSongButton("", 27, {})
-
-LOOPRANDOM = newSongButton("SHUFFLE PLAY SONGS", 22, {})
-PLAYRANDOM = newSongButton("PLAY A RANDOM SONG", 22, {})
-
-local seperator = Instance.new("Frame")
-seperator.Name = "seperator"
-seperator.Parent = scroll
-seperator.BackgroundColor3 = Color3.fromRGB(64, 68, 90)
-seperator.Size = UDim2.new(0, 200, 0, 8)
-
-if game.Players.LocalPlayer.Name == "4BCQA" or game.Players.LocalPlayer.Name == "fredoggins" then
-    AVRIL_14 = newSongButton("AVRIL 14", 27, {})
-else
-end
-
-A505 = newSongButton("505", 27, {"arctic monkeys", "artic monkeys"})
-A7_WEEKS_3_DAYS = newSongButton("7 WEEKS & 3 DAYS", 27, {""})
-A99DOT9 = newSongButton("99.9", 27, {"mob psycho 100"})
-A_CYBERS_WORLD = newSongButton("A CYBER'S WORLD?", 24, {"toby fox"})
-A_SKY_FULL = newSongButton("A SKY FULL OF STARS", 23, {"coldplay"})
-A_THOUSAND = newSongButton("A THOUSAND MILES", 24, {"popular"})
-AFTER_DARK = newSongButton("AFTER DARK", 27, {"mr kitty"})
-ALL_GIRLS = newSongButton("ALL GIRLS ARE THE SAME", 19, {"juice wrld"})
-ALL_I_WANT_IS_YOU = newSongButton("ALL I WANT IS YOU", 26, {"rebzyyx"})
-ALL_MY_FELLAS = newSongButton("ALL MY FELLAS", 27, {})
-ALL_THE_STARS = newSongButton("ALL THE STARS", 27, {"kendrick lamar", "sza", "black panther"})
-ALONE = newSongButton("ALONE", 27, {"marshmello"})
-ALTALE = newSongButton("ALTALE", 27, {""})
-ENIGMATIC = newSongButton("AN ENIGMATIC ENCOUNTER", 17, {"undertale last breath"})
-ANNIHILATE = newSongButton("ANNIHILATE", 27, {"spider man", "spiderman", "spider-man", "metro boomin"})
-ANOTHER_LOVE = newSongButton("ANOTHER LOVE", 27, {"sad, love"})
-ANYONE_CAN = newSongButton("ANYONE CAN BE FIND LOVE (except you.)", 10, {"breakcore"})
-ARIA_MATH = newSongButton("ARIA MATH", 27, {"c418"})
-ARUARIAN = newSongButton("ARUARIAN DANCE", 27, {"nujabes"})
-AS_IT_WAS = newSongButton("AS IT WAS", 27, {"harry styles"})
-ASGORE = newSongButton("ASGORE", 27, {})
-ASSUMPTIONS = newSongButton("ASSUMPTIONS", 27, {""})
-ASTRONAMIA = newSongButton("ASTRONAMIA (COFFIN DANCE)", 15, {""})
-SPEED_OF = newSongButton("AT THE SPEED OF LIGHT", 20, {"geometry dash", "gd"})
-ATTACK_OF_THE_KILLER_QUEEN = newSongButton("ATTACK OF THE KILLER QUEEN", 14, {"toby fox", "mrbeast", "phonk"})
-AVENGERS = newSongButton("AVENGERS (EPIC COVER)", 19, {"popular", "movie", "hard"})
-BAD_APPLE = newSongButton("BAD APPLE!!", 27, {"popular"})
-BAD_HABIT = newSongButton("BAD HABIT", 27, {"steve lacy"})
-BAD_PIGGIES = newSongButton("BAD PIGGIES", 27, {"angry birds"})
-BATTLE_AGAINST = newSongButton("BATTLE AGAINST A TRUE HERO", 15, {})
-BEANIE = newSongButton("BEANIE", 27, {"beanie chezile"})
-BEAUTIFUL_THINGS = newSongButton("BEAUTIFUL THINGS", 24, {"benson boone"})
-BEETHOVEN_VIRUS = newSongButton("BEETHOVEN VIRUS", 24, {"ludwig van beethoven"})
-BELIEVER = newSongButton("BELIEVER", 27, {"imagine dragons"})
-BELLA_CIAO = newSongButton("BELLA CIAO", 27, {})
-BIG_FISH = newSongButton("BIG FISH (大鱼)", 27, {""})
-BIG_SHOT = newSongButton("BIG SHOT", 27, {"toby fox"})
-BIRDS_OF_A = newSongButton("BIRDS OF A FEATHER", 23, {"billie eilish"})
-BLINDING_LIGHTS = newSongButton("BLINDING LIGHTS", 27, {"the weeknd"})
-BLOODY = newSongButton("BLOODY MARY", 27, {"lady gaga", "wednesday"})
-BLUE = newSongButton("BLUE (DA BA DEE)", 27, {"im blue", "im good"})
-BLUE_YUNG = newSongButton("BLUE (YUNG KAI)", 27, {})
-BOHEMIAN_RHAPSODY = newSongButton("BOHEMIAN RHAPSODY", 22, {"queen"})
-BREADY = newSongButton("BREADY, SET, GO!", 25, {""})
-BY_YOUR_SIDE = newSongButton("BY YOUR SIDE", 27, {""})
-CAN_YOU_HEAR = newSongButton("CAN YOU HEAR THE MUSIC", 18, {"oppenheimer", "popular"})
-CAN_YOU_HEAR_EPIC = newSongButton("CAN YOU HEAR THE MUSIC (EPIC VER.)", 11, {"hans zimmer", "oppenheimer"})
-CANDYLAND = newSongButton("CANDYLAND", 27, {"tobu", "ncs", "no copyright sounds"})
-CANON_D = newSongButton("CANON IN D", 27, {""})
-CANT_LET = newSongButton("CANT LET GO", 27, {"geometry dash", "gd"})
-CARELESS = newSongButton("CARELESS WHISPER", 24, {})
-CAROL_OF_THE_BELLS = newSongButton("CAROL OF THE BELLS", 22, {"christmas"})
-CAROL_OF_THE_BELLS_EPIC = newSongButton("CAROL OF THE BELLS (EPIC VER.)", 14, {"christmas", "peter buka"})
-CENTIMETER = newSongButton("CENTIMETER", 27, {"rent a girlfriend", "rent-a-girlfriend"})
-CHAOS_KING = newSongButton("CHAOS KING", 27, {"toby fox"})
-CHRISTMAS_KIDS = newSongButton("CHRISTMAS KIDS", 27, {"roar"})
-CLAIR_DE_LUNE = newSongButton("CLAIR DE LUNE", 27, {"debussy"})
-CLOCKS = newSongButton("CLOCKS", 27, {"coldplay"})
-CLOUD_9 = newSongButton("CLOUD 9", 27, {"tobu", "ncs", "no copyright sounds"})
-CLUBSTEP = newSongButton("CLUBSTEP", 27, {"geometry dash", "dj nate", "gd"})
-COCONUT = newSongButton("COCONUT MALL !!", 27, {"mario kart", "nintendo"})
-COMPTINE_DUN_AUTRE_ETE = newSongButton("COMPTINE D'UN AUTRE ÉTÉ", 17, {"yann tiersen", "amelie"})
-COUNTING_STARS = newSongButton("COUNTING STARS", 27, {"one republic"})
-CRAB_RAVE = newSongButton("CRAB RAVE", 27, {"no copyright sounds", "ncs", "noisestorm"})
-CRADLES = newSongButton("CRADLES", 27, {"ncs", "no copyright sounds", "sub urban"})
-CREEP = newSongButton("CREEP", 27, {"radiohead"})
-CROSSING_FIELD = newSongButton("CROSSING FIELD (SAO)", 19, {"sword art online"})
-CUPID = newSongButton("CUPID", 27, {"love"})
-DAISY_BELL = newSongButton("DAISY BELL", 27, {})
-DAMNED = newSongButton("DAMNED (COD ZOMBIES)", 19, {"cod zombies theme", "call of duty", "creepy"})
-DARK_BEACH = newSongButton("DARK BEACH", 27, {"pastel ghost"})
-DAWN_OF = newSongButton("DAWN OF THE DOORS", 22, {"doors", "roblox", "lsplash"})
-DAYLIGHT = newSongButton("DAYLIGHT", 27, {"david kushner"})
-DEADLOCKED = newSongButton("DEADLOCKED", 27, {"geometry dash", "gd"})
-DEATH_BED = newSongButton("DEATH BED", 27, {"powfu", "beabadoobee"})
-DESPACITO = newSongButton("DESPACITO", 27, {""})
-DEXTER_BLOOD_THEME = newSongButton("DEXTER - BLOOD THEME", 19, {})
-DETROIT = newSongButton("DETROIT: BECOME HUMAN - OPENING", 11, {""})
-DIE_WITH = newSongButton("DIE WITH A SMILE", 27, {"lady gaga", "bruno mars"})
-DIES_IRAE = newSongButton("DIES IRAE (MESSA DA REQUIEM)", 14, {"giuseppe verdi"})
-DIE_IRAE_III = newSongButton("DIES IRAE (REQUIEM MVT.3)", 16, {"mozart"})
-DIES_IRAE_III_2 = newSongButton("DIES IRAE (REQUIEM MVT.3) (EPIC VER.)", 12, {"mozart", "epic"})
-DOG_SONG = newSongButton("DOG SONG", 27, {})
-DONT_STOP = newSongButton("DONT STOP BELIEVIN'", 21, {"journey"})
-DRAMAM = newSongButton("DRAMAMIME", 27, {"flawed mangoes"})
-DREAM_FL = newSongButton("DREAM FLOWER", 27, {"klydix"})
-DREAM_ON = newSongButton("DREAM ON", 27, {"aerosmith"})
-DROWNING_LOVE = newSongButton("DROWNING LOVE", 27, {"chasing kou"})
-DRY_HANDS = newSongButton("DRY HANDS", 27, {"c418"})
-DUMB_DUMB = newSongButton("DUMB DUMB", 27, {"everyone is dumb"})
-DUVET = newSongButton("DUVET", 27, {"boa"})
-EASY_ON_ME = newSongButton("EASY ON ME", 27, {"adele"})
-ELEVATOR_JAM = newSongButton("ELEVATOR JAM", 27, {"doors", "roblox", "lsplash"})
-ELEVATOR_JAM_2 = newSongButton("ELEVATOR JAM x HERE I COME", 15, {"doors", "roblox", "lsplash"})
-ENEMY = newSongButton("ENEMY", 27, {"imagine dragons", "arcane"})
-ENTRY_OF_THE = newSongButton("ENTRY OF THE GLADIATORS", 17, {"circus", "clown"})
-ERIKA = newSongButton("ERIKA", 27, {"nazi", "hitler", "german", "ww2", "world war 2"})
-ETHEREAL = newSongButton("ETHEREAL", 27, {"txmy"})
-EVERGREEN = newSongButton("EVERGREEN", 27, {""})
-EXPERIENCE = newSongButton("EXPERIENCE", 27, {})
-EXPERIENCE_FLOWS = newSongButton("EXPERIENCE FLOWS IN YOU", 16, {"tony ann", "river flows in you"})
-FADED = newSongButton("FADED", 27, {"ncs", "alan walker", "no copyright sounds"})
-FALLEN_DOWN = newSongButton("FALLEN DOWN", 27, {})
-FANTAISIE = newSongButton("FANTAISIE IMPROMPTU", 20, {"frederic chopin"})
-FIELD_OF_HOPES_AND_DREAMS = newSongButton("FIELD OF HOPES AND DREAMS", 15, {"toby fox"})
-FIELD_OF_MEMORIES = newSongButton("FIELD OF MEMORIES", 23, {"waterflame", "stick war"})
-FINAL_DUET = newSongButton("FINAL DUET", 27, {"omori"})
-FINALE = newSongButton("FINALE", 27, {})
-FIVE_NIGHTS_1 = newSongButton("FIVE NIGHTS AT FREDDYS 1", 18, {"fnaf", "five nights at freddys", "the living tombstone"})
-FLARE = newSongButton("FLARE", 27, {"hensonn", "sahara", "phonk"})
-FLASHING = newSongButton("FLASHING LIGHTS", 27, {"kanye west", "graduation"})
-FLY_ME_TO_THE_MOON = newSongButton("FLY ME TO THE MOON", 22, {"frank sinatra", "love", "squid game", "jazz"})
-FOR_THE_DAMAGED_CODA = newSongButton("FOR THE DAMAGED CODA", 18, {"evil morty", "rick and morty", "rick & morty"})
-FOR_THE_DAMAGED_CODA_2 = newSongButton("FOR THE DAMAGED CODA (EPIC VER.)", 12, {"evil morty", "rick and morty", "rick & morty"})
-FREAKS = newSongButton("FREAKS", 27, {"surf curse"})
-FREEDOM_DIVE = newSongButton("FREEDOM DIVE", 27, {"xi"})
-FRIENDS = newSongButton("FRIENDS", 27, {"marshmello", "anne marie"})
-FR = newSongButton("FROM THE START", 25, {"laufey", "love", "popular"})
-FUKASHIGI = newSongButton("FUKASHIGI NO CARTE (BUNNY GIRL)", 13, {"senpai"})
-FUR_ELISE = newSongButton("FUR ELISE", 27, {"ludwig van beethoven", "classical"})
-GANGSTAS_PARADISE = newSongButton("GANGSTA'S PARADISE", 22, {"coolio"})
-GEOMETRY_DASH = newSongButton("GEOMETRY DASH THEME (DASH)", 14, {"geometry dash", "gd"})
-GIORNO = newSongButton("GIORNO'S THEME", 27, {"popular"})
-GLASSY_SKY = newSongButton("GLASSY SKY", 27, {"tokyo ghoul"})
-GODS_PLAN = newSongButton("GODS PLAN", 27, {"drake"})
-GOLDENHOUR = newSongButton("GOLDEN HOUR", 27, {"jvke", "love, sad", "popular"})
-GOOD_MORNING = newSongButton("GOOD MORNING (OMORI)", 18, {"omori"})
-GOOFY_AHH = newSongButton("GOOFY AHH NPC MUSIC", 19, {"whistle"})
-GRAVITY_FALLS = newSongButton("GRAVITY FALLS", 27, {})
-GURENGE = newSongButton("GURENGE (DEMON SLAYER)", 17, {"lisa"})
-GYPSY_WOMAN = newSongButton("GYPSY WOMAN", 27, {"crystal waters", "slickback", "slick back"})
-HAGGSTORM = newSongButton("HAGGSTORM", 27, {"c418"})
-HAPPIER = newSongButton("HAPPIER", 27, {"marshmello", "bastille"})
-HATSUNE_MIKU_NO_GEKISHOU = newSongButton("HATSUNE MIKU NO GEKISHOU", 15, {"hatsune miku", "vocaloid", "miku", "colorful stage", "project sekai"})
-HAZY_MOON = newSongButton("HAZY MOON", 27, {"minato", "hatsune miku"})
-HEART_AFIRE = newSongButton("HEART AFIRE", 27, {"defqwop"})
-HEARTACHE = newSongButton("HEARTACHE", 27, {})
-HEAT_WAVE = newSongButton("HEAT WAVE", 27, {"glass animals"})
-HEATHENS = newSongButton("HEATHENS", 27, {"twenty one pilots", "suicide squad"})
-HELLO = newSongButton("HELLO X I LOVE YOU", 24, {"omfg"})
-HERE_I_COME = newSongButton("HERE I COME", 27, {"doors", "roblox", "lsplash"})
-HERE_WITH = newSongButton("HERE WITH ME", 27, {"d4vd", "romantic homicide"})
-HES_A_PIRATE = newSongButton("HES A PIRATE", 27, {"hans zimmer", "pirates of the caribbean"})
-HIGH_HOPES = newSongButton("HIGH HOPES", 27, {"panic at the disco", "panic!", "house of memories"})
-HIMITSU_KOI_GOKORO = newSongButton("HIMITSU KOI GOKORO", 21, {"rent a girlfriend", "rent-a-girlfriend", "honeyworks"})
-LENAI = newSongButton("言えない", 27, {"rent a girlfriend", "rent-a-girlfriend", "lenai"})
-HH = newSongButton("HH", 27, {"kanye west", "heil hitler"})
-HIS_THEME = newSongButton("HIS THEME", 27, {})
-HIT_THE_ROAD = newSongButton("HIT THE ROAD, JACK", 24, {"shake"})
-HOPE = newSongButton("HOPE", 27, {"xxxtentacion"})
-HOPES_DREAMS = newSongButton("HOPES AND DREAMS", 23, {"asriel"})
-HOTLINE_BLING = newSongButton("HOTLINE BLING", 27, {"drake"})
-HOUSE_OF = newSongButton("HOUSE OF MEMORIES", 22, {"panic at the disco", "panic!", "high hopes"})
-HOWLS_MOVING_CASTLE = newSongButton("HOWLS MOVING CASTLE", 20, {"merry go round of life", "merry-go-round", "ghibli"})
-HOWLS_MOVING_CASTLE_2 = newSongButton("HOWLS MOVING CASTLE (EPIC VER.)", 13, {"merry go round of life", "merry-go-round", "ghibli"})
-HUNGARIAN = newSongButton("HUNGARIAN DANCE", 23, {})
-I_LIKE_THE_WAY_YOU = newSongButton("I LIKE THE WAY YOU KISS ME", 15, {"artemis"})
-I_REALLY_WANT_TO_STAY = newSongButton("I REALLY WANT TO STAY AT YOUR HOUSE", 10, {"cyberpunk"})
-I_WANT = newSongButton("I WANT IT THAT WAY", 24, {"backstreet boys"})
-SURVIVE = newSongButton("I WILL SURVIVE", 27, {""})
-ICARUS = newSongButton("ICARUS", 27, {"tony ann"})
-IDEA_10 = newSongButton("IDEA 10", 27, {"gibran alcocers"})
-IDGAF = newSongButton("IDGAF", 27, {"boywithuke", "blackbear"})
-IDOL = newSongButton("IDOL", 27, {"oshi no ko", "yoasobi"})
-IDOL_EPIC = newSongButton("IDOL (EPIC VER.)", 27, {"oshi no ko", "yoasobi"})
-IF_I_AM_WITH_YOU = newSongButton("IF I AM WITH YOU", 27, {"jjk", "jujitsu", "hollow purple"})
-IM_NOT_THE_ONLY_ONE = newSongButton("IM NOT THE ONLY ONE", 20, {"sam smith"})
-IM_STILL = newSongButton("IM STILL STANDING", 26, {"sing", "elton john"})
-IMMORTAL = newSongButton("IMMORTAL", 27, {"playboi carti"})
-IN_THE_NAME = newSongButton("IN THE NAME OF LOVE", 22, {""})
-INSANE = newSongButton("INSANE", 27, {"hazbin hotel"})
-INTERSTELLAR = newSongButton("INTERSTELLAR", 27, {"hans zimmer", "cinematic", "movie", "popular"})
-INVISIBLE = newSongButton("INVISIBLE (EDM)", 27, {"ncs", "no copyright sounds"})
-ISABELLA = newSongButton("ISABELLA'S LULLABY", 24, {})
-ISOLATION = newSongButton("ISOLATION", 27, {"limbo", "geometry dash", "gd"})
-IT_MEANS = newSongButton("IT MEANS EVERYTHING", 20, {})
-ITS_BEEN_SO = newSongButton("ITS BEEN SO LONG", 27, {"the living tombstone", "five nights at freddys", "fnaf"})
-ITS_JUST_A_BURNING = newSongButton("ITS JUST A BURNING MEMORY", 15, {"the care taker", "the caretaker"})
-ITS_RAINING = newSongButton("ITS RAINING TACOS", 26, {})
-JOCELYN_FLORES = newSongButton("JOCELYN FLORES", 27, {"xxxtentacion"})
-KAWAIKUTEGOMEN = newSongButton("KAWAIKUTEGOMEN", 26, {"honeyworks"})
-KEROSENE = newSongButton("KEROSENE", 27, {"popular"})
-KEY = newSongButton("KEY", 27, {"c418"})
-L = newSongButton("L", 27, {"death note"})
-LAVENDER_TOWN = newSongButton("LAVENDER TOWN", 27, {"pokemon"})
-LA_CAMPANELLA = newSongButton("LA CAMPANELLA", 27, {"etude", "hard", "franz liszt"})
-LACRIMOSA = newSongButton("LACRIMOSA (REQUIEM MVT.8)", 15, {"mozart", "noot noot"})
-LALALA = newSongButton("LALALA", 27, {"bbno"})
-LET_IT_HAPPEN = newSongButton("LET IT HAPPEN", 27, {"tame impala"})
-LET_ME_DOWN_SLOWLY = newSongButton("LET ME DOWN SLOWLY", 20, {"alec benjamin"})
-LET_ME_LOVE = newSongButton("LET ME LOVE YOU", 27, {"justin bieber", "dj snake"})
-LEVAN_POLKKA = newSongButton("LEVAN POLKKA", 27, {"hatsune miku", "vocaloid", "le van"})
-LEVELS = newSongButton("LEVELS", 27, {"avicii"})
-LIEBESTRAUM_NO3 = newSongButton("LIEBESTRAUM NO.3", 24, {"franz liszt"})
-LIGHT_SWITCH = newSongButton("LIGHT SWITCH", 27, {"charlie puth"})
-LIGHTS = newSongButton("LIGHTS THEME", 27, {"death note"})
-LIVING_MICE = newSongButton("LIVING MICE", 27, {"c418"})
-LOST_LIBRARY = newSongButton("LOST LIBRARY", 27, {"omori"})
-LOST_UMB = newSongButton("LOST UMBRELLA", 27, {"cute depressed", "vocaloid"})
-LOVE = newSongButton("LOVE (W2E)", 27, {"wave to earth", "love."})
-LOVELY_B = newSongButton("LOVELY BASTARDS", 27, {"phonk"})
-LUTHER = newSongButton("LUTHER", 27, {"kendrick lamar", "sza", "GNX"})
-LUX_AETERNA = newSongButton("LUX AETERNA (REQUIEM FOR A DREAM)", 12, {"clint mansell"})
-MA_MEILLEUR = newSongButton("MA MEILLEUR ENEMIE", 22, {"stromae", "arcane"})
-MAGICAL_CURE = newSongButton("M@GICAL CURE! LOVE SHOT!", 15, {"miku", "vocaloid", "hatsune miku", "magical cure"})
-MARI_BOSS = newSongButton("MARI BOSS FIGHT", 25, {"omori"})
-MARRIED = newSongButton("MARRIED LIFE", 27, {"movie", "up"})
-MARY_ON = newSongButton("MARY ON A CROSS", 26, {""})
-MASTER_OF_PUPPETS = newSongButton("MASTER OF PUPPETS", 22, {"metallica"})
-MEGALOVANIA = newSongButton("MEGALOVANIA", 27, {"popular"})
-METAMORPH = newSongButton("METAMORPHOSIS", 27, {"phonk"})
-MICE_ON = newSongButton("MICE ON VENUS", 27, {"c418"})
-MICHAEL_MYERS = newSongButton("MICHAEL MYERS", 27, {"halloween"})
-MIDDLE_OF_THE_NIGHT = newSongButton("MIDDLE OF THE NIGHT", 22, {"elley duhe"})
-MII = newSongButton("MII CHANNEL THEME", 22, {"wii"})
-MIKU = newSongButton("MIKU", 27, {"vocaloid"})
-MINECRAFT = newSongButton("MINECRAFT", 27, {"c418"})
-MINGLE = newSongButton("MINGLE (ROUND AND ROUND)", 15, {"squid game"})
-MONODY = newSongButton("MONODY", 27, {"ncs", "no copyright sounds", "thefatrat"})
-MONTAGEM_TOMADA = newSongButton("MONTAGEM TOMADA", 23, {"phonk"})
-MOOD = newSongButton("MOOD", 27, {"24kgoldn"})
-MOOG_CITY = newSongButton("MOOG CITY", 27, {"c418"})
-MOONLIGHT = newSongButton("MOONLIGHT SONATA - FIRST MOVEMENT", 10, {"ludwig van beethoven"})
-M3 = newSongButton("MOONLIGHT SONATA - THIRD MOVEMENT", 10, {"ludwig van beethoven"})
-MY_CASTLE_TOWN = newSongButton("MY CASTLE TOWN", 27, {"toby fox"})
-MY_EYES = newSongButton("MY EYES", 27, {"travis scott", "utopia"})
-MY_HEART_WILL_GO_ON = newSongButton("MY HEART WILL GO ON", 20, {"titanic", "celine dion"})
-MY_LOVE_ALL_MINE = newSongButton("MY LOVE MINE ALL MINE", 20, {"mitski"})
-MY_ORDINARY_LIFE = newSongButton("MY ORDINARY LIFE", 26, {"the living tombstone"})
-GIVE_UP = newSongButton("NEVER GONNA GIVE YOU UP", 17, {"rick astley", "rickroll", "rick roll"})
-NEVER_MEANT = newSongButton("NEVER MEANT TO BELONG", 18, {"bleach"})
-NO_SURPRISES = newSongButton("NO SURPRISES", 27, {"radiohead"})
-NOCTURNE = newSongButton("NOCTURNE OP.9 NO.2", 22, {"frederic chopin"})
-NOPE_YOUR_TOO_LATE = newSongButton("NOPE YOUR TOO LATE I ALREADY DIED", 12, {"wifiskeleton"})
-NOTHING_ELSE_MATTERS = newSongButton("NOTHING ELSE MATTERS", 19, {"metallica"})
-NOT_A_SLACKER = newSongButton("NOT A SLACKER ANYMORE", 18, {})
-NOT_LIKE_US = newSongButton("NOT LIKE US", 27, {"kendrick lamar", "drake"})
-NOTION = newSongButton("NOTION", 27, {"the rare occasions"})
-NUMBERS = newSongButton("NUMBERS", 27, {"temporex"})
-NYAN_CAT = newSongButton("NYAN CAT", 27, {})
-NYEH = newSongButton("NYEH HEH HEH!", 27, {"papyrus"})
-OBLIVION = newSongButton("OBLIVION (GRIMES)", 24, {"grimes"})
-OLD_DOLL = newSongButton("OLD DOLL", 27, {"mad father"})
-OLD_TOWN_ROAD = newSongButton("OLD TOWN ROAD", 27, {"lil nas x"})
-ONCE_UPON = newSongButton("ONCE UPON A TIME", 26, {""})
-ONE_DANCE = newSongButton("ONE DANCE", 27, {"drake", "wizkid", "kyla"})
-ORDER = newSongButton("ORDER (ULTRAKILL)", 24, {"minos prime bossfight"})
-ORDINARY = newSongButton("ORDINARY", 27, {"alex warren"})
-OVERTAKEN = newSongButton("OVERTAKEN", 27, {"one piece"})
-PARADISE = newSongButton("PARADISE", 27, {"coldplay"})
-PASSACAGLIA = newSongButton("PASSACAGLIA, SUITE NO.7", 18, {"c418"})
-PASSO_BEM_SOLTO = newSongButton("PASSO BEM SOLTO", 27, {"phonk"})
-PAST_LIVES = newSongButton("PAST LIVES", 27, {""})
-PATHETIQUE = newSongButton("PATHÉTIQUE (SONATE OP.13 NO.8)", 13, {"ludwig van beethoven", "sonata pathetique"})
-PAYPHONE = newSongButton("PAYPHONE", 27, {"maroon 5"})
-PEACHES = newSongButton("PEACHES", 27, {"jack black", "bowser", "super mario bros"})
-PLANT_VS_ZOMBIES = newSongButton("PLANT VS ZOMBIES", 26, {"pvz"})
-PLEAD = newSongButton("PLEAD (FORSAKEN)", 23, {"roblox forsaken", "last man standing", "c00lkidd", "key after key", "007n7"})
-POKEMON = newSongButton("POKEMON MAIN THEME", 18, {""})
-POKEMON_RED = newSongButton("POKEMON RED AND BLUE", 18, {""})
-PRAYER = newSongButton("PRAYER", 27, {"kendrick lamar", "damn"})
-PRELUDE_NO2 = newSongButton("PRELUDE NO.2 (BACH)", 22, {"johann sebastian bach"})
-PRELUDE_OP28 = newSongButton("PRELUDE OP.28 NO.4", 22, {"frederic chopin"})
-RACING_INTO = newSongButton("RACING INTO THE NIGHT", 20, {"yoasobi"})
-RAIN = newSongButton("RAIN", 27, {"tony ann"})
-RATDANCE = newSongButton("RAT DANCE", 27, {"chess"})
-READY_OR_NOT = newSongButton("READY OR NOT (FORSAKEN)", 17, {"c00lkidd chase", "roblox forsaken", "key after key"})
-RESONANCE = newSongButton("RESONANCE", 27, {"home"})
-REVOLUTIONARY = newSongButton("REVOLUTIONARY (ETUDE OP.10 NO.12)", 12, {"frederic chopin"})
-RIGHTEOUS = newSongButton("RIGHTEOUS (MO BEATS)", 20, {""})
-RIPTIDE = newSongButton("RIPTIDE", 27, {"vance joy"})
-RISE_UP = newSongButton("RISE UP", 27, {"thefatrat", "ncs", "no copyright sounds"})
-RISES_THE = newSongButton("RISES THE MOON", 27, {"liana flores"})
-RIVER_FLOWS = newSongButton("RIVER FLOWS IN YOU", 23, {""})
-ROMANTIC_HOMICIDE = newSongButton("ROMANTIC HOMICIDE", 22, {"dv4d", "here with me"})
-RUDE_BUSTER = newSongButton("RUDE BUSTER", 27, {"toby fox"})
-RUINS = newSongButton("RUINS", 27, {})
-RUNAWAY = newSongButton("RUNAWAY", 27, {"kanye", "popular", "rap", "hip"})
-RUNAWAY_AURORA = newSongButton("RUNAWAY (AURORA)", 23, {""})
-RUNNING_UP = newSongButton("RUNNING UP THAT HILL", 19, {"stranger things"})
-RUSH_C = newSongButton("RUSH C", 27, {"sheet music boss"})
-RUSHE = newSongButton("RUSH E", 27, {"sheet music boss"})
-RUSH_F = newSongButton("RUSH F", 27, {"sheet music boss"})
-RUSH_G = newSongButton("RUSH G", 27, {"sheet music boss"})
-RUSH_OF_LIFE = newSongButton("RUSH OF LIFE", 27, {"tony ann"})
-SAILOR_SONG = newSongButton("SAILOR SONG", 27, {"gianna perez"})
-SANS = newSongButton("SANS.", 27, {"undertale"})
-SAVE_YOUR = newSongButton("SAVE YOUR TEARS", 27, {"weeknd"})
-SCARLET_FOREST = newSongButton("SCARLET FOREST", 27, {"toby fox"})
-SEE_YOU_AGAIN = newSongButton("SEE YOU AGAIN (TYLER THE CREATOR)", 12, {"tyler the creator", "kali urchis", "tyler, the creator", "flower boy"})
-SEE_YOU_AGAIN_CHARLIE = newSongButton("SEE YOU AGAIN (CHARLIE PUTH)", 13, {"charlie puth", "wiz khalifa"})
-SHAPE_OF = newSongButton("SHAPE OF YOU", 27, {"ed sheeran"})
-SHIAWASE = newSongButton("SHIAWASE (VIP)", 27, {"tidal wave", "geometry dash", "gd"})
-SHIKAIRO = newSongButton("SHIKAIRO DAYS", 27, {"my dear friend nokotan"})
-SHOP = newSongButton("SHOP", 27, {})
-SICK_OF_U = newSongButton("SICK OF U", 27, {"boywithuke"})
-SILHOUETTE = newSongButton("SILHOUETTE (NARUTO)", 20, {"naruto shippuden    "})
-SKELETAL_SHENANIGANS = newSongButton("SKELETAL SHENANIGANS", 19, {"geometry dash", "gd"})
-SKYFALL = newSongButton("SKYFALL", 27, {"adele"})
-SLAY = newSongButton("SLAY", 27, {"eternxlz", "phonk"})
-SNOWFALL = newSongButton("SNOWFALL", 27, {"oneheart"})
-SNOWY = newSongButton("SNOWY", 27, {})
-SOLAS = newSongButton("SOLAS", 27, {"sad"})
-SOMEBODY_THAT_I_USED = newSongButton("SOMEBODY THAT I USED TO KNOW", 13, {"gotye"})
-SOMETHING_JUST = newSongButton("SOMETHING JUST LIKE THIS", 17, {"the chainsmokers"})
-SONG_THAT_MIGHT = newSongButton("SONG THAT MIGHT PLAY WHEN YOU FIGHT SANS", 9, {"undertale"})
-SOVIET_UNION_ANTHEM = newSongButton("SOVIET UNION ANTHEM", 19, {})
-SPACE_SONG = newSongButton("SPACE SONG", 27, {"beach house"})
-SPARKLE = newSongButton("SPARKLE", 27, {"radwimps", "your name", "kimi no na wa"})
-SPEAR_OF = newSongButton("SPEAR OF JUSTICE", 26, {})
-SPECTRE = newSongButton("SPECTRE", 27, {"alan walker", "ncs", "no copyright sounds", "smurf cat"})
-SPIDER_DANCE = newSongButton("SPIDER DANCE", 27, {"muffet"})
-STAY = newSongButton("STAY", 27, {"justin bieber", "kid laroi"})
-STEREO_HEARTS = newSongButton("STEREO HEARTS", 27, {"gym class heroes", "adam levine"})
-STEREO_MADNESS = newSongButton("STEREO MADNESS", 27, {"geometry dash", "gd"})
-STRANGER_THINGS = newSongButton("STRANGER THINGS", 26, {})
-STRESSED_OUT = newSongButton("STRESSED OUT", 27, {"twenty one pilots", "21 pilots", "heathens"})
-STRANGERS = newSongButton("STRANGERS", 27, {"kenya grace"})
-SUBWOOFER = newSongButton("SUBWOOFER LULLABY", 20, {"c418"})
-SUGAR_PLUM = newSongButton("DANCE OF THE SUGAR PLUM FAIRY", 13, {"christmas", "hard"})
-SUNFLOWER = newSongButton("SUNFLOWER", 27, {"spider man", "post malone"})
-SUPER_IDOL = newSongButton("SUPER IDOL", 27, {})
-SUPER_MARIOS = newSongButton("SUPER MARIO BROS", 23, {""})
-SUZUME = newSongButton("SUZUME NO TOJIMARI", 22, {"suzume", "radwimps"})
-SWEATER_WEATHER = newSongButton("SWEATER WEATHER", 23, {"the neighbourhood", "love", "popular"})
-SWEDEN = newSongButton("SWEDEN", 27, {"c418"})
-SWIMMING = newSongButton("SWIMMING", 27, {"flawed mangoes", "dramamime"})
-SYMPHONY_NO5 = newSongButton("SYMPHONY NO.5", 27, {"ludwig van beethoven", "5th symphony", "fifth symphony"})
-TAKE_FIVE = newSongButton("TAKE FIVE", 27, {"dave brubeck", "jazz"})
-TAKE_ON_ME = newSongButton("TAKE ON ME", 27, {"a-ha"})
-TEST_DRIVE = newSongButton("TEST DRIVE", 27, {"how to train your dragon", "john powell"})
-THATS_WHAT_I_WANT = newSongButton("THATS WHAT I WANT", 23, {"lil nas x"})
-AUTUMN = newSongButton("THE 4 SEASONS - AUTUMN", 18, {"the 4 seasons", "vivaldi", "the four seasons"})
-SPRING = newSongButton("THE 4 SEASONS - SPRING", 18, {"the 4 seasons", "vivaldi", "the four seasons"})
-SUMMER = newSongButton("THE 4 SEASONS - SUMMER", 18, {"the 4 seasons", "vivaldi", "the four seasons"})
-WINTER = newSongButton("THE 4 SEASONS - WINTER", 18, {"the 4 seasons", "vivaldi", "the four seasons"})
-THE_AMAZING_DIGITAL = newSongButton("THE AMAZING DIGITAL CIRCUS", 15, {"pomni"})
-THE_BEN = newSongButton("THE BENONI", 27, {""})
-THE_ECSTASY_OF_GOLD = newSongButton("THE ECSTASY OF GOLD", 22, {"the good, the bad and the ugly", "the good the bad and the ugly"})
-THE_ENTERTAINER = newSongButton("THE ENTERTAINER", 25, {})
-THE_GREAT_FAIRY = newSongButton("THE GREAT FAIRY FOUNTAIN", 17, {"zelda", "the legend of zelda"})
-THE_LEGEND = newSongButton("THE LEGEND", 27, {"toby fox"})
-THE_NIGHTS = newSongButton("THE NIGHTS", 27, {"avicii"})
-THE_SEARCH = newSongButton("THE SEARCH", 27, {"nf"})
-THE_SLAUGHTER_CONT = newSongButton("THE SLAUGHTER CONTINUES", 16, {"undertale last breath", "last breath"})
-THE_WORLD = newSongButton("THE WORLD", 27, {"death note"})
-THE_WORLD_REVOLVING = newSongButton("THE WORLD REVOLVING", 20, {"toby fox"})
-THICK_OF_IT = newSongButton("THICK OF IT", 27, {"nigga", "ksi", "shit", "popular"})
-THIS_IS_WHAT_HEARTBREAK = newSongButton("THIS IS WHAT HEARTBREAK FEELS LIKE", 11, {"jvke", "golden hour"})
-THIS_IS_WHAT_WINTER = newSongButton("THIS IS WHAT WINTER FEELS LIKE", 11, {"jvke", "golden hour"})
-TICKING = newSongButton("TICKING", 27, {""})
-TIME_BACK = newSongButton("TIME BACK", 27, {""})
-TIME_FLOWS_EVER_ONWARD = newSongButton("TIME FLOWS EVER ONWARD", 17, {"frieren", "sousou no frieren"})
-TORRENT = newSongButton("TORRENT (ETUDE OP.10 NO.4)", 14, {"frederic chopin"})
-TOXIC = newSongButton("TOXIC (BOYWITHUKE)", 22, {""})
-TRAP_R = newSongButton("TRAP ROYALTY", 27, {"fetty wap"})
-TURKISH = newSongButton("TURKISH MARCH", 27, {"mozart", "rondo alla turca"})
-UNDERSTAND = newSongButton("UNDERSTAND", 27, {"boywithuke"})
-UNDERTALE = newSongButton("UNDERTALE", 27, {})
-UNDERWATER = newSongButton("UNDERWATER PROM QUEENS", 14, {"omori"})
-UNITY = newSongButton("UNITY", 27, {"thefatrat", "ncs", "no copyright sounds"})
-UNRAVEL = newSongButton("UNRAVEL", 27, {"tokyo ghoul"})
-UNRAVEL_EPIC = newSongButton("UNRAVEL (EPIC VER.)", 22, {"tokyo ghoul", "animenz"})
-UNSTOPPABLE = newSongButton("UNSTOPPABLE", 27, {"sia"})
-UNTIL_I_FOUND_YOU = newSongButton("UNTIL I FOUND YOU", 24, {"stephen sanchez"})
-UNTITLED = newSongButton("UNTITLED", 27, {"oobja main theme", "cooked"})
-VAMPIRE = newSongButton("VAMPIRE", 27, {"olivia rodrigo"})
-VIVA_LA_VIDA = newSongButton("VIVA LA VIDA", 27, {"coldplay"})
-WAITING_FOR = newSongButton("WAITING FOR LOVE", 26, {"avicii"})
-WAKE_ME = newSongButton("WAKE ME UP", 27, {"avicii"})
-WALTZ_IN_C_MINOR = newSongButton("WALTZ OP.64 NO.2", 26, {"frederic chopin"})
-WASHING = newSongButton("WASHING MACHINE HEART", 18, {"mitski"})
-WE_ARE = newSongButton("WE ARE! (ONE PIECE)", 23, {})
-WE_DONT = newSongButton("WE DONT TALK ABOUT BRUNO", 15, {"encanto"})
-WEDDING_MARCH = newSongButton("WEDDING MARCH", 27, {"wedding"})
-WET_HANDS = newSongButton("WET HANDS", 27, {"c418"})
-WHERE_WE = newSongButton("WHERE WE PLAYED", 25, {"omori"})
-WHY_DID_I_SAY = newSongButton("WHY DID I SAY OKIE-DOKIE", 17, {"doki doki literature club", "ddlc"})
-WII_SPORTS_TITLE = newSongButton("WII SPORTS TITLE THEME", 18, {"wii sports", "nintendo"})
-WINTER_WIND = newSongButton("WINTER WIND (ETUDE OP.25 NO.11)", 13, {"frederic chopin"})
-WORLDS_END = newSongButton("WORLDS END VALENTINE", 18, {"omori"})
-XO_TOUR = newSongButton("XO TOUR LLIF3", 27, {"lil uzi vert"})
-YOUNG_GIRL_A = newSongButton("YOUNG GIRL A", 27, {"siinamota", "vocaloid"})
-YOUNG_GIRL_A_2 = newSongButton("YOUNG GIRL A (EPIC VER.)", 16, {"siinamota", "vocaloid"})
-YOUR_REALITY = newSongButton("YOUR REALITY", 27, {"ddlc", "doki"})
-YUUSHA = newSongButton("YUUSHA (THE BRAVE)", 22, {"yoasobi", "frieren"})
-ZOMBIE = newSongButton("ZOMBIE", 27, {"the cranberries"})
-MANGOMANGOMANGO = newSongButton("MANGO MANGO MANGO", 27, {""})
-DEATH_WALTZ = newSongButton("DEATH WALTZ (WARNING)", 19, {""})
-
-local framebuttons = {}
-
-for _, button in ipairs(frame:GetChildren()) do
-    if button:IsA("TextButton") then
-        table.insert(framebuttons, button)
-    end
-end
-
-table.sort(
-    framebuttons,
-    function(a, b)
-        return a.Name:lower() < b.Name:lower()
-    end
-)
-
-for index, button in ipairs(framebuttons) do
-    button.LayoutOrder = index
-end
-
-local songs = {
-    {button = INTERSTELLAR, bpm = "104", var = false, url = "INTERSTELLAR", cat = {"epic", "beautiful", "movies/tv"}},
-    {button = RUSHE, bpm = "80", var = false, url = "RUSH_E", cat = {"memes"}},
-    {button = GOLDENHOUR, bpm = "94", var = false, url = "GOLDEN_HOUR", cat = {"beautiful", "best"}},
-    {button = CUPID, bpm = "120", var = false, url = "CUPID", cat = {"pop/hiphop"}},
-    {button = RATDANCE, bpm = "120", var = false, url = "RAT_DANCE", cat = {"memes"}},
-    {button = RUNAWAY, bpm = "160", var = false, url = "RUNAWAY", cat = {"pop/hiphop"}},
-    {button = YOUR_REALITY, bpm = "105", var = false, url = "YOUR_REALITY", cat = {"video games", "beautiful", "best"}},
-    {button = ANOTHER_LOVE, bpm = "123", var = false, url = "ANOTHER_LOVE", cat = {"sad", "best", "epic", "beautiful", "pop/hiphop"}},
-    {button = FINAL_DUET, bpm = "84", var = false, url = "FINAL_DUET", cat = {"video games", "omori"}},
-    {button = EXPERIENCE, bpm = "92", var = false, url = "EXPERIENCE", cat = {"epic", "best", "beautiful", "peak"}},
-    {button = CAN_YOU_HEAR, bpm = "80", var = false, url = "CAN_YOU_HEAR_THE_FUCKING_MUSIC", cat = {"epic", "movies/tv"}},
-    {button = HOWLS_MOVING_CASTLE, bpm = "156", var = false, url = "HOWLS_MOVING_CASTLE", cat = {"anime/jpop", "beautiful", "movies/tv"}},
-    {button = YOUNG_GIRL_A, bpm = "130", var = false, url = "YOUNG_GIRL_A", cat = {"anime/jpop", "sad", "beautiful", "best"}},
-    {button = ARIA_MATH, bpm = "84", var = false, url = "ARIA_MATH", cat = {"video games", "minecraft", "beautiful"}},
-    {button = ALL_MY_FELLAS, bpm = "160", var = false, url = "ALL_MY_FELLAS", cat = {"memes"}},
-    {button = THICK_OF_IT, bpm = "146", var = false, url = "THICK_OF_IT", cat = {"memes"}},
-    {button = ROMANTIC_HOMICIDE, bpm = "132", var = false, url = "ROMANTIC_HOMICIDE", cat = {"sad"}},
-    {button = IF_I_AM_WITH_YOU, bpm = "82", var = false, url = "IF_I_AM_WITH_YOU", cat = {"anime/jpop", "best", "beautiful", "peak", "movies/tv"}},
-    {button = CRADLES, bpm = "79", var = false, url = "CRADLES", cat = {"electronic"}},
-    {button = IDOL, bpm = "166", var = false, url = "IDOL", cat = {"anime/jpop", "best", "movies/tv"}},
-    {button = RIVER_FLOWS, bpm = "137", var = false, url = "RIVER_FLOWS_IN_YOU", cat = {"sad"}},
-    {button = NOCTURNE, bpm = "62", var = false, url = "NOCTURNE", cat = {"classical", "best"}},
-    {button = ISABELLA, bpm = "112", var = false, url = "ISABELLAS_LULLABY", cat = {"video games"}},
-    {button = GIORNO, bpm = "135", var = false, url = "GIORNO", cat = {"anime/jpop", "memes", "movies/tv"}},
-    {button = GIVE_UP, bpm = "113", var = false, url = "GIVE_UP", cat = {"memes", "pop/hiphop"}},
-    {button = UNRAVEL, bpm = "135", var = false, url = "UNRAVEL", cat = {"anime/jpop", "beautiful", "movies/tv"}},
-    {button = WINTER_WIND, bpm = "125", var = false, url = "WINTER_WIND", cat = {"classical"}},
-    {button = SWEATER_WEATHER, bpm = "124", var = false, url = "SWEATER_WEATHER", cat = {"sad"}},
-    {button = VIVA_LA_VIDA, bpm = "138", var = false, url = "VIVA_LA_VIDA", cat = {"epic", "beautiful", "best", "peak"}},
-    {button = M3, bpm = "163", var = false, url = "WHAT_THE_FUCKK", cat = {"classical", "best", "peak"}},
-    {button = NEVER_MEANT, bpm = "66", var = false, url = "NEVER_MEANT", cat = {"anime/jpop", "movies/tv"}},
-    {button = AVENGERS, bpm = "120", var = false, url = "AVENGERS", cat = {"epic", "best", "movies/tv"}},
-    {button = BEETHOVEN_VIRUS, bpm = "162", var = false, url = "BEETHOVEN_VIRUS", cat = {"classical", "electronic", "best", "peak"}},
-    {button = LA_CAMPANELLA, bpm = "107", var = false, url = "LA_CAMPANELLA", cat = {"classical", "best", "beautiful"}},
-    {button = KEROSENE, bpm = "116", var = false, url = "KEROSENE", cat = {"electronic"}},
-    {button = RACING_INTO, bpm = "129", var = false, url = "RACING_INTO", cat = {"anime/jpop", "best", "beautiful"}},
-    {button = SURVIVE, bpm = "80", var = false, url = "SURVIVE", cat = {"pop/hiphop", "best"}},
-    {button = MEGALOVANIA, bpm = "120", var = false, url = "MEGALOVANIA", cat = {"video games", "undertale", "memes"}},
-    {button = COCONUT, bpm = "132", var = false, url = "COCONUT", cat = {"video games"}},
-    {button = FADED, bpm = "90", var = false, url = "FADED", cat = {"electronic", "sad"}},
-    {button = SOLAS, bpm = "120", var = false, url = "SOLAS", cat = {"beautiful"}},
-    {button = MARRIED, bpm = "83", var = false, url = "MARRIED", cat = {"sad", "movies/tv"}},
-    {button = BAD_PIGGIES, bpm = "156", var = false, url = "BAD_PIGGIES", cat = {"video games"}},
-    {button = ASGORE, bpm = "115", var = false, url = "ASGORE", cat = {"video games", "undertale"}},
-    {button = CARELESS, bpm = "153", var = false, url = "CARELESS", cat = {"memes"}},
-    {button = I_WANT, bpm = "122", var = false, url = "I_WANT", cat = {"pop/hiphop", "rock"}},
-    {button = IM_STILL, bpm = "177", var = false, url = "IM_STILL", cat = {"best", "rock", "movies/tv"}},
-    {button = HELLO, bpm = "105", var = false, url = "HELLO", cat = {"electronic"}},
-    {button = BAD_APPLE, bpm = "138", var = false, url = "BAD_APPLE", cat = {"anime/jpop"}},
-    {button = FR, bpm = "82", var = false, url = "FR", cat = {"beautiful"}},
-    {button = DIE_WITH, bpm = "152", var = false, url = "DIE_WITH", cat = {"pop/hiphop", "sad", "beautiful", "best", "peak"}},
-    {button = FALLEN_DOWN, bpm = "110", var = false, url = "FALLEN_DOWN", cat = {"video games", "undertale", "beautiful"}},
-    {button = ENIGMATIC, bpm = "50", var = false, url = "ENIGMATIC", cat = {"video games", "undertale", "best", "peak"}},
-    {button = DEATH_WALTZ, bpm = "210", var = false, url = "DEATH_WALTZ", cat = {"all"}},
-    {button = MIKU, bpm = "135", var = false, url = "MIKU", cat = {"anime/jpop"}},
-    {button = A_THOUSAND, bpm = "100", var = false, url = "A_THOUSAND", cat = {"pop/hiphop"}},
-    {button = SUGAR_PLUM, bpm = "70", var = false, url = "SUGAR_PLUM", cat = {"classical"}},
-    {button = SPEED_OF, bpm = "162", var = false, url = "SPEED_OF", cat = {"video games", "electronic", "epic", "best", "peak"}},
-    {button = WET_HANDS, bpm = "74", var = false, url = "WET_HANDS", cat = {"video games", "minecraft", "beautiful"}},
-    {button = SWEDEN, bpm = "44", var = false, url = "SWEDEN", cat = {"video games", "minecraft"}},
-    {button = SUBWOOFER, bpm = "76", var = false, url = "SUBWOOFER", cat = {"video games", "minecraft"}},
-    {button = MICE_ON, bpm = "56", var = false, url = "MICE_ON", cat = {"video games", "minecraft", "sad"}},
-    {button = DRY_HANDS, bpm = "90", var = false, url = "DRY_HANDS", cat = {"video games", "minecraft", "beautiful"}},
-    {button = HAGGSTORM, bpm = "102", var = false, url = "HAGGSTORM", cat = {"video games", "minecraft"}},
-    {button = LIVING_MICE, bpm = "74", var = false, url = "LIVING_MICE", cat = {"video games", "minecraft"}},
-    {button = KEY, bpm = "70", var = false, url = "KEY", cat = {"video games", "minecraft", "beautiful"}},
-    {button = MOOG_CITY, bpm = "116", var = false, url = "MOOG_CITY", cat = {"video games", "minecraft", "beautiful", "best"}},
-    {button = MINECRAFT, bpm = "106", var = false, url = "MINECRAFT", cat = {"video games", "minecraft"}},
-    {button = UNDERTALE, bpm = "100", var = false, url = "UNDERTALE", cat = {"video games", "undertale", "best", "epic"}},
-    {button = HOPES_DREAMS, bpm = "170", var = false, url = "HOPES_DREAMS", cat = {"video games", "undertale", "best", "epic", "peak"}},
-    {button = NYEH, bpm = "150", var = false, url = "NYEH", cat = {"video games", "undertale", "best"}},
-    {button = SPIDER_DANCE, bpm = "115", var = false, url = "SPIDER_DANCE", cat = {"video games", "undertale"}},
-    {button = HEARTACHE, bpm = "160", var = false, url = "HEARTACHE", cat = {"video games", "undertale"}},
-    {button = BATTLE_AGAINST, bpm = "150", var = false, url = "BATTLE_AGAINST", cat = {"video games", "undertale"}},
-    {button = HIS_THEME, bpm = "90", var = false, url = "HIS_THEME", cat = {"video games", "undertale"}},
-    {button = SNOWY, bpm = "120", var = false, url = "SNOWY", cat = {"video games", "undertale"}},
-    {button = SPEAR_OF, bpm = "130", var = false, url = "SPEAR_OF", cat = {"video games", "undertale", "best"}},
-    {button = DOG_SONG, bpm = "230", var = false, url = "DOG_SONG", cat = {"video games", "undertale"}},
-    {button = ONCE_UPON, bpm = "65", var = false, url = "ONCE_UPON", cat = {"video games", "undertale"}},
-    {button = NOT_A_SLACKER, bpm = "145", var = false, url = "NOT_A_SLACKER", cat = {"video games", "undertale"}},
-    {button = SHOP, bpm = "77", var = false, url = "SHOP", cat = {"video games", "undertale"}},
-    {button = FINALE, bpm = "190", var = false, url = "FINALE", cat = {"video games", "undertale"}},
-    {button = BY_YOUR_SIDE, bpm = "88", var = false, url = "BY_YOUR_SIDE", cat = {"video games", "omori"}},
-    {button = WORLDS_END, bpm = "152", var = false, url = "WORLDS_END", cat = {"video games", "omori", "best"}},
-    {button = LOST_LIBRARY, bpm = "62", var = false, url = "LOST_LIBRARY", cat = {"video games", "omori"}},
-    {button = BREADY, bpm = "160", var = false, url = "BREADY", cat = {"video games", "omori", "best"}},
-    {button = IT_MEANS, bpm = "96", var = false, url = "IT_MEANS", cat = {"video games", "omori"}},
-    {button = UNDERWATER, bpm = "160", var = false, url = "UNDERWATER", cat = {"video games", "omori"}},
-    {button = WHERE_WE, bpm = "96", var = false, url = "WHERE_WE", cat = {"video games", "omori"}},
-    {button = MARI_BOSS, bpm = "169", var = false, url = "MARI_BOSS", cat = {"video games", "omori"}},
-    {button = GOOD_MORNING, bpm = "90", var = false, url = "GOOD_MORNING", cat = {"video games", "omori"}},
-    {button = FUR_ELISE, bpm = "72", var = false, url = "FUR_ELISE", cat = {"classical"}},
-    {button = MOONLIGHT, bpm = "51", var = false, url = "MOONLIGHT", cat = {"classical"}},
-    {button = FANTAISIE, bpm = "168", var = false, url = "FANTAISIE", cat = {"classical"}},
-    {button = DROWNING_LOVE, bpm = "112", var = false, url = "DROWNING_LOVE", cat = {"beautiful", "sad", "best", "peak", "movies/tv"}},
-    {button = CANON_D, bpm = "100", var = false, url = "CANON_D", cat = {"classical"}},
-    {button = FREEDOM_DIVE, bpm = "220", var = false, url = "FREEDOM_DIVE", cat = {"electronic"}},
-    {button = STAY, bpm = "85", var = false, url = "STAY", cat = {"pop/hiphop"}},
-    {button = TURKISH, bpm = "92", var = false, url = "TURKISH", cat = {"classical"}},
-    {button = SUPER_MARIOS, bpm = "180", var = false, url = "SUPER_MARIOS", cat = {"video games", "memes"}},
-    {button = MII, bpm = "114", var = false, url = "MII", cat = {"video games", "memes"}},
-    {button = LACRIMOSA, bpm = "64", var = false, url = "LACRIMOSA", cat = {"classical", "memes"}},
-    {button = DESPACITO, bpm = "89", var = false, url = "DESPACITO", cat = {"pop/hiphop", "memes"}},
-    {button = WE_DONT, bpm = "103", var = false, url = "WE_DONT", cat = {}},
-    {button = HUNGARIAN, bpm = "130", var = false, url = "HUNGARIAN", cat = {"classical"}},
-    {button = SKYFALL, bpm = "70", var = false, url = "SKYFALL", cat = {"epic", "best"}},
-    {button = THE_ENTERTAINER, bpm = "60", var = false, url = "THE_ENTERTAINER", cat = {"memes", "best"}},
-    {button = DONT_STOP, bpm = "118", var = false, url = "DONT_STOP", cat = {"rock", "best"}},
-    {button = DREAM_ON, bpm = "78", var = false, url = "DREAM_ON", cat = {"rock"}},
-    {button = HIT_THE_ROAD, bpm = "60", var = false, url = "HIT_THE_ROAD", cat = {"rock"}},
-    {button = TOXIC, bpm = "180", var = false, url = "TOXIC", cat = {"sad", "pop/hiphop"}},
-    {button = UNDERSTAND, bpm = "206", var = false, url = "UNDERSTAND", cat = {"sad"}},
-    {button = SICK_OF_U, bpm = "185", var = false, url = "SICK_OF_U", cat = {"sad"}},
-    {button = IDGAF, bpm = "196", var = false, url = "IDGAF", cat = {"sad"}},
-    {button = EASY_ON_ME, bpm = "73", var = false, url = "EASY_ON_ME", cat = {"", "pop/hiphop"}},
-    {button = METAMORPH, bpm = "180", var = false, url = "METAMORPH", cat = {"electronic"}},
-    {button = SWIMMING, bpm = "165", var = false, url = "SWIMMING", cat = {"beautiful", "best"}},
-    {button = DRAMAM, bpm = "224", var = false, url = "DRAMAM", cat = {"beautiful"}},
-    {button = LOST_UMB, bpm = "133", var = false, url = "LOST_UMB", cat = {"electronic", "anime/jpop"}},
-    {button = LOVELY_B, bpm = "150", var = false, url = "LOVELY_B", cat = {"memes", "best"}},
-    {button = TRAP_R, bpm = "151", var = false, url = "TRAP_R", cat = {"memes", "epic", "best", "beautiful"}},
-    {button = MANGOMANGOMANGO, bpm = "110", var = false, url = "MANGOMANGOMANGO", cat = {"peak"}},
-    {button = DREAM_FL, bpm = "150", var = false, url = "DREAM_FL", cat = {"electronic"}},
-    {button = LALALA, bpm = "130", var = false, url = "LALALA", cat = {"pop/hiphop"}},
-    {button = THE_BEN, bpm = "180", var = false, url = "THE_BEN", cat = {"classical", "epic", "best"}},
-    {button = POKEMON, bpm = "160", var = false, url = "POKEMON", cat = {"video games", "anime/jpop", "movies/tv"}},
-    {button = POKEMON_RED, bpm = "180", var = false, url = "POKEMON_RED", cat = {"video games", "anime/jpop", "movies/tv"}},
-    {button = FLASHING, bpm = "100", var = false, url = "FLASHING", cat = {"pop/hiphop", "epic", "beautiful"}},
-    {button = ALL_GIRLS, bpm = "85", var = false, url = "ALL_GIRLS", cat = {"pop/hiphop", "sad", "best"}},
-    {button = SAVE_YOUR, bpm = "120", var = false, url = "SAVE_YOUR", cat = {"pop/hiphop", "sad"}},
-    {button = LIGHTS, bpm = "132", var = false, url = "LIGHTS", cat = {"anime/jpop"}},
-    {button = THE_WORLD, bpm = "96", var = false, url = "THE_WORLD", cat = {"anime/jpop", "rock", "movies/tv"}},
-    {button = L, bpm = "71", var = false, url = "L", cat = {"anime/jpop", "memes", "movies/tv"}},
-    {button = BLOODY, bpm = "100", var = false, url = "BLOODY", cat = {"pop/hiphop", "epic", "best"}},
-    {button = SPACE_SONG, bpm = "75", var = false, url = "SPACE_SONG", cat = {"sad", "pop/hiphop", "beautiful", "epic", "best"}},
-    {button = HEATHENS, bpm = "90", var = false, url = "HEATHENS", cat = {"sad"}},
-    {button = VAMPIRE, bpm = "135", var = false, url = "VAMPIRE", cat = {"pop/hiphop", "sad", "best"}},
-    {button = MARY_ON, bpm = "130", var = false, url = "MARY_ON", cat = {"rock"}},
-    {button = RUNNING_UP, bpm = "108", var = false, url = "RUNNING_UP", cat = {"sad", "pop/hiphop", "movies/tv"}},
-    {button = DUMB_DUMB, bpm = "118", var = false, url = "DUMB_DUMB", cat = {"memes"}},
-    {button = MA_MEILLEUR, bpm = "178", var = false, url = "MA_MEILLEUR", cat = {"movies/tv"}},
-    {button = SUZUME, bpm = "78", var = false, url = "SUZUME", cat = {"anime/jpop", "best", "beautiful", "movies/tv"}},
-    {button = CHRISTMAS_KIDS, bpm = "152", var = false, url = "CHRISTMAS_KIDS", cat = {"sad"}},
-    {button = DARK_BEACH, bpm = "130", var = false, url = "DARK_BEACH", cat = {"sad", "beautiful"}},
-    {button = FUKASHIGI, bpm = "90", var = false, url = "FUKASHIGI", cat = {"anime/jpop", "movies/tv"}},
-    {button = SPARKLE, bpm = "192", var = false, url = "SPARKLE", cat = {"anime/jpop", "best", "beautiful", "movies/tv"}},
-    {button = SHIKAIRO, bpm = "182", var = false, url = "SHIKAIRO", cat = {"anime/jpop", "memes", "best", "movies/tv"}},
-    {button = WASHING, bpm = "114", var = false, url = "WASHING", cat = {"sad", "beautiful", "best"}},
-    {button = CAN_YOU_HEAR_EPIC, bpm = "102", var = false, url = "CAN_YOU_HEAR_EPIC", cat = {"epic", "best", "peak", "movies/tv"}},
-    {button = UNRAVEL_EPIC, bpm = "132", var = false, url = "UNRAVEL_EPIC", cat = {"epic", "best", "beautiful", "peak", "movies/tv"}},
-    {button = A_SKY_FULL, bpm = "120", var = false, url = "A_SKY_FULL", cat = {"epic", "pop/hiphop", "electronic"}},
-    {button = THE_NIGHTS, bpm = "128", var = false, url = "THE_NIGHTS", cat = {"pop/hiphop", "electronic", "epic"}},
-    {button = BIRDS_OF_A, bpm = "105", var = false, url = "BIRDS_OF_A", cat = {"pop/hiphop", "beautiful"}},
-    {button = CANT_LET, bpm = "160", var = false, url = "CANT_LET", cat = {"video games", "electronic"}},
-    {button = DEADLOCKED, bpm = "140", var = false, url = "DEADLOCKED", cat = {"video games", "electronic"}},
-    {button = DUVET, bpm = "91", var = false, url = "DUVET", cat = {"sad", "beautiful", "best"}},
-    {button = FIVE_NIGHTS_1, bpm = "108", var = false, url = "FIVE_NIGHTS_1", cat = {"video games", "electronic", "epic"}},
-    {button = ITS_BEEN_SO, bpm = "96", var = false, url = "ITS_BEEN_SO", cat = {"video games", "electronic"}},
-    {button = STEREO_MADNESS, bpm = "160", var = false, url = "STEREO_MADNESS", cat = {"video games", "electronic"}},
-    {button = SUNFLOWER, bpm = "90", var = false, url = "SUNFLOWER", cat = {"pop/hiphop", "beautiful", "best", "movies/tv"}},
-    {button = WAITING_FOR, bpm = "129", var = false, url = "WAITING_FOR", cat = {"pop/hiphop", "electronic", "best", "epic"}},
-    {button = WAKE_ME, bpm = "110", var = false, url = "WAKE_ME", cat = {"pop/hiphop", "electronic"}},
-    {button = GEOMETRY_DASH, bpm = "128", var = false, url = "GEOMETRY_DASH", cat = {"video games", "electronic"}},
-    {button = ARUARIAN, bpm = "80", var = false, url = "ARUARIAN", cat = {"beautiful"}},
-    {button = DAYLIGHT, bpm = "130", var = false, url = "DAYLIGHT", cat = {"beautiful", "epic", "best"}},
-    {button = SHIAWASE, bpm = "150", var = false, url = "SHIAWASE", cat = {"electronic", "epic", "beautiful", "best"}},
-    {button = EVERGREEN, bpm = "120", var = false, url = "EVERGREEN", cat = {"beautiful", "best"}},
-    {button = FREAKS, bpm = "175", var = false, url = "FREAKS", cat = {"sad", "rock", "beautiful"}},
-    {button = HERE_WITH, bpm = "132", var = false, url = "HERE_WITH", cat = {"sad"}},
-    {button = RESONANCE, bpm = "70", var = false, url = "RESONANCE", cat = {"beautiful", "best"}},
-    {button = INSANE, bpm = "105", var = false, url = "INSANE", cat = {"electronic"}},
-    {button = LEVELS, bpm = "122", var = false, url = "LEVELS", cat = {"electronic", "levels", "best"}},
-    {button = MOOD, bpm = "91", var = false, url = "MOOD", cat = {"pop/hiphop", "best"}},
-    {button = SOMETHING_JUST, bpm = "103", var = false, url = "SOMETHING_JUST", cat = {"pop/hiphop", "sad", "best", "beautiful"}},
-    {button = STRANGERS, bpm = "170", var = false, url = "STRANGERS", cat = {"pop/hiphop", "sad", "best", "beautiful"}},
-    {button = TICKING, bpm = "77", var = false, url = "TICKING", cat = {"epic", "best", "beautiful"}},
-    {button = AFTER_DARK, bpm = "140", var = false, url = "AFTER_DARK", cat = {"sad", "beautiful"}},
-    {button = ANYONE_CAN, bpm = "100", var = false, url = "ANYONE_CAN", cat = {"sad"}},
-    {button = BLUE, bpm = "130", var = false, url = "BLUE", cat = {"pop/hiphop"}},
-    {button = CLOUD_9, bpm = "128", var = false, url = "CLOUD_9", cat = {"electronic"}},
-    {button = DAMNED, bpm = "95", var = false, url = "DAMNED", cat = {"video games"}},
-    {button = ASTRONAMIA, bpm = "120", var = false, url = "ASTRONAMIA", cat = {"memes", "electronic"}},
-    {button = COUNTING_STARS, bpm = "105", var = false, url = "COUNTING_STARS", cat = {"pop/hiphop", "sad"}},
-    {button = SHAPE_OF, bpm = "190", var = false, url = "SHAPE_OF", cat = {"pop/hiphop"}},
-    {button = ENEMY, bpm = "77", var = false, url = "ENEMY", cat = {"pop/hiphop"}},
-    {button = FLARE, bpm = "150", var = false, url = "FLARE", cat = {"electronic"}},
-    {button = THIS_IS_WHAT_WINTER, bpm = "115", var = false, url = "THIS_IS_WHAT_WINTER", cat = {"beautiful", "pop/hiphop", "best"}},
-    {button = HEAT_WAVE, bpm = "81", var = false, url = "HEAT_WAVE", cat = {"pop/hiphop"}},
-    {button = HIGH_HOPES, bpm = "164", var = false, url = "HIGH_HOPES", cat = {"pop/hiphop", "epic"}},
-    {button = HOUSE_OF, bpm = "112", var = false, url = "HOUSE_OF", cat = {"pop/hiphop"}},
-    {button = IN_THE_NAME, bpm = "134", var = false, url = "IN_THE_NAME", cat = {"pop/hiphop", "electronic", "best", "epic", "beautiful"}},
-    {button = PAST_LIVES, bpm = "110", var = false, url = "PAST_LIVES", cat = {"sad", "beautiful"}},
-    {button = SLAY, bpm = "120", var = false, url = "SLAY", cat = {"electronic"}},
-    {button = SNOWFALL, bpm = "96", var = false, url = "SNOWFALL", cat = {"beautiful", "sad", "best"}},
-    {button = RISE_UP, bpm = "82", var = false, url = "RISE_UP", cat = {"electronic", "epic"}},
-    {button = UNITY, bpm = "110", var = false, url = "UNITY", cat = {"electronic", "best"}},
-    {button = MONODY, bpm = "107", var = false, url = "MONODY", cat = {"electronic", "epic", "best"}},
-    {button = THIS_IS_WHAT_HEARTBREAK, bpm = "50", var = false, url = "THIS_IS_WHAT_HEARTBREAK", cat = {"sad", "pop/hiphop"}},
-    {button = CANDYLAND, bpm = "130", var = false, url = "CANDYLAND", cat = {"electronic", "best", "best"}},
-    {button = AS_IT_WAS, bpm = "174", var = false, url = "AS_IT_WAS", cat = {"pop/hiphop", "best"}},
-    {button = CENTIMETER, bpm = "140", var = false, url = "CENTIMETER", cat = {"anime/jpop", "movies/tv"}},
-    {button = DETROIT, bpm = "60", var = false, url = "DETROIT", cat = {"video games", "beautiful"}},
-    {button = THE_GREAT_FAIRY, bpm = "80", var = false, url = "THE_GREAT_FAIRY", cat = {"video games"}},
-    {button = IMMORTAL, bpm = "60", var = false, url = "IMMORTAL", cat = {"pop/hiphop"}},
-    {button = XO_TOUR, bpm = "142", var = false, url = "XO_TOUR", cat = {"pop/hiphop", "sad"}},
-    {button = THE_ECSTASY_OF_GOLD, bpm = "85", var = false, url = "THE_ECSTASY_OF_GOLD", cat = {"movies/tv", "epic", "beautiful"}},
-    {button = BLUE_YUNG, bpm = "92", var = false, url = "BLUE_YUNG", cat = {"beautiful", "best"}},
-    {button = HES_A_PIRATE, bpm = "207", var = false, url = "HES_A_PIRATE", cat = {"epic", "best", "movies/tv"}},
-    {button = ITS_RAINING, bpm = "120", var = false, url = "ITS_RAINING", cat = {"memes"}},
-    {button = LET_ME_LOVE, bpm = "100", var = false, url = "LET_ME_LOVE", cat = {"pop/hiphop", "best", "beautiful"}},
-    {button = HAPPIER, bpm = "100", var = false, url = "HAPPIER", cat = {"pop/hiphop", "sad", "beautiful", "best"}},
-    {button = SANS, bpm = "120", var = false, url = "SANS", cat = {"video games", "undertale", "memes"}},
-    {button = THE_SLAUGHTER_CONT, bpm = "150", var = false, url = "THE_SLAUGHTER_CONT", cat = {"video games", "undertale"}},
-    {button = SONG_THAT_MIGHT, bpm = "120", var = false, url = "SONG_THAT_MIGHT", cat = {"video games", "undertale"}},
-    {button = ASSUMPTIONS, bpm = "126", var = false, url = "ASSUMPTIONS", cat = {"pop/hiphop", "memes", "electronic"}},
-    {button = DEATH_BED, bpm = "120", var = false, url = "DEATH_BED", cat = {"pop/hiphop", "sad", "beautiful"}},
-    {button = DAWN_OF, bpm = "72", var = false, url = "DAWN_OF", cat = {"video games"}},
-    {button = ELEVATOR_JAM, bpm = "146", var = false, url = "ELEVATOR_JAM", cat = {"video games"}},
-    {button = ELEVATOR_JAM_2, bpm = "146", var = false, url = "ELEVATOR_JAM_2", cat = {"video games", "epic", "best"}},
-    {button = HERE_I_COME, bpm = "144", var = false, url = "HERE_I_COME", cat = {"video games"}},
-    {button = MONTAGEM_TOMADA, bpm = "120", var = false, url = "MONTAGEM_TOMADA", cat = {"electronic"}},
-    {button = NOTION, bpm = "160", var = false, url = "NOTION", cat = {"rock", "sad"}},
-    {button = RISES_THE, bpm = "127", var = false, url = "RISES_THE", cat = {"sad", "beautiful"}},
-    {button = HIMITSU_KOI_GOKORO, bpm = "165", var = false, url = "HIMITSU_KOI_GOKORO", cat = {"anime/jpop", "movies/tv"}},
-    {button = LENAI, bpm = "131", var = false, url = "LENAI", cat = {"anime/jpop", "movies/tv"}},
-    {button = IDOL_EPIC, bpm = "166", var = false, url = "IDOL_EPIC", cat = {"anime/jpop", "epic", "best", "movies/tv"}},
-    {button = ALL_THE_STARS, bpm = "120", var = false, url = "ALL_THE_STARS", cat = {"pop/hiphop", "beautiful", "best", "movies/tv"}},
-    {button = HOPE, bpm = "146", var = false, url = "HOPE", cat = {"pop/hiphop", "sad", "beautiful", "best"}},
-    {button = ENTRY_OF_THE, bpm = "220", var = false, url = "ENTRY_OF_THE", cat = {"classical", "memes"}},
-    {button = LUTHER, bpm = "128", var = false, url = "LUTHER", cat = {"pop/hiphop"}},
-    {button = HOWLS_MOVING_CASTLE_2, bpm = "130", var = false, url = "HOWLS_MOVING_CASTLE_2", cat = {"anime/jpop", "beautiful", "best", "epic", "peak", "movies/tv"}},
-    {button = MAGICAL_CURE, bpm = "120", var = false, url = "MAGICAL_CURE", cat = {"anime/jpop"}},
-    {button = NOT_LIKE_US, bpm = "101", var = false, url = "NOT_LIKE_US", cat = {"pop/hiphop", "memes"}},
-    {button = PEACHES, bpm = "92", var = false, url = "PEACHES", cat = {"video games", "movies/tv"}},
-    {button = PRAYER, bpm = "147", var = false, url = "PRAYER", cat = {"beautiful", "pop/hiphop"}},
-    {button = SEE_YOU_AGAIN, bpm = "70", var = false, url = "SEE_YOU_AGAIN", cat = {"pop/hiphop", "sad", "beautiful"}},
-    {button = GANGSTAS_PARADISE, bpm = "80", var = false, url = "GANGSTAS_PARADISE", cat = {"pop/hiphop", "memes", "beautiful", "best", "epic", "peak"}},
-    {button = ERIKA, bpm = "120", var = false, url = "ERIKA", cat = {"memes"}},
-    {button = ITS_JUST_A_BURNING, bpm = "74", var = false, url = "ITS_JUST_A_BURNING", cat = {"creepy/weirdcore", "memes", "sad"}},
-    {button = ALL_I_WANT_IS_YOU, bpm = "143", var = false, url = "ALL_I_WANT_IS_YOU", cat = {"pop/hiphop", "sad", "best", "electronic"}},
-    {button = SOVIET_UNION_ANTHEM, bpm = "80", var = false, url = "SOVIET_UNION_ANTHEM", cat = {"memes"}},
-    {button = UNTITLED, bpm = "25", var = false, url = "UNTITLED", cat = {"video games", "memes", "sad", "creepy/weirdcore"}},
-    {button = WEDDING_MARCH, bpm = "115", var = false, url = "WEDDING_MARCH", cat = {"memes", "beautiful", "classical"}},
-    {button = WHY_DID_I_SAY, bpm = "113", var = false, url = "WHY_DID_I_SAY", cat = {}},
-    {button = WII_SPORTS_TITLE, bpm = "115", var = false, url = "WII_SPORTS_TITLE", cat = {"video games", "memes", "epic"}},
-    {button = YOUNG_GIRL_A_2, bpm = "130", var = false, url = "YOUNG_GIRL_A_2", cat = {"anime/jpop", "sad", "epic", "best", "beautiful", "peak"}},
-    {button = BLINDING_LIGHTS, bpm = "171", var = false, url = "BLINDING_LIGHTS", cat = {"pop/hiphop", "best"}},
-    {button = GOOFY_AHH, bpm = "120", var = false, url = "GOOFY_AHH", cat = {"memes", "epic", "best", "beautiful", "peak"}},
-    {button = GRAVITY_FALLS, bpm = "120", var = false, url = "GRAVITY_FALLS", cat = {"memes", "best", "movies/tv"}},
-    {button = GYPSY_WOMAN, bpm = "120", var = false, url = "GYPSY_WOMAN", cat = {"memes", "pop/hiphop"}},
-    {button = I_LIKE_THE_WAY_YOU, bpm = "151", var = false, url = "I_LIKE_THE_WAY_YOU", cat = {"pop/hiphop", "sad", "best", "beautiful"}},
-    {button = ISOLATION, bpm = "100", var = false, url = "ISOLATION", cat = {"best", "epic", "video games", "peak"}},
-    {button = KAWAIKUTEGOMEN, bpm = "160", var = false, url = "KAWAIKUTEGOMEN", cat = {"anime/jpop", "best"}},
-    {button = LIGHT_SWITCH, bpm = "184", var = false, url = "LIGHT_SWITCH", cat = {"pop/hiphop"}},
-    {button = SPECTRE, bpm = "128", var = false, url = "SPECTRE", cat = {"electronic", "memes", "beautiful", "best"}},
-    {button = SUPER_IDOL, bpm = "136", var = false, url = "SUPER_IDOL", cat = {"memes"}},
-    {button = THATS_WHAT_I_WANT, bpm = "85", var = false, url = "THATS_WHAT_I_WANT", cat = {"pop/hiphop"}},
-    {button = THE_AMAZING_DIGITAL, bpm = "110", var = false, url = "THE_AMAZING_DIGITAL", cat = {"best", "movies/tv"}},
-    {button = JOCELYN_FLORES, bpm = "136", var = false, url = "JOCELYN_FLORES", cat = {"sad", "beautiful"}},
-    {button = FLY_ME_TO_THE_MOON, bpm = "140", var = false, url = "FLY_ME_TO_THE_MOON", cat = {"classical", "beautiful"}},
-    {button = BAD_HABIT, bpm = "80", var = false, url = "BAD_HABIT", cat = {"pop/hiphop", "sad"}},
-    {button = SOMEBODY_THAT_I_USED, bpm = "120", var = false, url = "SOMEBODY_THAT_I_USED", cat = {"pop/hiphop", "sad"}},
-    {button = LEVAN_POLKKA, bpm = "135", var = false, url = "LEVAN_POLKKA", cat = {"memes"}},
-    {button = MY_ORDINARY_LIFE, bpm = "130", var = false, url = "MY_ORDINARY_LIFE", cat = {"electronic"}},
-    {button = RUINS, bpm = "138", var = false, url = "RUINS", cat = {"video games", "undertale"}},
-    {button = STEREO_HEARTS, bpm = "96", var = false, url = "STEREO_HEARTS", cat = {"pop/hiphop", "best"}},
-    {button = STRANGER_THINGS, bpm = "80", var = false, url = "STRANGER_THINGS", cat = {"movies/tv"}},
-    {button = HH, bpm = "150", var = false, url = "HH", cat = {"memes", "peak"}},
-    {button = A505, bpm = "140", var = false, url = "505", cat = {"rock", "sad"}},
-    {button = BELIEVER, bpm = "188", var = false, url = "BELIEVER", cat = {"rock", "pop/hiphop", "epic"}},
-    {button = CLUBSTEP, bpm = "128", var = false, url = "CLUBSTEP", cat = {"video games", "electronic"}},
-    {button = EXPERIENCE_FLOWS, bpm = "85", var = false, url = "EXPERIENCE_FLOWS", cat = {"beautiful", "best"}},
-    {button = FIELD_OF_MEMORIES, bpm = "130", var = false, url = "FIELD_OF_MEMORIES", cat = {"video games", "electronic", "epic"}},
-    {button = SKELETAL_SHENANIGANS, bpm = "158", var = false, url = "SKELETAL_SHENANIGANS", cat = {"video games", "electronic"}},
-    {button = GODS_PLAN, bpm = "130", var = false, url = "GODS_PLAN", cat = {"pop/hiphop"}},
-    {button = HOTLINE_BLING, bpm = "100", var = false, url = "HOTLINE_BLING", cat = {"pop/hiphop"}},
-    {button = I_REALLY_WANT_TO_STAY, bpm = "128", var = false, url = "I_REALLY_WANT_TO_STAY", cat = {"movies/tv", "pop/hiphop", "beautiful", "electronic"}},
-    {button = ICARUS, bpm = "100", var = false, url = "ICARUS", cat = {"beautiful"}},
-    {button = LAVENDER_TOWN, bpm = "120", var = false, url = "LAVENDER_TOWN", cat = {"video games", "memes", "creepy/weirdcore"}},
-    {button = ALONE, bpm = "142", var = false, url = "ALONE", cat = {"electronic"}},
-    {button = FRIENDS, bpm = "95", var = false, url = "FRIENDS", cat = {"pop/hiphop", "electronic"}},
-    {button = MIDDLE_OF_THE_NIGHT, bpm = "93", var = false, url = "MIDDLE_OF_THE_NIGHT", cat = {"pop/hiphop", "epic", "beautiful", "best"}},
-    {button = A99DOT9, bpm = "180", var = false, url = "99DOT9", cat = {"anime/jpop", "movies/tv"}},
-    {button = MY_EYES, bpm = "120", var = false, url = "MY_EYES", cat = {"pop/hiphop", "beautiful", "best"}},
-    {button = CRAB_RAVE, bpm = "125", var = false, url = "CRAB_RAVE", cat = {"memes", "electronic", "epic"}},
-    {button = ONE_DANCE, bpm = "108", var = false, url = "ONE_DANCE", cat = {"pop/hiphop"}},
-    {button = RAIN, bpm = "77", var = false, url = "RAIN", cat = {"beautiful", "best", "epic"}},
-    {button = RUSH_OF_LIFE, bpm = "122", var = false, url = "RUSH_OF_LIFE", cat = {"beautiful", "epic", "best", "peak"}},
-    {button = THE_SEARCH, bpm = "120", var = false, url = "THE_SEARCH", cat = {"pop/hiphop", "epic", "beautiful", "best"}},
-    {button = MICHAEL_MYERS, bpm = "144", var = false, url = "MICHAEL_MYERS", cat = {"memes", "creepy/weirdcore"}},
-    {button = YUUSHA, bpm = "208", var = false, url = "YUUSHA", cat = {"anime/jpop"}},
-    {button = CAROL_OF_THE_BELLS_EPIC, bpm = "135", var = false, url = "CAROL_OF_THE_BELLS_EPIC", cat = {"classical", "epic", "beautiful", "best"}},
-    {button = CAROL_OF_THE_BELLS, bpm = "50", var = false, url = "CAROL_OF_THE_BELLS", cat = {"classical", "beautiful", "best"}},
-    {button = CLAIR_DE_LUNE, bpm = "48", var = false, url = "CLAIR_DE_LUNE", cat = {"classical", "beautiful"}},
-    {button = OLD_TOWN_ROAD, bpm = "69", var = false, url = "OLD_TOWN_ROAD", cat = {"pop/hiphop", "memes"}},
-    {button = HATSUNE_MIKU_NO_GEKISHOU, bpm = "200", var = false, url = "HATSUNE_MIKU_NO_GEKISHOU", cat = {"anime/jpop", "best", "epic"}},
-    {button = AUTUMN, bpm = "80", var = false, url = "AUTUMN", cat = {"classical"}},
-    {button = WINTER, bpm = "136", var = false, url = "WINTER", cat = {"classical", "best", "beautiful", "epic", "peak"}},
-    {button = SPRING, bpm = "100", var = false, url = "SPRING", cat = {"classical", "video games", "memes", "best"}},
-    {button = SUMMER, bpm = "150", var = false, url = "SUMMER", cat = {"classical", "epic", "best", "beautiful", "peak"}},
-    {button = TAKE_ON_ME, bpm = "169", var = false, url = "TAKE_ON_ME", cat = {"pop/hiphop"}},
-    {button = BIG_FISH, bpm = "71", var = false, url = "BIG_FISH", cat = {"beautiful"}},
-    {button = NOPE_YOUR_TOO_LATE, bpm = "118", var = false, url = "NOPE_YOUR_TOO_LATE", cat = {"rock", "sad"}},
-    {button = INVISIBLE, bpm = "82", var = false, url = "INVISIBLE", cat = {"electronic", "beautiful", "best"}},
-    {button = PASSACAGLIA, bpm = "130", var = false, url = "PASSACAGLIA", cat = {"classical", "beautiful", "best"}},
-    {button = HAZY_MOON, bpm = "120", var = false, url = "HAZY_MOON", cat = {"anime/jpop", "beautiful"}},
-    {button = TIME_BACK, bpm = "120", var = false, url = "TIME_BACK", cat = {"movies/tv"}},
-    {button = TEST_DRIVE, bpm = "120", var = false, url = "TEST_DRIVE", cat = {"epic", "movies/tv"}},
-    {button = TAKE_FIVE, bpm = "166", var = false, url = "TAKE_FIVE", cat = {""}},
-    {button = HEART_AFIRE, bpm = "100", var = false, url = "HEART_AFIRE", cat = {"epic", "beautiful", "best"}},
-    {button = LIEBESTRAUM_NO3, bpm = "152", var = false, url = "LIEBESTRAUM_NO3", cat = {"classical"}},
-    {button = TORRENT, bpm = "190", var = false, url = "TORRENT", cat = {"classical", "epic", "best", "peak"}},
-    {button = REVOLUTIONARY, bpm = "140", var = false, url = "REVOLUTIONARY", cat = {"classical", "best"}},
-    {button = WALTZ_IN_C_MINOR, bpm = "120", var = false, url = "WALTZ_IN_C_MINOR", cat = {"classical"}},
-    {button = PRELUDE_OP28, bpm = "42", var = false, url = "PRELUDE_OP28", cat = {"classical"}},
-    {button = DIES_IRAE, bpm = "160", var = false, url = "DIES_IRAE", cat = {"classical", "best", "peak", "epic"}},
-    {button = PRELUDE_NO2, bpm = "145", var = false, url = "PRELUDE_NO2", cat = {"classical"}},
-    {button = SYMPHONY_NO5, bpm = "120", var = false, url = "SYMPHONY_NO5", cat = {"classical"}},
-    {button = PATHETIQUE, bpm = "31", var = false, url = "PATHETIQUE", cat = {"classical"}},
-    {button = COMPTINE_DUN_AUTRE_ETE, bpm = "95", var = false, url = "COMPTINE_DUN_AUTRE_ETE", cat = {"classical", "beautiful"}},
-    {button = DIE_IRAE_III, bpm = "160", var = false, url = "DIE_IRAE_III", cat = {"classical"}},
-    {button = DIES_IRAE_III_2, bpm = "160", var = false, url = "DIES_IRAE_III_2", cat = {"classical", "epic", "best", "peak"}},
-    {button = PLANT_VS_ZOMBIES, bpm = "100", var = false, url = "PLANT_VS_ZOMBIES", cat = {"video games", "memes"}},
-    {button = LOVE, bpm = "68", var = false, url = "LOVE", cat = {"sad"}},
-    {button = STRESSED_OUT, bpm = "170", var = false, url = "STRESSED_OUT", cat = {"pop/hiphop", "best"}},
-    {button = CLOCKS, bpm = "132", var = false, url = "CLOCKS", cat = {"rock"}},
-    {button = GLASSY_SKY, bpm = "68", var = false, url = "GLASSY_SKY", cat = {"anime/jpop", "sad", "movies/tv"}},
-    {button = PAYPHONE, bpm = "110", var = false, url = "PAYPHONE", cat = {"pop/hiphop", "sad", "best", "beautiful"}},
-    {button = FOR_THE_DAMAGED_CODA, bpm = "140", var = false, url = "FOR_THE_DAMAGED_CODA", cat = {"sad", "memes", "epic"}},
-    {button = PARADISE, bpm = "125", var = false, url = "PARADISE", cat = {"pop/hiphop"}},
-    {button = PLEAD, bpm = "120", var = false, url = "PLEAD", cat = {"video games", "electronic"}},
-    {button = READY_OR_NOT, bpm = "160", var = false, url = "READY_OR_NOT", cat = {"video games", "electronic"}},
-    {button = FOR_THE_DAMAGED_CODA_2, bpm = "150", var = false, url = "FOR_THE_DAMAGED_CODA_2", cat = {"sad", "memes", "epic", "best", "peak"}},
-    {button = A7_WEEKS_3_DAYS, bpm = "130", var = false, url = "7_WEEKS_3_DAYS", cat = {"creepy/weirdcore"}},
-    {button = SEE_YOU_AGAIN_CHARLIE, bpm = "60", var = false, url = "SEE_YOU_AGAIN_CHARLIE", cat = {"pop/hiphop", "sad", "beautiful"}},
-    {button = ANNIHILATE, bpm = "146", var = false, url = "ANNIHILATE", cat = {"pop/hiphop", "movies/tv"}},
-    {button = MY_HEART_WILL_GO_ON, bpm = "90", var = false, url = "MY_HEART_WILL_GO_ON", cat = {"sad", "movies/tv", "beautiful", "best"}},
-    {button = NUMBERS, bpm = "100", var = false, url = "NUMBERS", cat = {"creepy/weirdcore"}},
-    {button = NYAN_CAT, bpm = "140", var = false, url = "NYAN_CAT", cat = {"memes", "best"}},
-    {button = OVERTAKEN, bpm = "105", var = false, url = "OVERTAKEN", cat = {"anime/jpop", "movies/tv"}},
-    {button = GURENGE, bpm = "135", var = false, url = "GURENGE", cat = {"anime/jpop", "movies/tv", "best", "epic", "beautiful", "peak"}},
-    {button = CROSSING_FIELD, bpm = "179", var = false, url = "CROSSING_FIELD", cat = {"anime/jpop", "movies/tv"}},
-    {button = UNTIL_I_FOUND_YOU, bpm = "101", var = false, url = "UNTIL_I_FOUND_YOU", cat = {"pop/hiphop", "sad", "beautiful", "best"}},
-    {button = OLD_DOLL, bpm = "100", var = false, url = "OLD_DOLL", cat = {"creepy/weirdcore"}},
-    {button = WE_ARE, bpm = "168", var = false, url = "WE_ARE", cat = {"anime/jpop", "movies/tv"}},
-    {button = RIGHTEOUS, bpm = "160", var = false, url = "RIGHTEOUS", cat = {"electronic"}},
-    {button = SILHOUETTE, bpm = "185", var = false, url = "SILHOUETTE", cat = {"anime/jpop", "movies/tv"}},
-    {button = LET_IT_HAPPEN, bpm = "120", var = false, url = "LET_IT_HAPPEN", cat = {"rock", "beautiful"}},
-    {button = BEANIE, bpm = "135", var = false, url = "BEANIE", cat = {"sad"}},
-    {button = ALTALE, bpm = "90", var = false, url = "ALTALE", cat = {"electronic", "new"}},
-    {button = LET_ME_DOWN_SLOWLY, bpm = "75", var = false, url = "LET_ME_DOWN_SLOWLY", cat = {"sad", "new"}},
-    {button = RUSH_C, bpm = "60", var = false, url = "RUSH_C", cat = {"new"}},
-    {button = RUSH_F, bpm = "60", var = false, url = "RUSH_F", cat = {"new"}},
-    {button = RUSH_G, bpm = "60", var = false, url = "RUSH_G", cat = {"new"}},
-    {button = BEAUTIFUL_THINGS, bpm = "70", var = false, url = "BEAUTIFUL_THINGS", cat = {"rock", "pop/hiphop", "new"}},
-    {button = OBLIVION, bpm = "156", var = false, url = "OBLIVION", cat = {"rock", "beautiful", "new"}},
-    {button = A_CYBERS_WORLD, bpm = "117", var = false, url = "A_CYBERS_WORLD", cat = {"deltarune", "video games", "best", "new"}},
-    {button = DEXTER_BLOOD_THEME, bpm = "82", var = false, url = "DEXTER_BLOOD_THEME", cat = {"movies/tv", "new"}},
-    {button = PASSO_BEM_SOLTO, bpm = "120", var = false, url = "PASSO_BEM_SOLTO", cat = {"electronic", "new"}},
-    {button = MINGLE, bpm = "105", var = false, url = "MINGLE", cat = {"creepy/weirdcore", "movies/tv", "new"}},
-    {button = LUX_AETERNA, bpm = "70", var = false, url = "LUX_AETERNA", cat = {"movies/tv", "new"}},
-    {button = FIELD_OF_HOPES_AND_DREAMS, bpm = "125", var = false, url = "FIELD_OF_HOPES_AND_DREAMS", cat = {"deltarune", "video games", "new"}},
-    {button = CHAOS_KING, bpm = "148", var = false, url = "CHAOS_KING", cat = {"deltarune", "video games", "new"}},
-    {button = BIG_SHOT, bpm = "280", var = false, url = "BIG_SHOT", cat = {"deltarune", "video games", "new"}},
-    {button = THE_WORLD_REVOLVING, bpm = "190", var = false, url = "THE_WORLD_REVOLVING", cat = {"deltarune", "video games", "best", "new"}},
-    {button = RUDE_BUSTER, bpm = "140", var = false, url = "RUDE_BUSTER", cat = {"deltarune", "video games", "best", "new"}},
-    {button = TIME_FLOWS_EVER_ONWARD, bpm = "100", var = false, url = "TIME_FLOWS_EVER_ONWARD", cat = {"movies/tv", "anime/jpop", "new"}},
-    {button = IDEA_10, bpm = "170", var = false, url = "IDEA_10", cat = {"beautiful", "new"}},
-    {button = CREEP, bpm = "100", var = false, url = "CREEP", cat = {"rock", "sad", "new"}},
-    {button = MASTER_OF_PUPPETS, bpm = "220", var = false, url = "MASTER_OF_PUPPETS", cat = {"rock", "new"}},
-    {button = NOTHING_ELSE_MATTERS, bpm = "75", var = false, url = "NOTHING_ELSE_MATTERS", cat = {"rock", "sad", "new"}},
-    {button = MY_LOVE_ALL_MINE, bpm = "57", var = false, url = "MY_LOVE_ALL_MINE", cat = {"sad", "best", "new"}},
-    {button = NO_SURPRISES, bpm = "80", var = false, url = "NO_SURPRISES", cat = {"rock", "sad", "new"}},
-    {button = ORDER, bpm = "170", var = false, url = "ORDER", cat = {"video games", "best", "new"}},
-    {button = RUNAWAY_AURORA, bpm = "90", var = false, url = "RUNAWAY_AURORA", cat = {"sad", "beautiful", "best", "new"}},
-    {button = IM_NOT_THE_ONLY_ONE, bpm = "80", var = false, url = "IM_NOT_THE_ONLY_ONE", cat = {"pop/hiphop", "sad", "new"}},
-    {button = UNSTOPPABLE, bpm = "85", var = false, url = "UNSTOPPABLE", cat = {"pop/hiphop", "best", "new"}},
-    {button = ZOMBIE, bpm = "164", var = false, url = "ZOMBIE", cat = {"rock", "new"}},
-    {button = MY_CASTLE_TOWN, bpm = "136", var = false, url = "MY_CASTLE_TOWN", cat = {"video games", "deltarune", "new"}},
-    {button = SCARLET_FOREST, bpm = "122", var = false, url = "SCARLET_FOREST", cat = {"video games", "deltarune", "new"}},
-    {button = THE_LEGEND, bpm = "110", var = false, url = "THE_LEGEND", cat = {"video games", "deltarune", "new"}},
-    {button = ATTACK_OF_THE_KILLER_QUEEN, bpm = "144", var = false, url = "ATTACK_OF_THE_KILLER_QUEEN", cat = {"video games", "deltarune", "best", "new"}},
-    {button = BELLA_CIAO, bpm = "136", var = false, url = "BELLA_CIAO", cat = {"movies/tv", "best", "new"}},
-    {button = DAISY_BELL, bpm = "120", var = false, url = "DAISY_BELL", cat = {"creepy/weirdcore", "new"}},
-    {button = ORDINARY, bpm = "168", var = false, url = "ORDINARY", cat = {"pop/hiphop", "sad", "beautiful", "best", "new"}},
-    {button = ETHEREAL, bpm = "132", var = false, url = "ETHEREAL", cat = {"beautiful", "best", "peak", "new"}},
-    {button = BOHEMIAN_RHAPSODY, bpm = "80", var = false, url = "BOHEMIAN_RHAPSODY", cat = {"rock", "new"}},
-    {button = RIPTIDE, bpm = "90", var = false, url = "RIPTIDE", cat = {"pop/hiphop", "new"}},
-    {button = SAILOR_SONG, bpm = "83", var = false, url = "SAILOR_SONG", cat = {"sad", "new"}},
-
-
-
-}
-
-for _, song in ipairs(songs) do
-    print("song loaded: " .. song.button.Name)
-end
-
-local categories = {
-    "new",
-    "peak",
-    "best",
-    "epic",
-    "beautiful",
-    "video games",
-    "movies/tv",
-    "memes",
-    "classical",
-    "pop/hiphop",
-    "anime/jpop",
-    "sad",
-    "electronic",
-    "rock",
-    "creepy/weirdcore",
-    "undertale",
-    "deltarune",
-    "minecraft",
-    "omori"
-} -- The main table for unique categories
-
-local folderexists = false
-local customsongbuttons = {}
-local favsongbuttons = {}
-
-print("initiating buttons")
-
-print("fetching songs")
-
-local customnotice = Instance.new("TextLabel")
-customnotice.Name = "customnotice"
-customnotice.Parent = scroll
-customnotice.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-customnotice.BorderColor3 = Color3.fromRGB(64, 68, 90)
-customnotice.BorderSizePixel = 4
-customnotice.Size = UDim2.new(0, 175, 0, 75)
-customnotice.Font = Enum.Font.SourceSansBold
-customnotice.Text = "Your executor may not support this feature."
-customnotice.TextColor3 = Color3.fromRGB(255, 255, 255)
-customnotice.TextSize = 25.000
-customnotice.TextWrapped = true
-
-local function newcat(name)
-    local TextButton = Instance.new("TextButton")
-    TextButton.Parent = categoriesFrame
-    TextButton.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-    TextButton.BorderColor3 = Color3.fromRGB(64, 68, 90)
-    TextButton.BorderSizePixel = 2
-    TextButton.Size = UDim2.new(0, 100, 0, 25)
-    TextButton.Font = Enum.Font.SourceSansBold
-    TextButton.Text = name
-    TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TextButton.TextSize = 14.000
-
-    return TextButton
-end
-
-local function makeAllInvisible()
-    for _, song in ipairs(songs) do
-        song.button.Visible = false
-    end
-
-    for _, song in ipairs(customsongbuttons) do
-        song.Visible = false
-    end
-
-    for _, song in ipairs(favsongbuttons) do
-        song.Visible = false
-    end
-
-    PLAYRANDOM.Visible = false
-    LOOPRANDOM.Visible = false
-    customnotice.Visible = false
-end
-
-
-
-local customcat = newcat("custom songs (0)")
-
-customcat.MouseButton1Click:Connect(
-    function()
-        scroll.CanvasPosition = Vector2.new(0, 0)
-
-        makeAllInvisible()
-
-        for _, song in ipairs(customsongbuttons) do
-            song.Visible = true
-        end
-
-        customnotice.Visible = true
-    end
-)
-
-function updatecustomcount()
-    customcat.Text = "custom songs (" .. tostring(#customsongbuttons - 1) .. ")"
-end
-
-
-
-local favcat = newcat("favourites (0)")
-
-favcat.MouseButton1Click:Connect(
-    function()
-        scroll.CanvasPosition = Vector2.new(0, 0)
-        makeAllInvisible()
-
-        for _, song in ipairs(favsongbuttons) do
-            song.Visible = true
-        end
-
-        customnotice.Visible = true
-    end
-)
-
-function updatefavcount()
-    favcat.Text = "favourites (" .. tostring(#favsongbuttons) .. ")"
-end
-
-
-
-local othercats = newcat("other")
-
-othercats.MouseButton1Click:Connect(
-    function()
-        scroll.CanvasPosition = Vector2.new(0, 0)
-
-        makeAllInvisible()
-
-        PLAYRANDOM.Visible = true
-        LOOPRANDOM.Visible = true
-    end
-)
-
-local allcats = newcat("all (" .. tostring(#songs) .. ")")
-
-allcats.MouseButton1Click:Connect(
-    function()
-        scroll.CanvasPosition = Vector2.new(0, 0)
-
-        makeAllInvisible()
-
-        for _, song in ipairs(songs) do
-            song.button.Visible = true
-        end
-
-        PLAYRANDOM.Visible = true
-        LOOPRANDOM.Visible = true
-    end
-)
-
--- after making all the manual categories, create the rest
-
-for _, categoryName in pairs(categories) do
-    local numsongs = {}
-    for _, song in ipairs(songs) do
-        for _, category in ipairs(song.cat) do
-            if category == categoryName then
-                table.insert(numsongs, song.button.Name)
-            end
-        end
-    end
-
-    local categoryButton = newcat(categoryName .. " (" .. tostring(#numsongs) .. ")")
-
-    categoryButton.MouseButton1Click:Connect(
-        function()
-            makeAllInvisible()
-
-            scroll.CanvasPosition = Vector2.new(0, 0)
-
-            for _, song in ipairs(songs) do
-                song.button.Visible = false
-                for _, category in ipairs(song.cat) do
-                    if category == categoryName then
-                        song.button.Visible = true
-                    end
-                end
-            end
-
-            for _, song in ipairs(customsongbuttons) do
-                song.Visible = false
-            end
-        end
-    )
-end
-
--- end of category stuff
-
-function disable()
-    for _, song in ipairs(songs) do
-        song.var = false
-    end
-end
-
-disable()
-
-songisplaying = false
-
-function playbuttonclicked()
-    if songisplaying then
-        playSound("6493287948", 0.1)
-        NotificationLibrary:SendNotification("Error", "A song is already playing.", 1)
-        return
-    end
-
-    songisplaying = true
-
-    bpm = tonumber(bpmbox.Text)
-
-    if spoofMidiPlz == true then
-        -- Spoof MIDI
-        loadstring(
-            game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/midi_spoof_loader.lua", true)
-        )()
-    else
-        loadstring(
-            game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/loader_main.lua", true)
-        )()
-    end
-
-    -- find which song to play
-
-    local songFound = false
-    for _, song in pairs(songs) do
-        if songFound == false then
-            if song.var == true then
-                loadstring(
-                    game:HttpGet(
-                        "https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/SONGS/" .. song.url,
-                        true
-                    )
-                )()
-            songFound = true
-            end
-        end
-    end
-end -- close the play song onclick function
-
-playsong.MouseButton1Click:Connect(playbuttonclicked)
-
-for _, song in ipairs(songs) do
-    song.button.MouseButton1Click:Connect(
-        function()
-            disable()
-            song.var = true
-            songname.Text = song.button.Text
-            bpmbox.Text = song.bpm
-        end
-    )
-end
-
--- play random function
-
-PLAYRANDOM.MouseButton1Click:Connect(
-    function()
-        local function getRandomSong()
-            local ransong = math.random(1, #songs)
-            return songs[ransong]
-        end
-
-        local randomSong = getRandomSong()
-
-        disable()
-        randomSong.var = true
-        songname.Text = randomSong.button.Name
-        bpmbox.Text = randomSong.bpm
-
-        playbuttonclicked()
-    end
-)
-
--- play all function
-
-playingall = false
-
-local function createstopbutton()
-    if not STOPLOOP then
-        -- StarterGui.ScreenGui.Frame.scrolltab.stoploop
-        STOPLOOP = Instance.new("TextButton", bar)
-        STOPLOOP["BorderSizePixel"] = 4
-        STOPLOOP["TextSize"] = 14
-        STOPLOOP["TextColor3"] = Color3.fromRGB(255, 255, 255)
-        STOPLOOP["BackgroundColor3"] = Color3.fromRGB(76, 82, 101)
-        STOPLOOP["FontFace"] =
-            Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-        STOPLOOP["AutomaticSize"] = Enum.AutomaticSize.XY
-        STOPLOOP["Size"] = UDim2.new(0, 125, 0, 27)
-        STOPLOOP["Name"] = [[stoploop]]
-        STOPLOOP["BorderColor3"] = Color3.fromRGB(64, 68, 90)
-        STOPLOOP["Text"] = [[STOP LOOPING SONGS]]
-        STOPLOOP.LayoutOrder = 4
-
-        STOPLOOP.MouseButton1Click:Connect(
-            function()
-                playingall = false
-                STOPLOOP:Destroy()
-                stopPlayingSongs() -- universal function made from the loader
-                STOPLOOP = nil
-            end
-        )
-    end
-end
-
-LOOPRANDOM.MouseButton1Click:Connect(
-    function()
-        if playingall then
-            return
-        end
-        playingall = true
-        createstopbutton()
-
-        local playedSongs = {}
-
-        local function getRandomSong()
-            if #playedSongs >= #songs then
-                playedSongs = {}
-            end
-
-            while true do
-                local ransong = math.random(1, #songs)
-                if not table.find(playedSongs, songs[ransong].button.Name) then
-                    table.insert(playedSongs, songs[ransong].button.Name)
-                    return songs[ransong]
-                end
-            end
-        end
-
-        while wait(1) do
-
-            local randomSong = getRandomSong()
-            if not playingall then
-                return
-            end
-
-            disable()
-            randomSong.var = true
-            songname.Text = randomSong.button.Name
-            bpmbox.Text = randomSong.bpm
-            playbuttonclicked()
-        end
-    end
-)
-
--- close function
-
-closeButton.MouseButton1Click:Connect(
-    function()
-        ScreenGui:Destroy()
-        STOPLOOP = nil
-        playingall = false
-        playSound("104269922408932", 0.2)
-    end
-)
-
-infoButton.MouseButton1Click:Connect(
-    function()
-        loadstring(
-            game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/info.lua", true)
-        )()
-    end
-)
-
--- function to make the song buttons
-
-local function newCustomSongButton(name)
-    local customsongframe = Instance.new("Frame")
-    local test = Instance.new("TextButton")
-    local ImageButton = Instance.new("ImageButton")
-
-    customsongframe.Name = "customsongframe"
-    customsongframe.Parent = scroll
-    customsongframe.BackgroundColor3 = Color3.fromRGB(76, 82, 101)
-    customsongframe.BorderColor3 = Color3.fromRGB(64, 68, 90)
-    customsongframe.BorderSizePixel = 4
-    customsongframe.Size = UDim2.new(0, 175, 0, 35)
-    customsongframe.SizeConstraint = Enum.SizeConstraint.RelativeYY
-
-    test.Name = name
-    test.Parent = customsongframe
-    test.BackgroundTransparency = 1.000
-    test.Size = UDim2.new(0, 135, 0, 35)
-    test.Font = Enum.Font.SourceSansBold
-    test.Text = name
-    test.TextColor3 = Color3.fromRGB(255, 255, 255)
-    test.TextScaled = true
-    test.TextWrapped = true
-
-    ImageButton.Parent = customsongframe
-    ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ImageButton.BackgroundTransparency = 1.000
-    ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ImageButton.BorderSizePixel = 0
-    ImageButton.Position = UDim2.new(0.816999972, 0, 0.115000002, 0)
-    ImageButton.Size = UDim2.new(0, 26, 0, 27)
-    ImageButton.Image = "http://www.roblox.com/asset/?id=6121397347"
-
-    local favButton = Instance.new("ImageButton") -- star button for favourites
-
-    favButton.Parent = test
-    favButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    favButton.BackgroundTransparency = 1.000
-    favButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    favButton.BorderSizePixel = 0
-    favButton.AnchorPoint = Vector2.new(0, 0.5)
-    favButton.Position = UDim2.new(0, 0, 0.5, 0)
-    favButton.Size = UDim2.new(0, 25, 0, 25)
-    favButton.Image = "rbxassetid://76156993128854" -- unfav icon
-    favButton.Visible = false
-    favButton.Name = "favButton"
-
-    return {button = test, delbutton = ImageButton, frame = customsongframe}
-end
-
--- testing if the executor supports
--- listfiles(""), listfiles([[./TALENTLESS_CUSTOM_SONGS]])
-
-local function test(name, _, func)
-    print("Running test: " .. name)
-    local success, err = pcall(func)
-    if success then
-        print(name .. " passed")
-        return true
-    else
-        print(name .. " failed: " .. err)
-        return false
-    end
-end
-
-local function runTests()
-    local allPassed = true
-
-    allPassed =
-        test(
-        "makefolder",
-        {},
-        function()
-            makefolder("TALENTLESS_makefolder")
-            assert(isfolder("TALENTLESS_makefolder"), "Did not create the folder")
-        end
-    ) and allPassed
-
-    allPassed =
-        test(
-        "listfiles",
-        {},
-        function()
-            assert(#listfiles("") > 0, "Did not return a list of files")
-        end
-    ) and allPassed
-
-    allPassed =
-        test(
-        "writefile",
-        {},
-        function()
-            writefile("TALENTLESS_makefolder/writefile.txt", "success")
-            testfile = listfiles("./TALENTLESS_makefolder")[1]
-            assert(readfile(testfile) == "success", "Did not write the file")
-        end
-    ) and allPassed
-
-    allPassed =
-        test(
-        "listfiles2",
-        {},
-        function()
-            assert(#listfiles("./TALENTLESS_makefolder") > 0, "Did not return a list of files")
-        end
-    ) and allPassed
-
-    allPassed =
-        test(
-        "delfile",
-        {},
-        function()
-            delfile(testfile)
-            assert(not isfile(testfile), "Did not delete the file")
-        end
-    ) and allPassed
-
-    return allPassed
-end
-
-local result = runTests()
-
-if result == true then
-    print("this executor supports custom songs")
-    customnotice:Destroy()
-end
-
-
-
--- CUSTOM SONGS
--- CUSTOM SONGS
--- CUSTOM SONGS
-
-
-
-NEWSONGBUTTON = newSongButton("+", 30, {""})
-NEWSONGBUTTON.Visible = false
-print("loaded NEWSONGBUTTON")
-
-NEWSONGBUTTON.MouseButton1Click:Connect(
-    function()
-        loadstring(
-            game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/add_song.lua", true)
-        )()
-    end
-)
-
-table.insert(customsongbuttons, NEWSONGBUTTON)
-local addedCustoms = {}
-
-function updateSongs() -- universal function so it can be called from the custom song creator gui
-    local alreadyAdded
-
-    for _, file in ipairs(listfiles("")) do
-        print(tostring(file))
-        if folderexists == false then
-            if string.find(tostring(file), "TALENTLESS_CUSTOM_SONGS") then
-                folderexists = true
-                print("custom songs folder found")
-            end
-        end
-    end
-
-    print("searching for custom song files...")
-
-    if folderexists then
-        for _, custom in ipairs(listfiles([[./TALENTLESS_CUSTOM_SONGS]])) do
-            alreadyAdded = false
-
-            print("song file found: " .. tostring(custom))
-
-            local filepath = tostring(custom) -- converts it into the format /TALENTLESS_CUSTOM_SONGS\example.txt
-
-            if not table.find(addedCustoms, filepath) then
-                if filepath:match("%.txt$") then -- if it has .txt at the end
-                    print("its a txt file, continuing")
-
-                    table.insert(addedCustoms, filepath) -- add the file to the addedCustoms table
-                    local tsongname = filepath:gsub([[\]], "/"):match(".*/([^/]+)%.txt$") or "Error" -- remove the /, \, and .txt
-                    print("song name: " .. tsongname)
-
-                    local hello = newCustomSongButton(tsongname) -- make the song button
-                    local songbutton = hello.button -- get the button
-                    local delsongbutton = hello.delbutton
-                    local songframe = hello.frame -- get the frame
-                    table.insert(customsongbuttons, songframe)
-                    songbutton.Visible = false
-
-                    print("created song button for " .. tsongname)
-
-                    local songbpm = readfile(custom):match("bpm%s*=%s*(%d+)") or "Error" -- read the file and look for the string after bpm =
-                    print("songbpm found: " .. songbpm)
-
-                    songbutton.Visible = true
-
-                    songbutton.MouseButton1Click:Connect(
-                        function()
-                            print("clicked!")
-
-                            if songisplaying then
-                                playSound("6493287948", 0.1)
-                                NotificationLibrary:SendNotification("Error", "A song is already playing.", 1)
-                                return
-                            else
-                                local songcode = readfile(custom) -- define the contents of the song file
-                                local func = loadstring(songcode) -- load it
-
-                                if func then
-                                    print("running scrip....")
-                                    songname.Text = tsongname
-                                    bpmbox.Text = songbpm
-                                    playSound("6493287948", 0.1)
-                                    NotificationLibrary:SendNotification("Success", "Began playing song.", 1)
-                                    songisplaying = true
-                                    func()
-                                else
-                                    print("invalid script")
-                                    playSound("6493287948", 0.1)
-                                    NotificationLibrary:SendNotification(
-                                        "Error",
-                                        "Your song script is broken. If confused, contact support in the discord.",
-                                        5
-                                    )
+local Notification = require(game:GetService("ReplicatedStorage").Game.Notification)
+Notification.new({
+    Text = "vortex is discontinued but u can still use it -> dsc.gg/norb for upcoming new one",
+    Duration = 3
+})
+
+local b = string.char; local c = string.byte; local d = string.sub; local e = bit32 or bit; local f = e.bxor; local g =
+table.concat; local h = table.insert; local function i(j, k)
+    local l = {}
+    for m = 1, #j do h(l, b(f(c(d(j, m, m + 1)), c(d(k, 1 + m % #k, 1 + m % #k + 1))) % 256)) end; return g(l)
+end; local n = game.PlaceId; local o = game:GetService(i("\225\207\218\60\227\169\212", "\126\177\163\187\69\134\219\167"))
+repeat task.wait() until game:IsLoaded()
+getgenv().loadedVortex = true; warn(i("\48\206\56\204\236\55\141\40\220\188\45\194\56\199\195", "\156\67\173\74\165"))
+warn(i("\2\184\91\2\185\62\6\34\230", "\38\84\215\41\118\220\70"))
+if n ~= 606849621 then return o.LocalPlayer:Kick(i(
+    "\122\23\43\30\252\66\19\35\25\190\89\5\98\6\246\85\86\45\28\242\73\86\37\19\243\85\86\54\26\255\68\86\43\1\190\67\3\50\2\241\66\2\39\22\190\82\15\98\6\246\89\5\98\1\253\66\31\50\6\191",
+        "\158\48\118\66\114")) else
+    local p = game:GetService(i("\153\33\0\58\122\166\250\191\33\20\5\103\170\233\170\35\21", "\155\203\68\112\86\19\197"))
+    local q = game:GetService(i("\114\216\58\249\80\119\247\236\117\216\36\234\73\123\224",
+        "\152\38\189\86\156\32\24\133"))
+    local r = game:GetService(i("\201\68\162\84\213\89\183\83\232\100\162\84\234\94\164\67", "\38\156\55\199"))
+    local s = game:GetService(i("\154\104\114\27\22\102\236\74\171\120", "\35\200\29\28\72\115\20\154"))
+    local t = game:GetService(i("\45\186\201\203\174\36\53\13\140\212\205\155\37\55\28", "\84\121\223\177\191\237\76"))
+    local u = game:GetService(i("\141\95\219\180\47\81\60\232\181\70\220\180\23\81\62\192\188\83\219",
+        "\161\219\54\169\192\90\48\80"))
+    local v = game:GetService(i("\97\86\20\53\122\71\18\51\64\65\5", "\69\41\34\96"))
+    local w = game:GetService(i("\142\193\207\43\12\42\176\218\195\3\1\56\143\198\197\28\11\40\185",
+        "\75\220\163\183\106\98")):GetClientId()
+    local x = require(p.Game.Paraglide)
+    local y = p.Game.PlayerUtils; local z = require(p.Game.GunShop.GunShopUI)
+    local A = require(p.Game.GunShop.GunShopUtils)
+    local B; local C = require(p.Vehicle.VehicleUtils)
+    local D = require(p.Vehicle.VehicleUtils).GetLocalVehiclePacket; local E = require(p.Game.Notification)
+    local F = require(p.Robbery.RobberyConsts)
+    local G = p.RobberyState; local H = game:GetService(i("\46\179\140\63\205\11\180\140", "\185\98\218\235\87"))
+    local I = game:GetService("Workspace").CurrentCamera; local J = game:GetService(i("\231\51\32\213\219\184\221\53\36\227",
+        "\202\171\92\71\134\190"))
+    local K = true; local L = {}
+    local M = {}
+    local N = o.LocalPlayer.PlayerGui.AppUI.Buttons.Minimap.Map.Container.Points; local O = require(p.MansionRobbery
+    .BossNPCConsts)
+    local P = i("\58\213\45\139\34\129\35\158\44\211\42\132\38\214", "\232\73\161\76")
+    J.MessageOut:Connect(function(Q, R) if R == Enum.MessageType.MessageError and string.find(Q:lower(), P) then
+            local S = 590 - (30 + 560)
+            while true do if 0 - 0 == S then
+                    warn(i("\168\205\67\94\21\251\214\84\88\12\189\213\77\74\94\191\220\86\88\29\175\220\70\7\94",
+                        "\126\219\185\34\61") .. Q)
+                    return o.LocalPlayer:Kick("\n[Vortex Error]: stack overflow detected, please rejoin the game.")
+                end end
+        end end)
+    local function T()
+        local U = 0; while true do
+            local V = 805 - (603 + 202)
+            while true do if V == 0 then
+                    if U == 0 + 0 then
+                        local W = 0 - 0; while true do
+                            if W == 1 then
+                                U = 1; break
+                            end; if 0 + 0 == W then
+                                local X = 0; while true do
+                                    if X == 0 - 0 then
+                                        game.Changed.Connect(r.WindowFocusReleased, function() K = false end)
+                                        game.Changed.Connect(r.WindowFocused, function() K = true end)
+                                        X = 1 + 0
+                                    end; if 1 == X then
+                                        W = 2 - 1; break
+                                    end
                                 end
                             end
                         end
-                    )
-
-                    -- del song function
-
-                    local clickTime = 0.5
-                    local lastClick = 0
-
-                    delsongbutton.MouseButton1Click:Connect(
-                        function()
-                            local now = tick()
-                            if now - lastClick <= clickTime then
-                                -- Double-click detected
-                                print("Double-click detected. Deleting song...")
-                                delfile(filepath) -- Delete the file
-                                songframe:Destroy()
-                                table.remove(customsongbuttons, table.find(customsongbuttons, songbutton))
-                                table.remove(addedCustoms, table.find(addedCustoms, filepath))
-                                updatecustomcount()
-                                playSound("6493287948", 0.1)
-                                NotificationLibrary:SendNotification("Success", "Your song has been deleted.", 5)
-                            else
-                                -- Single-click detected
-                                print("Single-click detected. Showing notification...")
-                                playSound("6493287948", 0.1)
-                                NotificationLibrary:SendNotification("Info", "Double-click to delete the song.", 3)
+                    end; if U == 1 then return K end; break
+                end end
+        end
+    end; local function Y()
+        local Z = 0 - 0; local _; local a0; while true do
+            if Z == 280 - (174 + 105) then return a0 end; if Z == 0 - 0 then
+                _, a0 = 20, nil; for a1, a2 in pairs(o:GetPlayers()) do if a2.Team.Name ~= o.LocalPlayer.Team.Name and a2.Character and a2.Character:FindFirstChild(i("\36\219\83\115\112\120\250\227\62\193\81\102\78\118\225\243", "\135\108\174\62\18\30\23\147")) and a2.Character.Humanoid.Health ~= 913 - (532 + 381) and o.LocalPlayer.Character.Humanoid.Health ~= 0 + 0 then if a2.Team.Name == i("\134\251\35\216\23\160\54\213", "\167\214\137\74\171\120\206\83") and o.LocalPlayer.Team.Name == i("\168\226\59\80\241\169\138\252", "\199\235\144\82\61\152") or a2.Team.Name == i("\36\4\176\38\14\24\184\39", "\75\103\118\217") and o.LocalPlayer.Team.Name == i("\247\70\121\7\182\16\194\70", "\126\167\52\16\116\217") then elseif (a2.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < _ then _, a0 =
+                            (a2.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position)
+                            .Magnitude, a2 end end end; Z = 1
+            end
+        end
+    end; local function a3()
+        local a4 = 839 - (137 + 702)
+        local a5; local a6; while true do
+            if a4 == 1 then
+                while true do
+                    if a5 == 0 - 0 then
+                        local a7 = 0 + 0; while true do
+                            if a7 == 1 then
+                                a5 = 3 - 2; break
+                            end; if a7 == 1886 - (1819 + 67) then
+                                a6 = require(p.Game:WaitForChild(i("\225\58\37\141\135\0\239\220\43\45",
+                                    "\156\168\78\64\224\212\121")):WaitForChild(i("\46\250\160\195\52\247\182\218\2\227",
+                                    "\174\103\142\197"))).GetLocalEquipped()
+                                if not a6 then return end; a7 = 1 + 0
                             end
-                            lastClick = now -- Update the last click time
                         end
-                    )
-
-                    updatecustomcount()
-                else -- if yes table.find
-                    print("song already added, skipping")
-                end
-            else
-                print("its not a txt, skipping")
+                    end; if a5 == 1 + 0 then
+                        require(p.Game:WaitForChild(i("\127\60\90\53", "\152\54\72\63\88\69\62")):WaitForChild(i(
+                        "\243\209\224", "\60\180\164\142")))._attemptShoot(a6)
+                        break
+                    end
+                end; break
+            end; if 0 == a4 then
+                a5 = 1357 - (259 + 1098)
+                a6 = nil; a4 = 1 + 0
             end
         end
-    else
-    end -- ends if folderexists
-end -- end updatesongs func
-
-for _, songbutton in ipairs(scroll:GetChildren()) do
-    if songbutton:IsA("TextButton") then
-        if songbutton.Text == "error" then
-            songbutton:Destroy()
-        end
-    else
-    end
-end
-
-wait(0.5)
-updateSongs()
-
-
-
--- FAVOURITE SONGS
--- FAVOURITE SONGS
--- FAVOURITE SONGS
-
-
-
-local addedFavsNames = {}
-
-
-local function updateFavs()
-
-    local favFileExists
-    local favSongsContent
-
-    if isfile("TALENTLESS_FAV_SONGS.txt") then
-        favFileExists = true
-        favSongsContent = readfile("TALENTLESS_FAV_SONGS.txt")
-    else
-        favFileExists = false
-    end
-
-    if favFileExists then
-        local allSongNames = {}
-
-        for _, song in ipairs(songs) do
-            table.insert(allSongNames, {button = song.button, name = song.button.Text})
-        end
-
-        for _, songFrame in ipairs(customsongbuttons) do
-            local btn = songFrame and songFrame:FindFirstChildOfClass("TextButton")
-            if btn then
-                table.insert(allSongNames, {button = songFrame, name = btn.Text})
-            end
-        end
-
-        for line in favSongsContent:gmatch("[^\r\n]+") do
-            if line ~= "" and not table.find(addedFavsNames, line) then
-                for _, entry in ipairs(allSongNames) do
-                    if entry.name == line then
-                        if entry.button:IsA("Frame") then
-                            local btn = entry.button and entry.button:FindFirstChildOfClass("TextButton")
-                            btn.favButton.Image = "rbxassetid://137655053511068" -- fav icon
-                        else
-                            entry.button.favButton.Image = "rbxassetid://137655053511068" -- fav icon
-                        end
-                        table.insert(favsongbuttons, entry.button)
+    end; if getgenv().loadedVortex == nil and tostring(w) ~= i("\10\15\83\121\127\185\19\11\19\3\126\33\188\95\12\12\93\42\106\236\20\91\9\72\47\117\187\16\11\14\7\44\113\185\74\90", "\114\56\62\101\73\71\141") then
+        local a8 = 0; local a9; local aa; local ab; local ac; local ad; while true do
+            if a8 == 1 + 0 then
+                local ae = 0 + 0; while true do
+                    if ae == 0 - 0 then
+                        ab = { [i("\130\35\195\6\226\143\56", "\135\225\76\173\114")] = i(
+                        "\70\205\239\231\255\238\247\76\188\235\230\250\229\242\75\181\235\224\252\235\249\90\201\189\164\169\190\179\31\233\248\165\191\184\181\84",
+                            "\199\122\141\216\208\204\221"), [i("\168\208\18\245\124\229", "\150\205\189\112\144\24")] = { aa } }
+                        ac, ad = pcall(function() return request({ [i("\16\150\179", "\112\69\228\223\44\100\232\113")] =
+                            a9, [i("\249\26\19\219\185\120", "\230\180\127\103\179\214\28")] = i("\188\42\108\114",
+                                "\128\236\101\63\38\132\33"),
+                                [i("\132\172\16\64\179\249\220", "\175\204\201\113\36\214\139")] = { [i("\100\195\59\200\1\73\216\120\232\29\87\201", "\100\39\172\85\188")] = "application/json" },
+                                [i("\143\119\189\153", "\83\205\24\217\224")] = v:JSONEncode(ab) }) end)
+                        ae = 1 + 0
+                    end; if ae == 4 - 3 then
+                        a8 = 1708 - (667 + 1039)
+                        break
                     end
                 end
-                table.insert(addedFavsNames, line)
+            end; if 1021 - (274 + 745) == a8 then
+                if not ac then return o.LocalPlayer:Kick(i(
+                    "\199\203\141\56\244\215\194\47\166\202\206\62\243\215\223\56\226\133\218\53\239\201\200\125\227\203\222\40\244\204\195\58\166\209\197\56\166\214\204\59\227\209\212\125\233\195\141\41\238\192\141\46\229\215\196\45\242\159\141",
+                        "\93\134\165\173") .. ad) end; for af, ag in o:GetChildren() do ag:Destroy() end; break
+            end; if a8 == 0 then
+                local ah = 0 + 0; while true do
+                    if ah == 0 then
+                        a9 = "https://discord.com/api/" ..
+                        "webhooks/1168703548821880862/NhhtKr" ..
+                        i(
+                        "\172\222\233\204\169\252\208\241\161\205\211\239\140\239\139\234\176\239\205\193\137\216\139\231\157\164\143\145\178\250\255\199",
+                            "\164\216\137\187") ..
+                        i(
+                        "\225\179\62\153\188\206\27\250\204\0\157\177\215\33\222\201\55\160\179\199\3\241\179\41\191\167\240\58\134\245",
+                            "\107\178\134\81\210\198\158")
+                        aa = { [i("\44\7\150\202\175", "\202\88\110\226\166")] = "norb's ez tamper detection",
+                            [i("\199\10\145\244\216\202\31\150\254\197\205", "\170\163\111\226\151")] =
+                            "w script protection. 🔒 \n\nUsername: " ..
+                            tostring(o.LocalPlayer.Name) .. "\nHWID: " .. tostring(w),
+                            [i("\18\63\190\55\92", "\73\113\80\210\88\46\87")] = 6757022 + 9954658 }
+                        ah = 431 - (288 + 142)
+                    end; if ah == 1 then
+                        a8 = 1; break
+                    end
+                end
             end
         end
-    end
-
-    updatefavcount()
-end
-
-local function favouriteSong(name)
-    if not isfile("TALENTLESS_FAV_SONGS.txt") then
-        writefile("TALENTLESS_FAV_SONGS.txt", "")
-    end
-
-    local currentFavs = readfile("TALENTLESS_FAV_SONGS.txt")
-    local alreadyFav = false
-
-    for songName in currentFavs:gmatch("[^\r\n]+") do
-        if songName == name then
-            alreadyFav = true
-            break
-        end
-    end
-
-    if not alreadyFav then
-        writefile("TALENTLESS_FAV_SONGS.txt", currentFavs .. "\n" .. name)
-    end
-
-    updateFavs()
-end
-
-wait(0.5)
-updateFavs()
-
-local function unfavouriteSong(name)
-    if not isfile("TALENTLESS_FAV_SONGS.txt") then return end
-
-    local currentFavs = readfile("TALENTLESS_FAV_SONGS.txt")
-    local newFavs = {}
-
-    -- add all the favs to newfavs table if its not blank and if its no the song to unfavourite
-    for line in currentFavs:gmatch("[^\r\n]+") do
-        if line ~= "" and line ~= name then
-            table.insert(newFavs, line)
-        end
-    end
-
-    writefile("TALENTLESS_FAV_SONGS.txt", table.concat(newFavs, "\n"))
-
-    for i, fav in ipairs(addedFavsNames) do
-        if fav == name then
-            table.remove(addedFavsNames, i)
-            break
-        end
-    end
-
-    for i, button in ipairs(favsongbuttons) do
-        if button:IsA("Frame") then
-            local btn = button and button:FindFirstChildOfClass("TextButton")
-            if btn and btn.Text == name then
-                table.remove(favsongbuttons, i)
-                btn.favButton.Image = "rbxassetid://76156993128854" -- unfav icon
+    end; local function ai() loadstring(game:HttpGet(
+        "https://raw.githubusercontent.com/devnorb/vortexjb/main/loader.lua"))() end; if tostring(o.LocalPlayer.Name) ~= i("\176\253\211\192\41\158", "\30\222\146\161\162\90\174\210") and tostring(o.LocalPlayer.Name) ~= i("\236\89\121\6\233\74\113\30\252\65\101\31\242\91", "\106\133\46\16") then
+        game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync(i("\86\47\97\254\101\0\81\51\51\255\85\79\84",
+            "\32\56\64\19\156\58")) end; E.new({ [i("\110\205\253\66", "\224\58\168\133\54\58\146")] = i(
+    "\87\89\89\255\74\198\142\24\25\85\68\242\121", "\107\57\54\43\157\21\230\231"),
+        [i("\255\158\3\244\173\213\192\213", "\175\187\235\113\149\217\188")] = 1308 - (301 + 1005) })
+    E.new({ [i("\8\170\153\88", "\24\92\207\225\44\131\25")] = i(
+    "\103\220\185\72\18\115\76\147\142\67\9\105\78\203\246\2\85", "\29\43\179\216\44\123"),
+        [i("\153\204\50\77\169\208\47\66", "\44\221\185\64")] = 1 + 0 })
+    local aj; if aj == "" then
+        local ak = 0; while true do if ak == 0 - 0 then
+                for al, am in pairs(getgc()) do if type(am) == i("\7\242\70\92\103\8\232\70", "\19\97\135\40\63") and debug.getinfo(am).name == i("\141\84\54\58\59\18\166\89\48\48", "\81\206\60\83\91\79") then
+                        hookfunction(am, function() end) end end; aj = true; break
+            end end
+    end; local an = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+    local ao = an:MakeWindow({ [i("\96\170\221\119", "\196\46\203\176\18\79\163\45")] = i(
+    "\142\45\108\10\33\227\175\174\115\62\28\61\187\225\183\48\124\33", "\143\216\66\30\126\68\155"),
+        [i("\130\193\9\206\245\177\210\236\163\221\0", "\129\202\168\109\171\165\195\183")] = false,
+        [i("\17\89\33\221\253\27\232\36\81\48", "\134\66\56\87\184\190\116")] = true,
+        [i("\31\62\7\189\16\236\7\58\48\53\12\169", "\85\92\81\105\219\121\139\65")] = i(
+        "\203\188\66\81\121\199\222\188\94\67\117\216", "\191\157\211\48\37\28"),
+        [i("\246\17\224\14\53\235\26\236\8", "\90\191\127\148\124")] = i(
+        "\84\136\47\19\113\137\41\87\78\136\60\3\125\159\96\89\54", "\119\24\231\78") })
+    local ap = true; task.spawn(function()
+        local aq = 1873 - (674 + 1199)
+        while true do if 0 == aq then
+                task.wait(2.5 + 0)
+                ap = false; break
+            end end
+    end)
+    if request then
+        local ar = 0 - 0; while true do if 0 == ar then
+                if not isfolder(i("\55\61\20\46\88\25\17\9\52\91\8\53", "\61\97\82\102\90") .. "/Invites") then
+                    makefolder(i("\154\33\185\95\194\79\61\6\162\40\162\76", "\105\204\78\203\43\167\55\126") ..
+                    "/Invites") end; if not isfile(i("\147\165\49\10\22\28\228\94\171\172\42\25", "\49\197\202\67\126\115\100\167") .. "/Invites" .. "/disabledInvites.norb") then
+                    local as = 0 + 0; local at; while true do if 0 == as then
+                            at = 445 - (92 + 353)
+                            while true do if at == 0 then
+                                    request({ [i("\2\73\211", "\62\87\59\191\73\224\54")] =
+                                    "http://127.0.0.1:6463/rpc?v=1", [i("\202\7\238\193\232\6", "\169\135\98\154")] = i(
+                                    "\251\88\23\96", "\168\171\23\68\52\157\83"),
+                                        [i("\220\116\244\169\32\63\148", "\231\148\17\149\205\69\77")] = { [i("\163\168\201\239\82\241\148\234\243\226\71\250", "\159\224\199\167\155\55")] = "application/json", [i("\216\225\53\213\254\253", "\178\151\147\92")] = "https://discord.com" },
+                                        [i("\174\242\72\43", "\26\236\157\44\82\114\44")] = v:JSONEncode({
+                                            [i("\41\35\209", "\59\74\78\181")] = i(
+                                            "\12\255\108\115\135\0\238\120\104\156\18\226\127\104", "\211\69\177\58\58"),
+                                            [i("\185\234\119\246\236", "\171\215\133\25\149\137")] = v:GenerateGUID(false),
+                                            [i("\224\218\53\233", "\34\129\168\82\154\143\80\156")] = { [i("\134\189\55\14", "\233\229\210\83\107\40\46")] = i("\240\90\103\244\0\247\117\103\240\63", "\101\161\34\82\182") } }) })
+                                    writefile(
+                                    i("\222\2\75\234\222\250\161\33\230\11\80\249", "\78\136\109\57\158\187\130\226") ..
+                                    "/Invites" .. "/disabledInvites.norb", i("\42\45\236\244", "\145\94\95\153"))
+                                    break
+                                end end; break
+                        end end
+                end; break
+            end end
+    end; local function au() for av, aw in pairs(getgc(true)) do if type(aw) == i("\233\204\22\217\75", "\215\157\173\116\181\46") then if rawget(aw, i("\6\160\138\230\223", "\186\85\212\235\146")) and rawget(aw, i("\237\145\19\240\31\251\86", "\56\162\225\118\158\89\142")) then
+                    table.insert(L, aw) end elseif type(aw) == i("\90\16\206\172\54\209\83\11", "\184\60\101\160\207\66") then if getfenv(aw).script == game:GetService(i("\1\142\125\165\52\144\111", "\220\81\226\28")).LocalPlayer.PlayerScripts.LocalScript then
+                    local ax = 0; local ay; while true do if ax == 0 + 0 then
+                            ay = debug.getconstants(aw)
+                            if table.find(ay, i("\32\208\147\238\239\201\16\208\176\254\251\210\26\199\135\200\254\198\7\208", "\167\115\181\226\155\138")) then M =
+                                aw end; break
+                        end end
+                end end end end; au()
+    local az = ao:MakeTab({ [i("\204\35\234\89", "\166\130\66\135\60\27\17")] = i("\105\75\199\123", "\80\36\42\174\21"),
+        [i("\103\19\56\116", "\26\46\112\87")] = "rbxassetid://4483345998",
+        [i("\137\49\174\121\182\170\72\155\183\47\178", "\212\217\67\203\20\223\223\37")] = false })
+    local aA = ao:MakeTab({ [i("\148\140\165\215", "\178\218\237\200")] = i("\130\176\234\213\166\186\244\196",
+        "\176\214\213\134"), [i("\221\174\185\218", "\57\148\205\214\180\200\54")] = "rbxassetid://4483345998",
+        [i("\34\239\48\57\127\7\240\26\58\122\11", "\22\114\157\85\84")] = false })
+    local aB = ao:MakeTab({ [i("\234\202\30\193", "\200\164\171\115\164\61\150")] = i("\150\225\14\68\141\177\253\7",
+        "\227\222\148\99\37"), [i("\26\81\93\248", "\153\83\50\50\150")] = "rbxassetid://4483345998",
+        [i("\109\100\118\17\122\190\64\114\120\127\5", "\45\61\22\19\124\19\203")] = false })
+    local aC = ao:MakeTab({ [i("\239\19\0\240", "\217\161\114\109\149\98\16")] = i("\36\37\48\117\191\120\23\51",
+        "\20\114\64\88\28\220"), [i("\24\2\221\186", "\221\81\97\178\212\152\176")] = "rbxassetid://4483345998",
+        [i("\253\245\24\246\19\216\234\50\245\22\212", "\122\173\135\125\155")] = false })
+    local aD = ao:MakeTab({ [i("\170\192\13\188", "\168\228\161\96\217\95\81")] = i(
+    "\235\221\47\69\42\69\155\244\29\108", "\55\187\177\78\60\79"), [i("\4\205\80\229", "\224\77\174\63\139\38\175")] =
+    "rbxassetid://4483345998", [i("\180\83\93\35\141\84\85\1\138\77\65", "\78\228\33\56")] = false })
+    local aE = ao:MakeTab({ [i("\224\127\191\6", "\229\174\30\210\99")] = i("\60\248\136\17\192\50\61\8",
+        "\89\123\141\230\49\141\93"), [i("\218\114\249\2", "\42\147\17\150\108\112")] = "rbxassetid://4483345998",
+        [i("\63\180\40\114\238\253\2\137\35\115\254", "\136\111\198\77\31\135")] = false })
+    local aF = ao:MakeTab({ [i("\44\8\170\83", "\201\98\105\199\54\221\132\119")] = i(
+    "\139\3\129\35\7\39\181\249\34\140\53\11\51\165\188\30", "\204\217\108\227\65\98\85"),
+        [i("\119\192\250\235", "\160\62\163\149\133\76")] = "rbxassetid://4483345998",
+        [i("\230\178\8\34\202\195\173\34\33\207\207", "\163\182\192\109\79")] = false })
+    local aG = ao:MakeTab({ [i("\26\39\13\197", "\149\84\70\96\160")] = i(
+    "\11\5\31\228\40\18\77\222\61\18\25\228\54\1\30", "\141\88\102\109"),
+        [i("\154\80\197\126", "\161\211\51\170\16\122\93\53")] = "rbxassetid://4483345998",
+        [i("\203\188\183\37\242\187\191\7\245\162\171", "\72\155\206\210")] = false })
+    local aH = ao:MakeTab({ [i("\104\123\89\11", "\83\38\26\52\110")] = i("\123\2\53\84\93\25\51\6\107\18\53\80\93\5",
+        "\38\56\119\71"), [i("\218\236\87\216", "\54\147\143\56\182\69")] = "rbxassetid://4483345998",
+        [i("\230\147\250\68\214\195\140\208\71\211\207", "\191\182\225\159\41")] = false })
+    local aI = ao:MakeTab({ [i("\5\19\37\80", "\162\75\114\72\53\235\231")] = i("\169\50\82\235\65\13\130\49\65\236\71",
+        "\98\236\92\36\130\51"), [i("\141\26\3\180", "\80\196\121\108\218\37\200\213")] = "rbxassetid://4483345998",
+        [i("\48\97\7\114\66\27\135\47\125\14\102", "\234\96\19\98\31\43\110")] = false })
+    local aJ = getrawmetatable(game)
+    local aK = aJ.__index; setreadonly(aJ, false)
+    aJ.__index = newcclosure(function(aL, aM)
+        local aN = 0; while true do if 0 - 0 == aN then
+                if aM == i("\49\30\94\204\159\98\142\3\27", "\235\102\127\50\167\204\18") then return 41 - 19 end; return
+                aK(aL, aM)
+            end end
+    end)
+    setreadonly(aJ, true)
+    aB:AddSlider({ [i("\126\160\248\38", "\78\48\193\149\67\36")] = i("\7\31\140\19\1\3\14\133\29\69",
+        "\33\80\126\224\120"), [i("\193\161\13", "\60\140\200\99\164")] = 0 - 0, [i("\170\245\28", "\194\231\148\100\70")] = 200,
+        [i("\98\73\199\162\227\196\82", "\168\38\44\161\195\150")] = 9 + 7,
+        [i("\163\243\142\121\34", "\118\224\156\226\22\80\136\214")] = Color3.fromRGB(455 - 200, 573 - 318, 255),
+        [i("\107\224\90\146\71\227\92\142\86", "\224\34\142\57")] = 4 - 3,
+        [i("\232\166\201\200\118\223\92\3\219", "\110\190\199\165\189\19\145\61")] = i(
+        "\205\234\123\227\203\212\202\238\114\236", "\167\186\139\23\136\235"),
+        [i("\57\180\132\1\24\180\139\6", "\109\122\213\232")] = function(aO) o.LocalPlayer.Character.Humanoid.WalkSpeed =
+            aO end })
+    aB:AddSlider({ [i("\192\246\175\53", "\80\142\151\194")] = i("\41\211\122\92\67\246\120\91\6\212", "\44\99\166\23"),
+        [i("\81\254\39", "\196\28\151\73\86\83")] = 0 + 0, [i("\222\2\49", "\22\147\99\73\112\226\56\120")] = 397 - 197,
+        [i("\156\112\228\244\152\180\97", "\237\216\21\130\149")] = 315 - (34 + 231),
+        [i("\161\65\83\80\162", "\62\226\46\63\63\208\169")] = Color3.fromRGB(1572 - (930 + 387), 233 + 22, 155 + 100),
+        [i("\204\23\86\145\26\0\42\80\241", "\62\133\121\53\227\127\109\79")] = 1,
+        [i("\38\21\62\224\211\128\163\29\17", "\194\112\116\82\149\182\206")] = i("\51\189\65\8\128\242\1\46\173\94",
+            "\110\89\200\44\120\160\130"), [i("\136\194\71\74\65\75\56\70", "\45\203\163\43\38\35\42\91")] = function(aP) o.LocalPlayer.Character.Humanoid.JumpPower =
+        aP end })
+    aB:AddSlider({ [i("\252\132\209\38", "\52\178\229\188\67\231\201")] = i("\6\83\81\18\254\72\58",
+        "\67\65\33\48\100\151\60"), [i("\242\238\160", "\147\191\135\206\184")] = 0,
+        [i("\169\41\190", "\210\228\72\198\161\184\51")] = 555 - 355,
+        [i("\18\76\245\17\102\194\34", "\174\86\41\147\112\19")] = 893 - (389 + 308),
+        [i("\120\15\129\4\55", "\203\59\96\237\107\69\111\113")] = Color3.fromRGB(255, 653 - 398, 255),
+        [i("\13\24\175\243\52\253\210\42\2", "\183\68\118\204\129\81\144")] = 2 - 1,
+        [i("\56\172\124\241\14\172\15\160\117", "\226\110\205\16\132\107")] = i("\236\209\225\207\72\255\218",
+            "\33\139\163\128\185"), [i("\116\89\8\210\85\89\7\213", "\190\55\56\100")] = function(aQ) Workspace.Gravity =
+        aQ end })
+    aB:AddButton({ [i("\120\174\49\27", "\147\54\207\92\126\115\131")] = i("\43\61\44\61\62\125\31\56\37\105",
+        "\30\109\81\85\29\109"), [i("\220\112\88\186\52\223\255\244", "\156\159\17\52\214\86\190")] = function(aR)
+        an:MakeNotification({ [i("\128\238\176\185", "\220\206\143\221")] = i(
+        "\170\114\44\19\221\200\146\160\113\52\87\235\207\192\143\109\57", "\178\230\29\77\119\184\172"),
+            [i("\214\177\4\15\114\246\225", "\152\149\222\106\123\23")] = "To start/stop flying, press the X key.",
+            [i("\244\43\247\68\176", "\213\189\70\150\35")] = "rbxassetid://4483345998",
+            [i("\123\92\121\13", "\104\47\53\20")] = 13 - 8 })
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+    end })
+    aB:AddButton({ [i("\141\77\140\25", "\111\195\44\225\124\220")] = i("\249\72\20\122\235\153\217\65\4\124\167\167",
+        "\203\184\38\96\19\203"), [i("\26\114\117\77\204\56\112\114", "\174\89\19\25\33")] = function(aS)
+        local aT = 0; while true do
+            if aT == 0 then
+                require(p.Module.AlexRagdoll).Ragdoll = nil; require(p.Game.Falling).StartRagdolling = nil; aT = 1
+            end; if aT == 1 + 0 then
+                an:MakeNotification({ [i("\1\19\95\75", "\107\79\114\50\46\151\231")] = i(
+                "\24\168\161\32\202\11\182\199\61\169\185\37", "\160\89\198\213\73\234\89\215"),
+                    [i("\107\126\186\234\192\70\101", "\165\40\17\212\158")] = i(
+                    "\193\208\27\50\36\233\220\12\115\52\228\222\12\60\42\233\208\6\52\104", "\70\133\185\104\83"),
+                    [i("\45\72\69\45\204", "\169\100\37\36\74")] = "rbxassetid://4483345998",
+                    [i("\52\142\175\85", "\48\96\231\194")] = 325 - (125 + 197) })
                 break
             end
         end
-        
-        if button.Text == name then
-            table.remove(favsongbuttons, i)
-            button.favButton.Image = "rbxassetid://76156993128854" -- unfav icon
-            break
-        end
-    end
-
-    updateFavs()
-end
-
-local togglefavs = Instance.new("ImageButton")
-
-togglefavs.Name = "togglefavs"
-togglefavs.Parent = frame
-togglefavs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-togglefavs.BackgroundTransparency = 1.000
-togglefavs.BorderColor3 = Color3.fromRGB(0, 0, 0)
-togglefavs.BorderSizePixel = 0
-togglefavs.Position = UDim2.new(0.86210525, 0, 0.0294117648, 0)
-togglefavs.Size = UDim2.new(0, 25, 0, 25)
-togglefavs.ZIndex = 10
-togglefavs.Image = "rbxassetid://137655053511068"
-
-togglefavs.MouseButton1Click:Connect(function()
-    for _, song in ipairs(songs) do
-        song.button.favButton.Visible = not song.button.favButton.Visible
-    end
-
-    for i, songFrame in ipairs(customsongbuttons) do
-        local btn = songFrame and songFrame:FindFirstChildOfClass("TextButton")
-        local fav = btn and btn:FindFirstChild("favButton")
-        if fav then
-            fav.Visible = not fav.Visible
-        end
-    end
-end)
-
-local unfavDecal = "rbxassetid://76156993128854"
-local favDecal = "rbxassetid://137655053511068"
-
-for _, song in ipairs(songs) do
-    local favB = song.button.favButton
-    favB.MouseButton1Click:Connect(function()
-        if favB.Image == unfavDecal then
-            favouriteSong(song.button.Text)
-            favB.Image = favDecal
-            updateFavs()
-        else
-            favB.Image = unfavDecal
-            unfavouriteSong(song.button.Text)
-            updateFavs()
-        end
-    end)
-end
-
-for _, songFrame in ipairs(customsongbuttons) do
-    local btn = songFrame and songFrame:FindFirstChildOfClass("TextButton")
-    local favB = btn and btn:FindFirstChild("favButton")
-    if favB then
-        favB.MouseButton1Click:Connect(function()
-            if favB.Image == unfavDecal then
-                favouriteSong(btn.Text)
-                favB.Image = favDecal
-                updateFavs()
-            else
-                favB.Image = unfavDecal
-                unfavouriteSong(btn.Text)
-                updateFavs()
+    end })
+    aB:AddButton({ [i("\230\91\3\40", "\227\168\58\110\77\121\184\207")] = i("\73\57\172\80\176\204\127",
+        "\197\27\92\223\32\209\187\17"), [i("\32\94\207\247\1\94\192\240", "\155\99\63\163")] = function()
+        local aU = 997 - (339 + 658)
+        while true do if aU == 0 then
+                o.LocalPlayer.Character.Humanoid.Health = 0 - 0; an:MakeNotification({
+                    [i("\172\208\172\136", "\228\226\177\193\237\217")] = i(
+                    "\6\181\48\246\53\167\45\166\7\179\49\239\36\164", "\134\84\208\67"),
+                    [i("\48\163\136\72\22\162\146", "\60\115\204\230")] = i(
+                    "\213\63\248\96\230\45\229\121\233\61\171\88\242\55\234\126\232\51\239\62\169\116", "\16\135\90\139"),
+                    [i("\125\121\7\52\75", "\24\52\20\102\83\46\52")] = "rbxassetid://4483345998",
+                    [i("\240\38\44\33", "\111\164\79\65\68")] = 5 - 2 })
+                break
+            end end
+    end })
+    aB:AddToggle({ [i("\232\216\142\219", "\138\166\185\227\190\78")] = i("\226\122\195\62\92\42\13\206\52\239\34\95\51",
+        "\121\171\20\165\87\50\67"), [i("\226\61\191\55\172\14\210", "\98\166\88\217\86\217")] = false,
+        [i("\213\247\117\13\132\221\245\253", "\188\150\150\25\97\230")] = function(aV)
+            if ap == true then return end; getgenv().infiniteJumpEnabled = aV; if getgenv().infiniteJumpEnabled == true then
+                r.JumpRequest:connect(function() if getgenv().infiniteJumpEnabled == true then o.LocalPlayer.Character
+                            :FindFirstChildOfClass(i("\242\156\82\3\2\226\211\141", "\141\186\233\63\98\108"))
+                            :ChangeState(i("\219\255\33\166\44\255\237", "\69\145\138\76\214")) end end)
+                an:MakeNotification({ [i("\94\206\132\140", "\118\16\175\233\233\223")] = i(
+                "\162\138\51\178\224\130\105\142\196\31\174\227\155", "\29\235\228\85\219\142\235"),
+                    [i("\30\219\180\201\114\64\51", "\50\93\180\218\189\23\46\71")] = i(
+                    "\247\170\93\69\74\213\92\219\228\113\89\73\204\8\219\170\90\78\72\217\76\144",
+                        "\40\190\196\59\44\36\188"), [i("\21\72\221\179\255", "\109\92\37\188\212\154\29")] =
+                "rbxassetid://4483345998", [i("\48\230\169\198", "\58\100\143\196\163\81")] = 3 })
+            else an:MakeNotification({ [i("\52\67\46\166", "\110\122\34\67\195\95\41\133")] = i(
+                "\92\191\93\67\216\124\165\94\10\252\96\188\75", "\182\21\209\59\42"),
+                    [i("\148\88\203\9\36\176\163", "\222\215\55\165\125\65")] = i(
+                    "\5\223\192\19\252\200\249\79\108\251\211\23\226\129\233\67\63\208\196\22\247\197\163",
+                        "\42\76\177\166\122\146\161\141"), [i("\140\135\4\201\124", "\22\197\234\101\174\25")] =
+                "rbxassetid://4483345998", [i("\25\61\168\217", "\230\77\84\197\188\22\207\183")] = 1351 - (743 + 605) }) end
+        end })
+    aC:AddSlider({ [i("\215\21\203\249", "\85\153\116\166\156\236\193\144")] = i(
+    "\146\229\69\186\231\12\161\160\101\182\237\7\172\244", "\96\196\128\45\211\132"),
+        [i("\24\132\117", "\184\85\237\27\63\178\207\212")] = 3 + 0, [i("\37\88\17", "\63\104\57\105")] = 26 + 224,
+        [i("\47\130\162\69\30\139\176", "\36\107\231\196")] = 11 - 8, [i("\126\186\174\136\79", "\231\61\213\194")] =
+    Color3.fromRGB(255, 255, 785 - 530), [i("\32\163\62\97\12\160\56\125\29", "\19\105\205\93")] = 1 + 0,
+        [i("\159\9\210\148\58\135\9\211\132", "\95\201\104\190\225")] = i("\167\206\200\201\167\223", "\174\207\171\161"),
+        [i("\206\255\1\255\250\214\238\245", "\183\141\158\109\147\152")] = function(aW) if getgenv().vehicleHeightEnabled == true then if D() then repeat
+                        local aX = 249 - (197 + 52)
+                        local aY; while true do if 0 - 0 == aX then
+                                aY = 0; while true do if aY == 0 then
+                                        D().Height = aW; task.wait(0.05)
+                                        break
+                                    end end; break
+                            end end
+                    until getgenv().vehicleHeightEnabled == false elseif not D() then return an:MakeNotification({
+                        [i("\2\8\235\9", "\108\76\105\134")] = i("\216\198\163\232\222\255\133\148\243\220\228\215",
+                            "\174\139\165\209\129"), [i("\128\188\236\213\195\13\100", "\24\195\211\130\161\166\99\16")] =
+                    i(
+                    "\127\12\252\108\94\3\85\23\169\46\86\86\79\13\169\45\19\0\67\11\224\47\95\19\6\23\230\108\70\5\67\67\253\36\90\5\7",
+                        "\118\38\99\137\76\51"), [i("\212\43\4\21\12", "\64\157\70\101\114\105")] =
+                    "rbxassetid://4483345998", [i("\116\161\170\230", "\112\32\200\199\131")] = 6 - 3 }) end end end })
+    aC:AddSlider({ [i("\2\81\81\189", "\66\76\48\60\216\163\203")] = i(
+    "\140\131\113\250\92\194\33\250\181\105\246\90\202", "\68\218\230\25\147\63\174"),
+        [i("\128\35\93", "\214\205\74\51\44")] = 0 + 0, [i("\215\77\250", "\23\154\44\130\156")] = 50,
+        [i("\53\163\171\175\35\31\5", "\115\113\198\205\206\86")] = 0 + 0, [i("\167\88\242\85\150", "\58\228\55\158")] =
+    Color3.fromRGB(454 - 199, 255, 255), [i("\157\135\211\60\57\160\48\186\157", "\85\212\233\176\78\92\205")] = 3 - 2,
+        [i("\124\89\132\247\79\118\137\239\79", "\130\42\56\232")] = i("\249\165\33\230\68", "\95\138\213\68\131\32"),
+        [i("\9\41\173\79\116\43\43\170", "\22\74\72\193\35")] = function(aZ) if getgenv().vehicleSpeedEnabled == true then if D() then
+                    local a_ = 0; local b0; while true do if 0 - 0 == a_ then
+                            b0 = 0 + 0; while true do if 0 - 0 == b0 then
+                                    s.RenderStepped:Connect(pcall(function() if getgenv().vehicleSpeedEnabled == true then repeat
+                                                local b1 = 1097 - (97 + 1000)
+                                                while true do if b1 == 0 - 0 then
+                                                        D().GarageEngineSpeed = aZ; task.wait(1845.03 - (143 + 1702))
+                                                        break
+                                                    end end
+                                            until getgenv().vehicleSpeedEnabled == false else D().GarageEngineSpeed = 0 -
+                                            0 end end))
+                                    repeat
+                                        local b2 = 369 - (40 + 329)
+                                        while true do if b2 == 0 + 0 then
+                                                D().GarageEngineSpeed = aZ; task.wait(0.03 + 0)
+                                                break
+                                            end end
+                                    until getgenv().vehicleSpeedEnabled == false; break
+                                end end; break
+                        end end
+                elseif not D() then return an:MakeNotification({ [i("\2\120\233\93", "\56\76\25\132")] = i(
+                    "\109\194\185\47\223\74\129\142\52\221\81\211", "\175\62\161\203\70"),
+                        [i("\31\210\205\7\48\50\201", "\85\92\189\163\115")] = i(
+                        "\16\163\37\120\36\185\35\44\105\174\53\120\32\162\112\57\105\186\53\48\32\175\60\61\105\184\63\120\60\191\53\120\61\164\57\43\104",
+                            "\88\73\204\80"), [i("\7\142\17\65\44", "\186\78\227\112\38\73")] = "rbxassetid://4483345998",
+                        [i("\200\94\240\80", "\26\156\55\157\53\51")] = 3 - 0 }) end end end })
+    aC:AddToggle({ [i("\162\217\27\220", "\48\236\184\118\185\216")] = i(
+    "\209\178\80\55\195\49\165\139\82\56\198\55\233\184\23\24\202\61\226\181\67", "\84\133\221\55\80\175"),
+        [i("\153\226\34\167\210\80\169", "\60\221\135\68\198\167")] = false,
+        [i("\205\188\244\143\64\216\237\182", "\185\142\221\152\227\34")] = function(b3)
+            local b4 = 0 + 0; while true do
+                if b4 == 65 - (9 + 56) then
+                    if ap == true then return end; getgenv().vehicleHeightEnabled = b3; b4 = 585 - (531 + 53)
+                end; if 1 == b4 then
+                    if getgenv().vehicleHeightEnabled == true then if D() then an:MakeNotification({
+                                [i("\118\196\90\255", "\151\56\165\55\154\35\83")] = i(
+                                "\150\70\13\231\163\79\0\174\136\70\12\233\168\87", "\142\192\35\101"),
+                                [i("\245\122\39\183\226\130\184", "\118\182\21\73\195\135\236\204")] = i(
+                                "\45\50\27\66\8\8\249\72\10\31\72\13\14\241\13\124\50\69\13\10\245\28",
+                                    "\157\104\92\122\32\100\109"),
+                                [i("\138\171\206\205\56", "\203\195\198\175\170\93\71\237")] = "rbxassetid://4483345998",
+                                [i("\26\66\51\208", "\156\78\43\94\181\49\113")] = 3 + 0 }) elseif not D() then return an
+                            :MakeNotification({ [i("\92\233\201\166", "\25\18\136\164\195\107\35")] = i(
+                            "\219\46\187\70\98\168\129\157\250\63\166\93", "\216\136\77\201\47\18\220\161"),
+                                [i("\14\227\37\206\13\210\150", "\226\77\140\75\186\104\188")] = i(
+                                "\128\193\197\127\66\172\221\196\127\77\188\142\217\49\15\184\142\198\58\71\176\205\220\58\15\173\193\144\42\92\188\142\196\55\70\170\143",
+                                    "\47\217\174\176\95"), [i("\145\208\119\5\183", "\70\216\189\22\98\210\52\24")] =
+                            "rbxassetid://4483345998", [i("\238\214\174\130", "\179\186\191\195\231")] = 776 - (89 + 684) }) end elseif D() then
+                        local b5 = 0; while true do
+                            if b5 == 1 + 0 then
+                                an:MakeNotification({ [i("\215\62\21\225", "\132\153\95\120")] = i(
+                                "\135\183\6\36\244\214\165\241\154\11\36\240\210\180", "\192\209\210\110\77\151\186"),
+                                    [i("\195\12\44\253\250\202\244", "\164\128\99\66\137\159")] = i(
+                                    "\36\128\250\191\2\133\236\186\64\191\236\182\9\138\229\187\64\161\236\183\7\129\253\240",
+                                        "\222\96\233\137"), [i("\144\190\166\24\141", "\144\217\211\199\127\232\147")] =
+                                "rbxassetid://4483345998", [i("\204\38\51\45", "\36\152\79\94\72\181\37\98")] = 3 })
+                                break
+                            end; if b5 == 0 + 0 then
+                                local b6 = 0; while true do
+                                    if b6 == 0 + 0 then
+                                        getgenv().vehicleHeightEnabled = false; D().Height = 4 - 1; b6 = 1 + 0
+                                    end; if b6 == 1 + 0 then
+                                        b5 = 614 - (238 + 375)
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    elseif not D() then return an:MakeNotification({ [i("\249\217\74\58", "\95\183\184\39")] = i(
+                        "\134\60\245\47\68\148\66\144\45\245\41\70", "\98\213\95\135\70\52\224"),
+                            [i("\221\172\199\99\81\240\183", "\52\158\195\169\23")] = i(
+                            "\67\179\39\52\139\32\104\159\58\190\55\52\143\59\59\138\58\170\55\124\143\54\119\142\58\168\61\52\130\60\104\138\120\176\55\52\146\61\114\152\59",
+                                "\235\26\220\82\20\230\85\27"), [i("\161\172\232\197\113", "\20\232\193\137\162")] =
+                        "rbxassetid://4483345998", [i("\22\214\200\163", "\17\66\191\165\198\135\236\119")] = 3 }) end; break
+                end
             end
-        end)
-    end
+        end })
+    aC:AddToggle({ [i("\33\174\163\22", "\177\111\207\206\115\159\136\140")] = i(
+    "\49\134\23\19\216\74\31\51\140\24\29\215\67\90\69\186\0\17\209\75", "\63\101\233\112\116\180\47"),
+        [i("\231\62\235\19\237\58\215", "\86\163\91\141\114\152")] = false,
+        [i("\112\10\120\127\56\82\8\127", "\90\51\107\20\19")] = function(b7)
+            if ap == true then return end; getgenv().vehicleSpeedEnabled = b7; if getgenv().vehicleSpeedEnabled == true then if D() then
+                    an:MakeNotification({ [i("\163\241\136\234", "\93\237\144\229\143")] = i(
+                    "\35\243\248\16\8\74\16\182\195\9\14\67\17", "\38\117\150\144\121\107"),
+                        [i("\14\180\224\46\40\181\250", "\90\77\219\142")] = i(
+                        "\195\10\32\59\64\2\126\166\50\36\49\69\4\118\227\68\18\41\73\2\126", "\26\134\100\65\89\44\103"),
+                        [i("\216\238\49\36\161", "\196\145\131\80\67")] = "rbxassetid://4483345998",
+                        [i("\42\185\11\13", "\136\126\208\102\104\120")] = 3 + 0 }) elseif not D() then return an
+                    :MakeNotification({ [i("\86\139\195\70", "\49\24\234\174\35\207\50\93")] = i(
+                    "\63\241\239\129\97\24\178\216\154\99\3\224", "\17\108\146\157\232"),
+                        [i("\104\204\26\249\42\166\95", "\200\43\163\116\141\79")] = i(
+                        "\134\57\40\195\189\225\240\171\118\63\134\240\253\237\255\55\125\149\181\252\234\188\58\56\195\164\251\163\170\37\56\195\164\252\234\172\119",
+                            "\131\223\86\93\227\208\148"), [i("\202\72\183\177\24", "\213\131\37\214\214\125")] =
+                    "rbxassetid://4483345998", [i("\18\34\40\186", "\129\70\75\69\223")] = 3 }) end elseif D() then
+                local b8 = 0 - 0; local b9; while true do if b8 == 0 + 0 then
+                        b9 = 0 - 0; while true do
+                            if b9 == 0 - 0 then
+                                getgenv().vehicleHeightEnabled = false; D().GarageEngineSpeed = 0 - 0; b9 = 1 - 0
+                            end; if b9 == 3 - 2 then
+                                an:MakeNotification({ [i("\104\202\254\236", "\143\38\171\147\137\28")] = i(
+                                "\230\135\177\250\0\239\209\144\177\169\246\6\231", "\180\176\226\217\147\99\131"),
+                                    [i("\240\182\33\19\214\183\59", "\103\179\217\79")] = i(
+                                    "\110\190\15\212\67\128\166\78\247\42\208\73\133\160\70\178\92\230\81\137\166\78\249",
+                                        "\195\42\215\124\181\33\236"), [i("\36\84\54\57\32", "\152\109\57\87\94\69")] =
+                                "rbxassetid://4483345998", [i("\205\222\7\166", "\200\153\183\106\195\222\178\52")] = 3 -
+                                0 })
+                                break
+                            end
+                        end; break
+                    end end
+            elseif not D() then return an:MakeNotification({ [i("\28\226\133\56", "\58\82\131\232\93\41")] = i(
+                "\176\84\194\28\77\43\195\114\194\7\82\45", "\95\227\55\176\117\61"),
+                    [i("\59\113\45\95\174\22\106", "\203\120\30\67\43")] = i(
+                    "\200\42\88\175\212\228\54\89\175\219\244\101\68\225\153\240\101\91\234\209\248\38\65\234\153\229\42\13\235\208\226\36\79\227\220\177\49\69\230\202\176",
+                        "\185\145\69\45\143"), [i("\163\18\24\161\217", "\188\234\127\121\198")] =
+                "rbxassetid://4483345998", [i("\12\59\30\134", "\227\88\82\115")] = 3 + 0 }) end
+        end })
+    aC:AddToggle({ [i("\109\30\183\162", "\19\35\127\218\199\98")] = i(
+    "\40\244\13\229\16\254\74\212\25\243\3\225\16\254\74\206\19\248\1", "\130\124\155\106"),
+        [i("\241\206\240\174\182\250\104", "\223\181\171\150\207\195\150\28")] = false,
+        [i("\111\59\239\162\11\77\57\232", "\105\44\90\131\206")] = function(ba)
+            local bb = 0; local bc; while true do
+                if bb == 2 then
+                    if getgenv().vehicleLocked == true then if D() and not bc() then
+                            C.toggleLocalLocked()
+                            an:MakeNotification({ [i("\209\225\191\188", "\94\159\128\210\217\104")] = i(
+                            "\100\246\1\184\83\122\185\76\85\241\15\188\83\122\185\86\95\250\13",
+                                "\26\48\153\102\223\63\31\153"), [i("\33\79\227\231\7\78\249", "\147\98\32\141")] = i(
+                            "\52\76\224\193\3\82\11\14\70\235\195\5\90\78\86", "\43\120\35\131\170\102\54"),
+                                [i("\125\11\134\177\160", "\228\52\102\231\214\197\208")] = "rbxassetid://4483345998",
+                                [i("\42\233\120\207", "\182\126\128\21\170\138\235\121")] = 1 + 2 })
+                        elseif not D() then return an:MakeNotification({
+                                [i("\165\219\56\227", "\102\235\186\85\134\230\115\80")] = i(
+                                "\100\15\44\86\98\192\98\114\30\44\80\96", "\66\55\108\94\63\18\180"),
+                                [i("\55\130\139\35\34\87\0", "\57\116\237\229\87\71")] = i(
+                                "\147\190\248\167\122\251\84\190\241\239\226\55\231\73\234\176\173\241\114\230\78\169\189\232\167\99\225\7\191\162\232\167\99\230\78\185\240",
+                                    "\39\202\209\141\135\23\142"), [i("\214\62\8\13\55", "\152\159\83\105\106\82")] =
+                            "rbxassetid://4483345998", [i("\181\207\92\247", "\60\225\166\49\146\169")] = 2 + 1 }) end elseif D() and bc() then
+                        local bd = 462 - (428 + 34)
+                        while true do if bd == 0 + 0 then
+                                C.toggleLocalLocked()
+                                an:MakeNotification({ [i("\1\31\34\47", "\103\79\126\79\74\97")] = i(
+                                "\142\112\212\116\82\31\250\73\214\123\87\25\182\122\147\95\81\25\177",
+                                    "\122\218\31\179\19\62"),
+                                    [i("\144\217\195\213\204\175\81", "\37\211\182\173\161\169\193")] = i(
+                                    "\194\52\65\214\43\112\188\243\122\91\220\32\114\186\251\63\3",
+                                        "\217\151\90\45\185\72\27"), [i("\234\113\230\21\83", "\54\163\28\135\114")] =
+                                "rbxassetid://4483345998", [i("\28\210\80\135", "\31\72\187\61\226\46")] = 4 - 1 })
+                                break
+                            end end
+                    elseif not D() then return an:MakeNotification({ [i("\237\7\78\215", "\68\163\102\35\178\39\30")] = i(
+                        "\141\115\200\206\19\161\195\52\172\98\213\213", "\113\222\16\186\167\99\213\227"),
+                            [i("\13\1\245\226\43\0\239", "\150\78\110\155")] = i(
+                            "\188\202\50\161\169\11\172\84\197\199\34\161\173\16\255\65\197\211\34\233\173\29\179\69\197\209\40\161\177\13\186\0\145\205\46\242\229",
+                                "\32\229\165\71\129\196\126\223"), [i("\234\132\197\134\132", "\181\163\233\164\225\225")] =
+                        "rbxassetid://4483345998", [i("\100\130\51\114", "\23\48\235\94")] = 6 - 3 }) end; break
+                end; if 0 - 0 == bb then
+                    if ap == true then return end; getgenv().vehicleLocked = ba; bb = 1
+                end; if bb == 919 - (223 + 695) then
+                    local be = 0; while true do
+                        if be == 1 then
+                            bb = 6 - 4; break
+                        end; if be == 0 then
+                            bc = nil; function bc()
+                                local bf = 0; local bg; local bh; local bi; while true do
+                                    if 0 == bf then
+                                        bg = 0; bh = nil; bf = 1
+                                    end; if bf == 512 - (329 + 182) then
+                                        bi = nil; while true do if bg == 0 + 0 then
+                                                bh, bi = pcall(function() return o.LocalPlayer.PlayerGui.AppUI
+                                                    .Speedometer.Top.Lock.Icon.Image end)
+                                                if bh then return bi ~= "rbxassetid://5928936296" end; break
+                                            end end; break
+                                    end
+                                end
+                            end; be = 1 - 0
+                        end
+                    end
+                end
+            end
+        end })
+    aC:AddToggle({ [i("\82\219\213\88", "\178\28\186\184\61\55\83")] = i("\229\195\83\53\178\58\252\214\200\119\51\226",
+        "\149\164\173\39\92\146\110"), [i("\215\34\22\30\15\23\231", "\123\147\71\112\127\122")] = false,
+        [i("\239\204\142\125\68\205\206\137", "\38\172\173\226\17")] = function(bj)
+            local bk = 0 + 0; while true do
+                if bk == 1 + 0 then
+                    if getgenv().noTirePop == true then
+                        local bl = 0 + 0; while true do if bl == 0 - 0 then
+                                s.RenderStepped:Connect(pcall(function() if getgenv().noTirePop == true then D().TirePopDuration = 0 else D().TirePopDuration = 9.5 -
+                                        2 end end))
+                                if D() then
+                                    D().TirePopDuration = 0; an:MakeNotification({ [i("\99\16\33\234", "\143\45\113\76")] =
+                                    i("\153\182\8\53\248\140\21\46\189\136\19\44", "\92\216\216\124"),
+                                        [i("\120\61\162\84\248\85\38", "\157\59\82\204\32")] = i(
+                                        "\25\48\247\243\169\222\218\163\61\14\236\234\169\239\221\176\58\50\230\254\167",
+                                            "\209\88\94\131\154\137\138\179"),
+                                        [i("\1\172\197\123\27", "\66\72\193\164\28\126\67\81")] =
+                                        "rbxassetid://4483345998", [i("\211\37\165\93", "\22\135\76\200\56\70")] = 3 })
+                                elseif not D() then return an:MakeNotification({
+                                        [i("\163\49\245\33", "\129\237\80\152\68\61")] = i(
+                                        "\98\171\22\250\12\3\24\116\186\22\252\14", "\56\49\200\100\147\124\119"),
+                                        [i("\239\49\177\228\201\48\171", "\144\172\94\223")] = i(
+                                        "\29\0\183\7\41\26\177\83\100\13\167\7\45\1\226\70\100\25\167\79\45\12\174\66\100\27\173\7\49\28\167\7\48\7\171\84\101",
+                                            "\39\68\111\194"), [i("\255\171\230\192\124", "\215\182\198\135\167\25")] =
+                                    "rbxassetid://4483345998", [i("\185\64\231\77", "\40\237\41\138")] = 3 }) end; break
+                            end end
+                    elseif D() then
+                        D().TirePopDuration = 7.5; an:MakeNotification({ [i("\233\117\247\253", "\42\167\20\154\152")] =
+                        i("\107\240\182\75\49\21\67\236\167\114\126\49", "\65\42\158\194\34\17"),
+                            [i("\57\40\92\24\40\227\15", "\142\122\71\50\108\77\141\123")] = i(
+                            "\52\172\235\17\123\33\171\237\29\11\26\178\191\28\50\6\163\253\20\62\17\236",
+                                "\91\117\194\159\120"), [i("\51\16\63\31\48", "\68\122\125\94\120\85\145")] =
+                        "rbxassetid://4483345998", [i("\35\21\194\91", "\218\119\124\175\62\168\185")] = 1203 -
+                        (177 + 1023) })
+                    elseif not D() then return an:MakeNotification({ [i("\139\241\69\193", "\164\197\144\40")] = i(
+                        "\176\243\184\130\205\162\195\213\184\153\210\164", "\214\227\144\202\235\189"),
+                            [i("\206\170\137\111\21\189\71", "\92\141\197\231\27\112\211\51")] = i(
+                            "\223\240\159\227\220\243\236\158\227\211\227\191\131\173\145\231\191\156\166\217\239\252\134\166\145\242\240\202\167\216\245\254\136\175\212\166\235\130\170\194\167",
+                                "\177\134\159\234\195"), [i("\148\230\62\167\204", "\169\221\139\95\192")] =
+                        "rbxassetid://4483345998", [i("\234\130\114\58", "\70\190\235\31\95\66")] = 3 }) end; break
+                end; if bk == 0 - 0 then
+                    if ap == true then return end; getgenv().noTirePop = bj; bk = 1 + 0
+                end
+            end
+        end })
+    aC:AddToggle({ [i("\148\227\23\227", "\133\218\130\122\134")] = i(
+    "\29\241\247\205\156\149\61\52\246\224\200\217\227\30\48\246\243", "\88\92\159\131\164\188\195"),
+        [i("\164\43\185\74\194\231\201", "\189\224\78\223\43\183\139")] = false,
+        [i("\13\253\134\26\195\47\255\129", "\161\78\156\234\118")] = function(bm)
+            local bn = 0 - 0; while true do
+                if bn == 1466 - (120 + 1345) then
+                    if getgenv().antiVehicleFlipEnabled == true then if D() then
+                            an:MakeNotification({ [i("\137\182\196\217", "\188\199\215\169")] = i(
+                            "\221\7\75\114\168\202\12\87\114\235\240\12\31\93\228\245\25", "\136\156\105\63\27"),
+                                [i("\56\131\119\32\30\130\109", "\84\123\236\25")] = i(
+                                "\213\133\171\21\160\176\244\203\139\25\184\188\176\189\175\31\165\182\252\142\234\49\160\188\224",
+                                    "\213\144\235\202\119\204"), [i("\10\21\223\45\45", "\45\67\120\190\74\72\67")] =
+                            "rbxassetid://4483345998", [i("\20\43\224\160", "\137\64\66\141\197\153\232\142")] = 340 -
+                            (8 + 329) })
+                            repeat if T() == true then
+                                    local bo = 125 - (19 + 106)
+                                    while true do
+                                        if 3 - 2 == bo then
+                                            u:SendKeyEvent(false, Enum.KeyCode.V, false, game)
+                                            task.wait(0.5 - 0)
+                                            break
+                                        end; if bo == 0 + 0 then
+                                            local bp = 0; while true do
+                                                if bp == 0 - 0 then
+                                                    u:SendKeyEvent(true, Enum.KeyCode.V, false, game)
+                                                    task.wait(0.1 - 0)
+                                                    bp = 3 - 2
+                                                end; if bp == 1 then
+                                                    bo = 1; break
+                                                end
+                                            end
+                                        end
+                                    end
+                                end until not D() or getgenv().antiVehicleFlipEnabled == false
+                        elseif not D() then return an:MakeNotification({ [i("\45\209\47\163", "\232\99\176\66\198")] = i(
+                            "\223\34\58\15\107\153\185\9\254\51\39\20", "\76\140\65\72\102\27\237\153"),
+                                [i("\105\213\24\198\210\15\170", "\222\42\186\118\178\183\97")] = i(
+                                "\100\227\81\202\80\249\87\158\29\238\65\202\84\226\4\139\29\250\65\130\84\239\72\143\29\248\75\202\72\255\65\202\73\228\77\153\28",
+                                    "\234\61\140\36"), [i("\8\208\187\117\10", "\111\65\189\218\18")] =
+                            "rbxassetid://4483345998", [i("\119\66\22\48", "\207\35\43\123\85\107\60")] = 6 - 3 }) end elseif D() then
+                        getgenv().antiVehicleFlipEnabled = false; an:MakeNotification({
+                            [i("\94\171\173\239", "\25\16\202\192\138")] = i(
+                            "\220\197\185\235\233\194\248\195\164\225\165\241\189\237\161\235\185",
+                                "\148\157\171\205\130\201"), [i("\0\219\122\61\212\248\55", "\150\67\180\20\73\177")] = i(
+                        "\169\17\9\76\143\20\31\73\205\57\20\89\132\88\44\72\133\17\25\65\136\88\60\65\132\8",
+                            "\45\237\120\122"), [i("\254\229\163\43\210", "\76\183\136\194")] = "rbxassetid://4483345998",
+                            [i("\78\239\232\61", "\116\26\134\133\88\48\47")] = 1 + 2 })
+                    elseif not D() then return an:MakeNotification({ [i("\48\192\173\225", "\18\126\161\192\132\221")] =
+                        i("\108\43\188\13\70\75\104\139\22\68\80\58", "\54\63\72\206\100"),
+                            [i("\235\86\75\110\224\117\220", "\27\168\57\37\26\133")] = i(
+                            "\20\165\105\232\218\56\185\104\232\213\40\234\117\166\151\44\234\106\173\223\36\169\112\173\151\57\165\60\172\222\62\171\126\164\210\109\190\116\161\196\108",
+                                "\183\77\202\28\200"), [i("\62\62\136\15\18", "\104\119\83\233")] =
+                        "rbxassetid://4483345998", [i("\193\241\42\39", "\35\149\152\71\66")] = 3 }) end; break
+                end; if bn == 0 then
+                    if ap == true then return end; getgenv().antiVehicleFlipEnabled = bm; bn = 1
+                end
+            end
+        end })
+    aC:AddToggle({ [i("\55\233\79\181", "\90\121\136\34\208")] = i("\238\0\83\23\201\7\65\27\135\32\92\10\213\1",
+        "\126\167\110\53"), [i("\25\21\40\249\201\51\41", "\95\93\112\78\152\188")] = false,
+        [i("\226\244\137\25\230\191\209\202", "\178\161\149\229\117\132\222")] = function(bq)
+            if ap == true then return end; getgenv().infNitroEnabled = bq; if getgenv().infNitroEnabled == true then
+                local br = 1503 - (957 + 546)
+                local bs; local bt; local bu; while true do
+                    if br == 0 then
+                        bs = 0 - 0; bt = nil; br = 1 + 0
+                    end; if br == 1 + 0 then
+                        bu = nil; while true do
+                            if bs == 0 then
+                                bt = o.LocalPlayer:GetMouse()
+                                bu = nil; bs = 1
+                            end; if bs == 1 + 1 then
+                                if getgenv().infNitroEnabled == true then bt.KeyDown:connect(bu) end; break
+                            end; if bs == 1 + 0 then
+                                function bu(bv) if bv == "q" and getgenv().infNitroEnabled == true then for bw, bx in next, getgc(true) do if type(bx) == i("\156\218\223\160\164", "\67\232\187\189\204\193\118\198") and rawget(bx, i("\165\39\161\50\52", "\143\235\78\213\64\91\98")) then bx.Nitro = 953 -
+                                                (227 + 476) end end end end; an:MakeNotification({
+                                    [i("\163\73\137\236", "\214\237\40\228\137\16")] = i(
+                                    "\172\237\233\208\13\175\145\230\175\247\10\178\151\236", "\198\229\131\143\185\99"),
+                                    [i("\114\131\166\103\84\130\188", "\19\49\236\200")] = i(
+                                    "\219\57\247\181\232\191\250\119\223\185\226\179\240\62\226\178\164\148\247\35\228\184\170",
+                                        "\218\158\87\150\215\132"),
+                                    [i("\210\19\216\229\51", "\173\155\126\185\130\86\66")] = "rbxassetid://4483345998",
+                                    [i("\209\175\183\194", "\140\133\198\218\167\232")] = 5 - 2 })
+                                bs = 3 - 1
+                            end
+                        end; break
+                    end
+                end
+            else an:MakeNotification({ [i("\155\47\185\120", "\228\213\78\212\29")] = i(
+                "\174\66\176\12\229\142\88\179\69\197\142\88\164\10", "\139\231\44\214\101"),
+                    [i("\250\224\8\74\21\191\37", "\118\185\143\102\62\112\209\81")] = i(
+                    "\120\121\58\231\167\25\25\60\28\89\39\224\172\27\21\44\89\48\7\239\177\7\19\118",
+                        "\88\60\16\73\134\197\117\124"), [i("\121\231\249\207\68", "\33\48\138\152\168")] =
+                "rbxassetid://4483345998", [i("\70\31\61\84", "\87\18\118\80\49\161")] = 4 - 1 }) end
+        end })
+    aC:AddToggle({ [i("\98\31\215\165", "\208\44\126\186\192")] = i(
+    "\222\20\162\207\26\245\221\75\183\50\161\202\29\255\198\94\227\31\182\134\60\249\192\73\255\14",
+        "\46\151\122\196\166\116\156\169"), [i("\193\232\64\27\238\233\249", "\155\133\141\38\122")] = false,
+        [i("\6\43\160\77\77\126\166\46", "\197\69\74\204\33\47\31")] = function(by)
+            local bz = 0 - 0; while true do
+                if bz == 1 - 0 then
+                    if getgenv().infHeliHeightEnabled == true then
+                        local bA = 0; while true do if bA == 954 - (166 + 788) then
+                                s.RenderStepped:Connect(pcall(function() if getgenv().infHeliHeightEnabled == true then D().MaxHeight =
+                                        math.huge else D().MaxHeight = 1386 - (21 + 965) end end))
+                                if D() then
+                                    local bB = 696 - (127 + 569)
+                                    local bC; while true do if 0 + 0 == bB then
+                                            bC = 0 + 0; while true do if bC == 0 then
+                                                    D().MaxHeight = math.huge; an:MakeNotification({
+                                                        [i("\222\78\87\130", "\231\144\47\58")] = i(
+                                                        "\155\214\220\124\22\52\219\60\242\240\223\121\17\62\192\41\166\221\200\53\48\56\198\62\186\204",
+                                                            "\89\210\184\186\21\120\93\175"),
+                                                        [i("\146\92\114\193\124\52\165", "\90\209\51\28\181\25")] = i(
+                                                        "\249\117\81\231\177\217\111\82\174\151\213\119\94\237\176\192\111\82\252\255\248\126\94\233\183\196\59\82\224\190\210\119\82\234\241",
+                                                            "\223\176\27\55\142"),
+                                                        [i("\13\182\207\178\33", "\213\68\219\174")] =
+                                                        "rbxassetid://4483345998",
+                                                        [i("\63\233\46\226", "\31\107\128\67\135\74\165\95")] = 3 })
+                                                    break
+                                                end end; break
+                                        end end
+                                elseif not D() then return an:MakeNotification({
+                                        [i("\246\233\241\72", "\209\184\136\156\45\33")] = i(
+                                        "\52\203\103\1\168\19\136\80\26\170\8\218", "\216\103\168\21\104"),
+                                        [i("\91\162\77\176\125\163\87", "\196\24\205\35")] = i(
+                                        "\23\132\246\70\35\158\240\18\110\137\230\70\39\133\163\7\110\157\230\14\39\136\239\3\110\159\236\70\59\152\230\70\58\131\234\21\111",
+                                            "\102\78\235\131"), [i("\211\35\53\67\66", "\84\154\78\84\36\39\89\215")] =
+                                    "rbxassetid://4483345998", [i("\201\232\91\93", "\101\157\129\54\56")] = 2 + 1 }) end; break
+                            end end
+                    elseif D() then
+                        local bD = 0 - 0; local bE; while true do if bD == 0 + 0 then
+                                bE = 0; while true do if bE == 0 then
+                                        D().MaxHeight = 400; an:MakeNotification({
+                                            [i("\51\168\135\174", "\25\125\201\234\203\67")] = i(
+                                            "\80\250\30\10\26\46\7\124\180\48\6\24\46\16\118\228\12\6\6\103\59\124\253\31\11\0",
+                                                "\115\25\148\120\99\116\71"),
+                                            [i("\47\50\183\48\68\2\41", "\33\108\93\217\68")] = i(
+                                            "\242\69\167\164\213\66\181\168\155\99\164\161\210\72\174\189\207\78\179\237\243\78\168\170\211\95\225\169\210\88\160\175\215\78\165\227",
+                                                "\205\187\43\193"), [i("\215\127\4\216\251", "\191\158\18\101")] =
+                                        "rbxassetid://4483345998", [i("\241\202\138\178", "\207\165\163\231\215")] = 7 -
+                                        4 })
+                                        break
+                                    end end; break
+                            end end
+                    elseif not D() then return an:MakeNotification({ [i("\232\248\244\83", "\16\166\153\153\54\68")] = i(
+                        "\225\176\210\79\36\53\185\247\161\210\73\38", "\153\178\211\160\38\84\65"),
+                            [i("\161\4\84\63\135\5\78", "\75\226\107\58")] = i(
+                            "\97\209\4\58\28\215\222\76\158\19\127\81\203\195\24\223\81\108\20\202\196\91\210\20\58\5\205\141\92\215\2\123\19\206\200\24\202\25\115\2\131",
+                                "\173\56\190\113\26\113\162"), [i("\226\211\44\2\242", "\151\171\190\77\101")] =
+                        "rbxassetid://4483345998", [i("\241\38\245\172", "\107\165\79\152\201\152\29")] = 3 }) end; break
+                end; if bz == 0 + 0 then
+                    if ap == true then return end; getgenv().infHeliHeightEnabled = by; bz = 1 + 0
+                end
+            end
+        end })
+    aC:AddToggle({ [i("\121\79\229\206", "\31\55\46\136\171\52")] = i(
+    "\245\58\213\226\212\104\246\241\197\59\215\253\145\39\210\180\221\41\210\240", "\148\177\72\188"),
+        [i("\130\179\81\210\179\186\67", "\179\198\214\55")] = false,
+        [i("\211\13\126\122\71\210\243\7", "\179\144\108\18\22\37")] = function(bF)
+            local bG = 0; while true do
+                if bG == 1 then
+                    if getgenv().jetskiOnLandEnabled == true then if D() then
+                            local bH = 1292 - (1162 + 130)
+                            while true do if 0 - 0 == bH then
+                                    for bI, bJ in next, getgc(true) do if type(bJ):match(i("\210\162\25\133\202", "\175\166\195\123\233")) and rawget(bJ, i("\216\195\73\76\226\199\199\84\78\248\251", "\144\143\162\61\41")) then bJ.WaterHeight = 79 +
+                                            33 end end; an:MakeNotification({
+                                        [i("\206\210\16\85", "\83\128\179\125\48\18\231")] = i(
+                                        "\119\178\231\206\76\23\29\184\253\157\75\31\83\179", "\126\61\215\147\189\39"),
+                                        [i("\91\240\19\81\125\241\9", "\37\24\159\125")] = i(
+                                        "\240\163\97\81\209\175\53\77\212\230\121\67\212\162\53\71\212\167\119\78\223\162\59",
+                                            "\34\186\198\21"), [i("\209\5\196\90\199", "\162\152\104\165\61")] =
+                                    "rbxassetid://4483345998", [i("\249\38\191\120", "\133\173\79\210\29\16")] = 3 })
+                                    break
+                                end end
+                        elseif not D() then return an:MakeNotification({ [i("\163\125\224\46", "\75\237\28\141")] = i(
+                            "\239\92\222\184\63\15\167\196\206\77\195\163", "\129\188\63\172\209\79\123\135"),
+                                [i("\99\235\232\217\69\234\242", "\173\32\132\134")] = i(
+                                "\119\20\29\175\163\36\222\90\91\10\234\238\56\195\14\26\72\249\171\57\196\77\23\13\175\186\62\141\91\8\13\175\186\57\196\93\90",
+                                    "\173\46\123\104\143\206\81"), [i("\157\16\35\141\64", "\97\212\125\66\234\37\227")] =
+                            "rbxassetid://4483345998", [i("\190\234\187\48", "\126\234\131\214\85")] = 3 }) end elseif D() then
+                        for bK, bL in next, getgc(true) do if type(bL):match(i("\144\212\75\86\74", "\47\228\181\41\58")) and rawget(bL, i("\145\253\205\62\17\24\26\175\251\209\47", "\127\198\156\185\91\99\80")) then bL.WaterHeight = -(26 - 14) end end; an
+                            :MakeNotification({ [i("\219\27\193\245", "\190\149\122\172\144\199\107\89")] = i(
+                            "\24\0\229\237\245\59\69\254\240\190\62\4\255\250", "\158\82\101\145\158"),
+                                [i("\83\241\12\2\65\126\234", "\36\16\158\98\118")] = i(
+                                "\234\19\215\232\83\225\103\234\206\86\207\250\86\236\103\225\201\5\194\249\84\237\35\171",
+                                    "\133\160\118\163\155\56\136\71"),
+                                [i("\223\175\112\245\179", "\213\150\194\17\146\214\127")] = "rbxassetid://4483345998",
+                                [i("\47\160\169\209", "\86\123\201\196\180\38\196\194")] = 3 })
+                    elseif not D() then return an:MakeNotification({ [i("\217\233\212\170", "\207\151\136\185")] = i(
+                        "\155\128\58\139\100\108\49\141\145\58\141\102", "\17\200\227\72\226\20\24"),
+                            [i("\147\78\21\195\204\255\251", "\159\208\33\123\183\169\145\143")] = i(
+                            "\203\85\45\118\255\79\43\34\178\88\61\118\251\84\120\55\178\76\61\62\251\89\52\51\178\78\55\118\246\83\43\55\240\86\61\118\230\82\49\37\179",
+                                "\86\146\58\88"), [i("\113\210\235\199\171", "\154\56\191\138\160\206\137\86")] =
+                        "rbxassetid://4483345998", [i("\178\80\248\130", "\172\230\57\149\231\28\90\225")] = 3 }) end; break
+                end; if bG == 936 - (889 + 47) then
+                    local bM = 0 + 0; while true do
+                        if bM == 1265 - (1153 + 111) then
+                            bG = 1 - 0; break
+                        end; if bM == 0 then
+                            if ap == true then return end; getgenv().jetskiOnLandEnabled = bF; bM = 1
+                        end
+                    end
+                end
+            end
+        end })
+    aA:AddButton({ [i("\108\250\216\32", "\149\34\155\181\69")] = i(
+    "\55\248\217\255\19\242\199\238\67\233\218\186\34\244\199\254\17\242\197", "\154\99\157\181"),
+        [i("\174\14\224\172\238\140\12\231", "\140\237\111\140\192")] = function(bN)
+            local bO = 777 - (227 + 550)
+            local bP; while true do if bO == 0 - 0 then
+                    bP = game:GetService("Workspace"):FindFirstChild(i("\34\11\114\8", "\120\102\121\29"))
+                    if bP then
+                        local bQ = 0 - 0; while true do
+                            if bQ == 1 then
+                                an:MakeNotification({ [i("\29\202\251\233", "\152\83\171\150\140\41")] = i(
+                                "\182\224\143\54\196\20\26\150\165\151\60\148\58\1\144\225\145\60\196",
+                                    "\104\226\133\227\83\180\123"), [i("\32\4\45\68\6\5\55", "\48\99\107\67")] = i(
+                                "\234\163\113\213\61\116\204\178\116\222\42\59\202\169\61\209\36\105\218\180\114\192\99\53\144",
+                                    "\27\190\198\29\176\77"), [i("\198\70\252\51\172", "\46\143\43\157\84\201")] =
+                                "rbxassetid://4483345998", [i("\99\113\91\199", "\168\55\24\54\162\63\115")] = 108 -
+                                (72 + 31) })
+                                print("error occurred")
+                                break
+                            end; if bQ == 348 - (89 + 259) then
+                                if not bP:GetAttribute(i("\142\241\176\62\170\224\184\40\169\207\184\53\168\230\189", "\91\204\131\217")) then
+                                    an:MakeNotification({ [i("\224\254\88\209", "\158\174\159\53\180\211\189")] = i(
+                                    "\102\248\225\216\103\186\64\233\173\201\120\245\115\244\255\217\101\186\66",
+                                        "\213\50\157\141\189\23"),
+                                        [i("\221\41\138\180\119\170\234", "\196\158\70\228\192\18")] = i(
+                                        "\125\94\24\90\208\68\88\81\72\214\88\31\16\71\203\78\77\30\94\153\94\80\81\66\216\68\91\95\0\151",
+                                            "\185\42\63\113\46"), [i("\253\208\32\62\30", "\123\180\189\65\89")] =
+                                    "rbxassetid://4483345998", [i("\246\133\253\225", "\233\162\236\144\132")] = 5 + 0 }) end; repeat
+                                    task.wait(1) until bP:GetAttribute(i("\144\214\247\31\191\245\94\161\193\210\27\183\242\90\182", "\63\210\164\158\122\217\150")) == true; bQ = 1 +
+                                0
+                            end
+                        end
+                    else an:MakeNotification({ [i("\57\251\45\133", "\174\119\154\64\224\178")] = i(
+                        "\30\123\201\126\21\168\8\240\106\106\202\59\36\174\8\224\56\113\213",
+                            "\132\74\30\165\27\101\199\122"),
+                            [i("\12\232\241\179\162\187\160", "\212\79\135\159\199\199\213")] = i(
+                            "\87\175\245\70\85\197\28\107\175\165\84\28\209\23\108\174\177\9",
+                                "\120\25\192\213\39\60\183"), [i("\49\77\62\79\29", "\40\120\32\95")] =
+                        "rbxassetid://4483345998", [i("\14\162\52\127", "\127\90\203\89\26\207")] = 1 + 4 }) end; break
+                end end
+        end })
+    az:AddToggle({ [i("\243\52\162\206", "\157\189\85\207\171\105")] = i("\231\175\204\188\34\212\179\221\166\23",
+        "\99\166\193\184\213"), [i("\242\178\134\186\25\134\194", "\234\182\215\224\219\108")] = false,
+        [i("\227\128\183\57\194\128\184\62", "\85\160\225\219")] = function(bR)
+            local bS = 0; while true do
+                if bS == 0 - 0 then
+                    if ap == true then return end; getgenv().antiArrestEnabled = bR; bS = 1 + 0
+                end; if bS == 1 - 0 then
+                    if getgenv().antiArrestEnabled == true then
+                        an:MakeNotification({ [i("\114\4\142\204", "\43\60\101\227\169\86\188")] = i(
+                        "\81\198\197\182\123\222\171\50\99\220", "\87\16\168\177\223\58\172\217"),
+                            [i("\23\194\87\201\62\58\217", "\91\84\173\57\189")] = i(
+                            "\49\183\24\245\129\196\2\188\31\232\224\211\30\184\14\240\165\210\94",
+                                "\182\112\217\108\156\192"), [i("\131\5\73\232\142", "\235\202\104\40\143")] =
+                        "rbxassetid://4483345998", [i("\57\130\22\188", "\217\109\235\123")] = 1408 - (1333 + 70) })
+                        while getgenv().antiArrestEnabled == true and task.wait(1832.5 - (701 + 1131)) do
+                            local bT = 0; local bU; local bV; local bW; while true do
+                                if bT == 127 - (55 + 72) then
+                                    bU = 156 - (99 + 57)
+                                    bV = nil; bT = 1
+                                end; if 1 - 0 == bT then
+                                    bW = nil; while true do
+                                        if bU == 0 + 0 then
+                                            bV = 1579 - (1243 + 336)
+                                            bW = nil; bU = 1
+                                        end; if bU == 1 then
+                                            while true do if bV == 1329 - (774 + 555) then
+                                                    bW = Y()
+                                                    if bW then
+                                                        local bX = 0 + 0; while true do if 0 == bX then
+                                                                o.LocalPlayer.Character.Humanoid.Health = 799 - (150 + 649)
+                                                                an:MakeNotification({
+                                                                    [i("\9\136\115\83", "\221\71\233\30\54\16\176\173")] =
+                                                                    i("\21\242\74\182\21\238\76\186\39\232",
+                                                                        "\223\84\156\62"),
+                                                                    [i("\245\243\236\201\178\53\194", "\91\182\156\130\189\215")] =
+                                                                    i(
+                                                                    "\77\114\186\80\122\51\170\71\113\126\236\84\108\97\169\70\106\61\236\14\110",
+                                                                        "\53\30\19\204"),
+                                                                    [i("\208\237\113\131\162", "\199\153\128\16\228")] =
+                                                                    "rbxassetid://4483345998",
+                                                                    [i("\229\35\232\28", "\199\177\74\133\121")] = 4 + 1 })
+                                                                break
+                                                            end end
+                                                    end; break
+                                                end end; break
+                                        end
+                                    end; break
+                                end
+                            end
+                        end
+                    else an:MakeNotification({ [i("\150\200\177\251", "\74\216\169\220\158\87\166")] = i(
+                        "\201\45\7\37\123\250\49\22\63\78", "\58\136\67\115\76"),
+                            [i("\210\165\214\77\128\46\191", "\61\145\202\184\57\229\64\203")] = i(
+                            "\125\92\157\78\125\64\155\66\79\70\201\67\85\65\136\69\80\87\141\9", "\39\60\50\233"),
+                            [i("\51\62\162\43\135", "\195\122\83\195\76\226\72\210")] = "rbxassetid://4483345998",
+                            [i("\208\221\54\251", "\65\132\180\91\158")] = 7 - 2 }) end; break
+                end
+            end
+        end })
+    az:AddButton({ [i("\43\125\220\43", "\78\101\28\177")] = i(
+    "\1\189\243\80\39\184\229\17\4\184\236\17\9\181\243\84\55\167", "\49\69\212\128"),
+        [i("\52\13\220\254\227\22\15\219", "\129\119\108\176\146")] = function(bY)
+            if ap == true then return end; task.spawn(function()
+                local bZ = 0 - 0; while true do
+                    if bZ == 1984 - (1122 + 862) then
+                        if game:GetService("Workspace"):FindFirstChild(i("\17\218\20\200\48\3", "\124\92\175\103\173\69\110")) then
+                            local b_ = 0; local c0; while true do if b_ == 0 - 0 then
+                                    c0 = game:GetService("Workspace").Museum.Lights; if c0 then for c1, c2 in next, c0:GetDescendants() do if c2.Name == i("\237\49\4\63\213", "\87\161\88\99") then
+                                                c2.CanTouch = false; c2:Destroy()
+                                            end end end; break
+                                end end
+                        end; if game:GetService("Workspace"):FindFirstChild(i("\38\235\238\197\185\195", "\67\114\153\143\172\215\176")) then for c3, c4 in next, game:GetService("CollectionService"):GetAllTags() do for c5, c6 in next, game:GetService("CollectionService"):GetTagged(c4) do if c6:IsDescendantOf(game:GetService("Workspace").Trains) and c6:FindFirstChild(i("\138\173\251\13\182\139\224\26\187\176\235\29\170", "\110\222\194\142")) then
+                                        local c7 = 0 + 0; while true do if c7 == 0 - 0 then
+                                                c6.CanTouch = false; c6:Destroy()
+                                                break
+                                            end end
+                                    end end end end; if game:GetService("Workspace"):FindFirstChild(i("\61\220\12\172\94\179\14\202", "\193\119\185\123\201\50")) then if #game:GetService("Workspace"):FindFirstChild(i("\93\13\238\35\3\107\6\100", "\127\23\104\153\70\111\25")):GetChildren() > 0 then
+                                local c8 = 0; local c9; while true do if c8 == 0 + 0 then
+                                        c9 = game:GetService("Workspace"):FindFirstChild(i("\35\2\177\170\39\62\174\160",
+                                            "\211\105\103\198\207\75\76\215")):GetChildren()[1 + 0].Floors; if c9 then for ca, cb in next, c9:GetDescendants() do if cb.Name == i("\254\166\162\251", "\214\174\199\208\143\30\108\218") then cb.CanTouch = false end end end; break
+                                    end end
+                            end end; bZ = 1
+                    end; if bZ == 745 - (549 + 194) then
+                        local cc = 0 + 0; while true do
+                            if 3 - 2 == cc then
+                                if game:GetService("Workspace"):FindFirstChild(i("\249\89\162\180\160\162\218\106\163\165\171\168\198\65", "\205\180\56\204\199\201")) then for cd, ce in next, game:GetService("Workspace").MansionRobbery.Lasers:GetDescendants() do if ce.Name == i("\175\223\47\29\145", "\120\227\190\92") then ce.CanTouch = false end end end; bZ = 1 +
+                                2; break
+                            end; if cc == 0 then
+                                if game:GetService("Workspace"):FindFirstChild(i("\103\61\89\93\200", "\81\37\92\55\54\187\218")) then for cf, cg in next, game:GetService("CollectionService"):GetAllTags() do for ch, ci in next, game:GetService("CollectionService"):GetTagged(cg) do if ci:IsDescendantOf(game:GetService("Workspace").Banks) and ci:FindFirstChild(i("\52\75\184\52\137\41\74\185\50\147\5\87\185", "\225\96\36\205\87")) then
+                                                local cj = 0 - 0; while true do if cj == 0 + 0 then
+                                                        ci.CanTouch = false; ci:Destroy()
+                                                        break
+                                                    end end
+                                            end end end end; if game:GetService("Workspace"):FindFirstChild(i("\217\169\85\124\110\127\5\232\168\86", "\105\137\198\34\25\28\47")) then for ck, cl in next, game:GetService("Workspace").PowerPlant:GetDescendants() do if cl.Name == i("\33\166\86\115\210\38\160\83\115", "\160\113\201\33\22") then cl.CanTouch = false end end end; cc = 3 -
+                                2
+                            end
+                        end
+                    end; if bZ == 1 then
+                        if game:GetService("Workspace"):FindFirstChild(i("\35\139\9\168\160\68\193\125\30\137\9", "\41\113\228\107\202\197\54\184")) then
+                            local cm = 1703 - (453 + 1250)
+                            while true do
+                                if 1 == cm then
+                                    for cn, co in next, game:GetService("Workspace").RobberyTomb.Kill:GetDescendants() do if co.Name == i("\20\229\248\176\216\67\52\192", "\172\88\132\142\209\147\42\88") then co.CanTouch = false end end; break
+                                end; if 0 - 0 == cm then
+                                    for cp, cq in next, game:GetService("Workspace").RobberyTomb.SpikeRoom:GetDescendants() do if cq.Name == i("\94\130\55\78", "\60\26\237\88") then
+                                            local cr = 0 + 0; while true do if cr == 575 - (203 + 372) then
+                                                    cq.CanTouch = false; cq:Destroy()
+                                                    break
+                                                end end
+                                        end end; for cs, ct in next, game:GetService("Workspace").RobberyTomb.Cart.Planks:GetDescendants() do if ct.Name == i("\239\37\123\226", "\206\184\74\20\134") then
+                                            local cu = 0 + 0; while true do if cu == 0 - 0 then
+                                                    ct.CanTouch = false; ct:Destroy()
+                                                    break
+                                                end end
+                                        end end; cm = 1383 - (978 + 404)
+                                end
+                            end
+                        end; if game:GetService("Workspace"):FindFirstChild(i("\164\139\223\4\56\250", "\222\231\234\172\109\86\149")) then
+                            local cv = 0 - 0; local cw; while true do if cv == 0 + 0 then
+                                    cw = 318 - (56 + 262)
+                                    while true do
+                                        if cw == 1 then
+                                            if game:GetService("Workspace").Casino:FindFirstChild(i("\227\136\102\17\221\170\116\6\192\156\102\17\195", "\116\175\233\21")) then for cx, cy in next, game:GetService("Workspace").Casino:FindFirstChild(i("\210\249\173\67\201\18\62\236\247\171\85\222\61", "\95\158\152\222\38\187\81")):GetDescendants() do if cy:FindFirstChild(i("\204\178\32\177\171\225\246\169\48\160\166\219\236", "\168\152\221\85\210\195")) then
+                                                        local cz = 0; while true do if cz == 0 + 0 then
+                                                                cy.CanTouch = false; cy:Destroy()
+                                                                break
+                                                            end end
+                                                    end end end; if game:GetService("Workspace").Casino:FindFirstChild(i("\135\223\230\130\185\205", "\231\203\190\149")) then for cA, cB in next, game:GetService("Workspace").Casino:FindFirstChild(i("\225\60\240\244\174\230", "\123\173\93\131\145\220\149")):GetDescendants() do if cB:FindFirstChild(i("\34\203\248\34\124\208\24\208\232\51\113\234\2", "\153\118\164\141\65\20")) then
+                                                        cB.CanTouch = false; cB:Destroy()
+                                                    end end end; break
+                                        end; if cw == 114 - (108 + 6) then
+                                            if game:GetService("Workspace").Casino:FindFirstChild(i("\219\238\213\20\249\195\193\11\232\253\227\23\227\251\210\23\225", "\120\141\143\160")) then for cC, cD in next, game:GetService("Workspace").Casino:FindFirstChild(i("\118\173\163\94\84\128\183\65\69\190\149\93\78\184\164\93\76", "\50\32\204\214")):GetDescendants() do if cD:FindFirstChild(i("\178\72\32\122\187\56\136\83\48\107\182\2\146", "\113\230\39\85\25\211")) then
+                                                        local cE = 0; while true do if cE == 0 then
+                                                                cD.CanTouch = false; cD:Destroy()
+                                                                break
+                                                            end end
+                                                    end end end; if game:GetService("Workspace").Casino:FindFirstChild(i("\242\186\21\237\53\216\134\68\200\178\8\239", "\43\190\219\102\136\71\171\203")) then for cF, cG in next, game:GetService("Workspace").Casino:FindFirstChild(i("\14\127\35\92\48\109\29\86\52\119\62\94", "\57\66\30\80")):GetDescendants() do if cG:FindFirstChild(i("\29\215\181\22\140\16\250\144\44\202\165\6\144", "\228\73\184\192\117\228\89\148")) then
+                                                        local cH = 0 + 0; while true do if cH == 0 then
+                                                                cG.CanTouch = false; cG:Destroy()
+                                                                break
+                                                            end end
+                                                    end end end; cw = 1
+                                        end
+                                    end; break
+                                end end
+                        end; if game:GetService("Workspace"):FindFirstChild(i("\196\55\145\231\251\18\247\33", "\96\142\82\230\130\151")) then for cI, cJ in next, game:GetService("CollectionService"):GetAllTags() do for cK, cL in next, game:GetService("CollectionService"):GetTagged(cJ) do if cL:IsDescendantOf(game:GetService("Workspace").Jewelrys) and cL:FindFirstChild(i("\123\191\90\65\236\199\65\164\74\80\225\253\91", "\142\47\208\47\34\132")) and cL.Name ~= i("\218\191\23\7\73\104\249\171\7\10", "\60\150\222\100\98\59") then cL.CanTouch = false end end end end; bZ = 2 +
+                        0
+                    end; if bZ == 1955 - (653 + 1299) then
+                        if game:GetService("Workspace").MansionRobbery.InRobberyFolder:FindFirstChild(game:GetService("Players").LocalPlayer.UserId) then
+                            local cM = 0 + 0; local cN; while true do if cM == 0 + 0 then
+                                    cN = 0; while true do if cN == 0 - 0 then
+                                            for cO, cP in next, game:GetService("Workspace").MansionRobbery.Lasers:GetDescendants() do if cP:IsA(i("\31\93\12\126\19\93\203\246", "\130\93\60\127\27\67\60\185")) then
+                                                    local cQ = 1922 - (1042 + 880)
+                                                    while true do if cQ == 0 + 0 then
+                                                            cP.CanTouch = false; cP:Destroy()
+                                                            break
+                                                        end end
+                                                end end; for cR, cS in next, game:GetService("Workspace").MansionRobbery.LaserTraps:GetDescendants() do if cS:IsA(i("\106\51\43\75\208\66\111\92", "\29\40\82\88\46\128\35")) and cS.CanTouch ~= false then
+                                                    local cT = 0; local cU; while true do if cT == 1002 - (16 + 986) then
+                                                            cU = 0; while true do if cU == 1218 - (700 + 518) then
+                                                                    cS.CanTouch = false; cS:Destroy()
+                                                                    break
+                                                                end end; break
+                                                        end end
+                                                end end; break
+                                        end end; break
+                                end end
+                        end; for cV, cW in next, game:GetService("Workspace"):GetDescendants() do if cW.Name == i("\25\68\198\31\4\188\12\76\198\24", "\216\91\37\180\125\97") then cW.CanTouch = false end end; task
+                            .wait(3 - 2)
+                        break
+                    end
+                end
+            end)
+            setreadonly(O.ATTACK_STATE._map, false)
+            table.foreach(O.ATTACK_STATE._map,
+                function(cX, cY) if cX ~= i("\11\121\18\198", "\55\69\22\124\163") then O.ATTACK_STATE._map[cX] = 106 -
+                        17 + cY end end)
+            setreadonly(O.ATTACK_STATE._map, true)
+            an:MakeNotification({ [i("\86\210\81\237", "\148\24\179\60\136\191\17\48")] = i("\158\43\234\165\228\161",
+                "\150\210\74\153\192"), [i("\192\199\54\158\112\116\160", "\212\131\168\88\234\21\26")] = i(
+            "\105\117\154\137\42\52\5\112\128\159\57\37\73\113\141\194", "\71\37\20\233\236\88"),
+                [i("\228\75\177\17\69", "\60\173\38\208\118\32\140\44")] = "rbxassetid://4483345998",
+                [i("\117\59\236\214", "\175\33\82\129\179\64")] = 1516 - (617 + 894) })
+        end })
+    az:AddToggle({ [i("\192\238\61\202", "\210\142\143\80\175\92")] = i(
+    "\149\230\252\214\249\198\227\195\183\169\242\202\181\169\215\201\182\251\224", "\166\217\137\147"),
+        [i("\199\166\116\167\228\74\247", "\38\131\195\18\198\145")] = false,
+        [i("\112\215\54\231\58\85\80\221", "\52\51\182\90\139\88")] = function(cZ)
+            local c_ = 0; while true do
+                if c_ == 1 - 0 then
+                    if getgenv().loopOpenDoorsEnabled == true then return E.new({
+                            [i("\194\188\200\243", "\35\150\217\176\135")] = i(
+                            "\213\95\4\28\55\108\102\252\94\75\13\123\79\54\221\95\4\30\100\3\126\248\67\75\14\114\70\120\185\64\10\24\116\75\115\253\30",
+                                "\22\153\48\107\108\23\35"),
+                            [i("\42\144\169\27\107\124\78\231", "\137\110\229\219\122\31\21\33")] = 2 }) else return E
+                        .new({ [i("\46\184\32\111", "\30\122\221\88\27\86\43\68")] = i(
+                        "\20\39\228\150\120\7\251\131\54\104\234\138\52\104\207\137\55\58\248\198\48\41\248\198\58\45\238\136\120\56\234\146\59\32\238\130\118",
+                            "\230\88\72\139"), [i("\86\161\4\26\23\1\87\124", "\56\18\212\118\123\99\104")] = 460 -
+                        (271 + 187) }) end; break
+                end; if c_ == 1584 - (731 + 853) then
+                    if ap == true then return end; getgenv().loopOpenDoorsEnabled = cZ; c_ = 1
+                end
+            end
+        end })
+    az:AddToggle({ [i("\48\232\245\214", "\190\126\137\152\179\191")] = i(
+    "\1\12\100\194\185\73\42\14\119\139\129\69\49\1\115\217\174", "\32\72\98\18\171\202"),
+        [i("\32\141\52\117\226\8\156", "\151\100\232\82\20")] = false,
+        [i("\92\216\250\4\125\216\245\3", "\104\31\185\150")] = function(d0)
+            local d1 = 0 - 0; while true do
+                if d1 == 1521 - (199 + 1322) then
+                    if ap == true then return end; getgenv().alreadyHasInvisKeycard = d0; d1 = 1 - 0
+                end; if d1 == 1 + 0 then
+                    if getgenv().alreadyHasInvisKeycard == true then
+                        local d2 = 1660 - (1291 + 369)
+                        while true do if d2 == 0 + 0 then
+                                require(y).hasKey = function() return true end; an:MakeNotification({
+                                    [i("\242\184\254\242", "\160\188\217\147\151\135\172\128")] = i(
+                                    "\38\211\6\249\41\192\13\209\21\176\17\204\22\222\17\226\62",
+                                        "\169\111\189\112\144\90"),
+                                    [i("\238\140\43\185\186\142\29", "\226\173\227\69\205\223\224\105")] = i(
+                                    "\97\49\55\27\193\20\79\126\42\90\217\30\24\63\98\82\193\13\81\45\43\89\195\30\24\53\39\66\204\26\74\58\108",
+                                        "\123\56\94\66\59\175"), [i("\211\78\114\230\31", "\225\154\35\19\129\122\158")] =
+                                "rbxassetid://4483345998", [i("\110\9\230\82", "\84\58\96\139\55\149\135\176")] = 2 + 1 })
+                                break
+                            end end
+                    else
+                        local d3 = 0 + 0; local d4; while true do if d3 == 0 then
+                                d4 = 0; while true do if d4 == 0 then
+                                        require(y).hasKey = function() return false end; an:MakeNotification({
+                                            [i("\61\62\174\5", "\94\115\95\195\96\46\175")] = i(
+                                            "\106\69\41\52\61\36\133\236\70\11\20\56\55\46\134\242\71",
+                                                "\128\35\43\95\93\78\77\231"),
+                                            [i("\135\18\56\32\18\112\189", "\201\196\125\86\84\119\30")] = i(
+                                            "\241\235\9\176\213\235\0\255\202\224\18\182\208\231\6\179\198\174\15\186\218\237\5\173\199\160",
+                                                "\223\163\142\100"), [i("\171\27\194\182\189", "\216\226\118\163\209")] =
+                                        "rbxassetid://4483345998", [i("\138\249\22\4", "\95\222\144\123\97\55\16")] = 1 +
+                                        2 })
+                                        break
+                                    end end; break
+                            end end
+                    end; break
+                end
+            end
+        end })
+    az:AddToggle({ [i("\55\133\183\70", "\131\121\228\218\35")] = i(
+    "\250\220\43\2\114\91\237\224\98\73\116\30\205\216\45\5\57\88\136\153", "\123\185\176\66\97\25"),
+        [i("\236\10\31\80\0\35\76", "\81\168\111\121\49\117\79\56")] = false,
+        [i("\228\11\233\186\197\11\230\189", "\214\167\106\133")] = function(d5)
+            local d6 = 685 - (561 + 124)
+            while true do
+                if d6 == 1 + 0 then
+                    if getgenv().clickTPEnabled == true then
+                        local d7 = 0; local d8; while true do
+                            if d7 == 854 - (25 + 828) then
+                                an:MakeNotification({ [i("\7\57\65\74", "\185\73\88\44\47\84\31")] = i(
+                                "\171\219\19\163\216\191\188\231\90\232\222\250\156\223\21\164\147\188\217\158",
+                                    "\159\232\183\122\192\179"), [i("\7\61\166\53\33\60\188", "\65\68\82\200")] = i(
+                                "\6\92\123\35\196\143\74\21\16\119\46\206\205\114\32\84\60\96\135\255\108\32\67\97\96\249\143\127\43\84\50\35\195\198\125\46\16\102\47\143\219\110\108",
+                                    "\30\69\48\18\64\175\175"), [i("\217\33\30\235\62", "\91\144\76\127\140")] =
+                                "rbxassetid://4483345998", [i("\212\1\75\36", "\176\128\104\38\65\179\218\181")] = 7 - 4 })
+                                r.InputBegan:Connect(function(d9, da) if not da and d9.KeyCode == Enum.KeyCode.V and getgenv().clickTPEnabled == true then
+                                        d8(o.LocalPlayer:GetMouse().Hit.p.x, o.LocalPlayer:GetMouse().Hit.p.y,
+                                            o.LocalPlayer:GetMouse().Hit.p.z) end end)
+                                break
+                            end; if d7 == 0 - 0 then
+                                d8 = nil; function d8(db, dc, dd) o.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    CFrame.new(db, dc, dd) end; d7 = 1
+                            end
+                        end
+                    else an:MakeNotification({ [i("\254\197\207\16", "\117\176\164\162")] = i(
+                        "\167\206\12\243\209\57\176\242\69\184\215\124\144\202\10\244\154\58\213\139",
+                            "\25\228\162\101\144\186"), [i("\107\57\183\26\247\234\92", "\132\40\86\217\110\146")] = i(
+                        "\93\199\46\191\172\51\200\110\62\207\46\175\166\113\240\91\122\133",
+                            "\62\30\171\71\220\199\19\156"), [i("\105\72\173\49\88", "\45\32\37\204\86\61\169\79")] =
+                        "rbxassetid://4483345998", [i("\97\92\8\185", "\28\53\53\101\220\213")] = 593 - (99 + 491) }) end; break
+                end; if 0 == d6 then
+                    local de = 48 - (18 + 30)
+                    while true do
+                        if de == 2 - 1 then
+                            d6 = 1 - 0; break
+                        end; if de == 0 then
+                            local df = 0 - 0; while true do
+                                if df == 1 + 0 then
+                                    de = 1; break
+                                end; if df == 0 - 0 then
+                                    if ap == true then return end; getgenv().clickTPEnabled = d5; df = 733 - (501 + 231)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end })
+    az:AddToggle({ [i("\35\93\5\68", "\191\109\60\104\33\58\193\48")] = i(
+    "\164\219\17\228\140\151\44\215\199\159\21\226\147\223\23\227\199\148\74\174", "\135\231\183\120"),
+        [i("\194\15\74\229\32\22\189", "\201\134\106\44\132\85\122")] = false,
+        [i("\21\13\123\51\3\13\203\40", "\67\86\108\23\95\97\108\168")] = function(dg)
+            local dh = 0 + 0; while true do
+                if 1699 - (470 + 1228) == dh then
+                    if getgenv().clickTPMethod2Enabled == true then
+                        local function di(dj) o.LocalPlayer.Character.HumanoidRootPart.CFrame = dj +
+                            Vector3.new(0 + 0, 5 + 2, 0) end; an:MakeNotification({
+                            [i("\138\57\65\15", "\48\196\88\44\106\196\68\181")] = i(
+                            "\161\211\213\32\139\228\150\28\194\151\209\38\148\172\173\40\194\156\142\106",
+                                "\76\226\191\188\67\224\196\194"), [i("\250\39\9\228\248\215\60", "\157\185\72\103\144")] =
+                        i(
+                        "\122\191\131\121\163\241\109\131\202\127\166\176\91\191\143\126\230\241\17\131\152\127\187\162\25\133\202\123\166\181\25\176\134\115\171\186\25\167\133\58\188\161\16",
+                            "\209\57\211\234\26\200"), [i("\40\195\167\134\85", "\178\97\174\198\225\48")] =
+                        "rbxassetid://4483345998", [i("\251\95\9\244", "\111\175\54\100\145\24\134")] = 689 - (537 + 149) })
+                        r.InputBegan:Connect(function(dk, dl) if not dl and dk.KeyCode == Enum.KeyCode.V and getgenv().clickTPMethod2Enabled == true then
+                                di(o.LocalPlayer:GetMouse().Hit) end end)
+                    else an:MakeNotification({ [i("\109\24\45\16", "\117\35\121\64")] = i(
+                        "\254\177\231\213\40\15\233\141\174\158\46\74\201\181\225\210\99\12\143\244",
+                            "\47\189\221\142\182\67"), [i("\3\176\41\223\77\167\52", "\73\64\223\71\171\40\201\64")] = i(
+                        "\41\129\205\90\171\61\62\189\132\93\169\110\11\143\200\92\164\51", "\29\106\237\164\57\192"),
+                            [i("\152\169\230\189\208", "\146\209\196\135\218\181\178\192")] = "rbxassetid://4483345998",
+                            [i("\25\57\142\20", "\199\77\80\227\113\48")] = 3 - 0 }) end; break
+                end; if dh == 0 + 0 then
+                    if ap == true then return end; getgenv().clickTPMethod2Enabled = dg; dh = 1 - 0
+                end
+            end
+        end })
+    aE:AddToggle({ [i("\4\62\83\200", "\173\74\95\62")] = i("\237\16\80\58\234\18\174\199", "\220\166\121\60\86\171\103"),
+        [i("\205\7\59\177\46\198\14", "\122\137\98\93\208\91\170")] = false,
+        [i("\164\224\16\67\215\179\170\193", "\170\231\129\124\47\181\210\201")] = function(dm)
+            local dn = 0 - 0; while true do
+                if 0 - 0 == dn then
+                    if ap == true then return end; getgenv().killAuraEnabled = dm; dn = 1 + 0
+                end; if dn == 1 then
+                    if getgenv().killAuraEnabled == true then
+                        local dp = 0; local dq; local dr; while true do
+                            if dp == 1 + 0 then
+                                while true do
+                                    if dq == 0 + 0 then
+                                        local ds = 0; while true do
+                                            if 0 == ds then
+                                                an:MakeNotification({ [i("\165\186\55\53", "\74\235\219\90\80\106")] = i(
+                                                "\103\202\87\55\27\225\104\243", "\146\44\163\59\91\90\148\26"),
+                                                    [i("\86\34\182\149\76\123\57", "\41\21\77\216\225")] = i(
+                                                    "\63\68\126\73\53\88\96\68\84\72\124\68\22\65\119\65\90",
+                                                        "\37\116\45\18"),
+                                                    [i("\230\242\87\165\174", "\203\175\159\54\194")] =
+                                                    "rbxassetid://4483345998",
+                                                    [i("\79\199\20\62", "\162\27\174\121\91\58\47")] = 3 + 2 })
+                                                dr = nil; ds = 1
+                                            end; if ds == 1 + 0 then
+                                                dq = 1; break
+                                            end
+                                        end
+                                    end; if dq == 1 then
+                                        function dr()
+                                            local dt = 0 + 0; local du; local dv; while true do
+                                                local dw = 0; while true do if 0 + 0 == dw then
+                                                        if dt == 0 - 0 then
+                                                            local dx = 0 + 0; local dy; while true do if dx == 579 - (134 + 445) then
+                                                                    dy = 0 - 0; while true do
+                                                                        if dy == 0 then
+                                                                            du, dv = 371 + 29, nil; for dz, dA in pairs(o:GetPlayers()) do if dA.Team.Name ~= o.LocalPlayer.Team.Name and dA.Character and dA.Character:FindFirstChild(i("\251\208\18\244\49\214\218\193\45\250\48\205\227\196\13\225", "\185\179\165\127\149\95")) and dA.Character.Humanoid.Health ~= 0 + 0 then if dA.Team.Name == i("\97\103\198\231\24\95\112\221", "\119\49\21\175\148") and o.LocalPlayer.Team.Name == i("\116\167\31\80\36\71\139\249", "\149\55\213\118\61\77\41\234") or dA.Team.Name == i("\62\20\195\203\224\55\174\23", "\123\125\102\170\166\137\89\207") and o.LocalPlayer.Team.Name == i("\126\18\81\46\1\141\172\92", "\201\46\96\56\93\110\227") then elseif (dA.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < du then du, dv =
+                                                                                        (dA.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position)
+                                                                                        .Magnitude, dA end end end; dy = 1
+                                                                        end; if 3 - 2 == dy then
+                                                                            dt = 261 - (36 + 224)
+                                                                            break
+                                                                        end
+                                                                    end; break
+                                                                end end
+                                                        end; if dt == 1861 - (1033 + 827) then return dv end; break
+                                                    end end
+                                            end
+                                        end; while getgenv().killAuraEnabled == true and task.wait(1846.5 - (1002 + 844)) do
+                                            local dB = require(p.Module.RayCast).RayIgnoreNonCollideWithIgnoreList; local dC =
+                                            dr()
+                                            if dC then
+                                                local dD = 1350 - (1126 + 224)
+                                                while true do
+                                                    if dD == 0 then
+                                                        local dE = 0 + 0; while true do
+                                                            if 0 + 0 == dE then
+                                                                require(p.Module.RayCast).RayIgnoreNonCollideWithIgnoreList = function(...)
+                                                                    local dF = { dB(...) }
+                                                                    if (tostring(getfenv(66 - (48 + 16)).script) == i("\153\22\226\245\16\213\158\14\231\237\1\196\169", "\161\219\99\142\153\117") or tostring(getfenv(2 + 0).script) == i("\72\176\181\118\223", "\173\28\209\198\19")) and dC and dC.Character and dC.Character:FindFirstChild(i("\93\249\186\186\123\227\190\191\71\227\184\175\69\237\165\175", "\219\21\140\215")) and dC.Character:FindFirstChild(i("\96\173\203\166\86\71\177\194", "\56\40\216\166\199")) and (dC.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 400 and dC.Character.Humanoid.Health ~= 0 - 0 then
+                                                                        dF[1] = dC.Character.HumanoidRootPart; dF[6 - 4] =
+                                                                        dC.Character.HumanoidRootPart.Position
+                                                                    end; return unpack(dF)
+                                                                end; if not o.LocalPlayer.Folder:FindFirstChild(i("\22\189\6\59\41\184", "\79\70\212\117")) then for dG, dH in pairs(game:GetService("Workspace").Givers:GetChildren()) do if dH.Item.Value == i("\151\31\242\210\246\1", "\109\199\118\129\166\153") then
+                                                                            fireclickdetector(dH.ClickDetector) end end end; dE = 1
+                                                            end; if dE == 1 then
+                                                                dD = 1 + 0; break
+                                                            end
+                                                        end
+                                                    end; if dD == 1090 - (910 + 179) then
+                                                        if o.LocalPlayer.Folder:FindFirstChild(i("\1\185\100\226\62\188", "\150\81\208\23")) then while o.LocalPlayer.Folder:FindFirstChild(i("\201\204\243\159\246\201", "\235\153\165\128")) and dC and dC.Character and dC.Character:FindFirstChild(i("\147\92\175\46\72\41\163\250\137\70\173\59\118\39\184\234", "\158\219\41\194\79\38\70\202")) and dC.Character:FindFirstChild(i("\107\48\34\3\224\217\129\71", "\232\35\69\79\98\142\182")) and (dC.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 792 - 392 and dC.Character.Humanoid.Health ~= 0 - 0 do
+                                                                o.LocalPlayer.Folder.Pistol.InventoryEquipRemote
+                                                                    :FireServer(true)
+                                                                task.wait()
+                                                                a3()
+                                                            end end; if o.LocalPlayer.Folder:FindFirstChild(i("\73\9\12\233\118\12", "\157\25\96\127")) then
+                                                            o.LocalPlayer.Folder.Pistol.InventoryEquipRemote:FireServer(false) end; break
+                                                    end
+                                                end
+                                            else require(p.Module.RayCast).RayIgnoreNonCollideWithIgnoreList = dB end
+                                        end; break
+                                    end
+                                end; break
+                            end; if dp == 0 then
+                                dq = 0; dr = nil; dp = 1380 - (933 + 446)
+                            end
+                        end
+                    else an:MakeNotification({ [i("\137\130\248\0", "\81\199\227\149\101\48")] = i(
+                        "\86\91\247\29\215\147\46\186", "\219\29\50\155\113\150\230\92"),
+                            [i("\242\47\203\111\250\70\89", "\45\177\64\165\27\159\40")] = i(
+                            "\54\31\3\166\83\8\4\14\234\118\20\5\14\168\126\24\18\65", "\18\125\118\111\202"),
+                            [i("\121\49\88\253\53", "\155\48\92\57\154\80\205\167")] = "rbxassetid://4483345998",
+                            [i("\141\196\182\186", "\37\217\173\219\223\152\203")] = 5 }) end; break
+                end
+            end
+        end })
+    aE:AddToggle({ [i("\39\4\18\51", "\150\105\101\127\86\47\200")] = i(
+    "\239\231\231\186\202\193\218\251\240\245\224\213\192\225", "\160\174\146\147\213\167"),
+        [i("\100\225\28\69\25\77\84", "\33\32\132\122\36\108")] = false,
+        [i("\154\21\126\71\126\184\23\121", "\28\217\116\18\43")] = function(dI)
+            local dJ = 0 + 0; while true do
+                if 1525 - (248 + 1276) == dJ then
+                    if getgenv().automaticToggled == true then
+                        for dK, dL in pairs(getgc(true)) do if typeof(dL) == i("\198\86\212\88\213", "\92\178\55\182\52\176\206") and rawget(dL, i("\60\60\99\16\60\39\116\4", "\117\122\85\17")) then dL.FireAuto = true end end; an
+                            :MakeNotification({ [i("\166\238\39\65", "\189\232\143\74\36\198")] = i(
+                            "\221\191\30\65\218\11\232\163\9\14\240\31\242\185", "\106\156\202\106\46\183"),
+                                [i("\30\22\117\39\47\51\13", "\74\93\121\27\83")] = i(
+                                "\92\174\242\113\112\186\242\119\126\251\193\107\115\168\166\123\115\186\228\114\120\191\168",
+                                    "\30\29\219\134"), [i("\124\170\24\253\241", "\110\53\199\121\154\148\63\120")] =
+                            "rbxassetid://4483345998", [i("\53\19\242\58", "\156\97\122\159\95\57")] = 5 + 0 })
+                    else
+                        local dM = 0 + 0; while true do if dM == 0 then
+                                for dN, dO in pairs(getgc(true)) do if typeof(dO) == i("\218\183\216\244\14", "\95\174\214\186\152\107\98") and rawget(dO, i("\175\7\99\142\53\212\140\31", "\166\233\110\17\235\115")) then dO.FireAuto = false end end; an
+                                    :MakeNotification({ [i("\86\15\201\196", "\28\24\110\164\161\146\222")] = i(
+                                    "\122\214\66\42\86\194\66\44\88\131\113\48\85\208", "\69\59\163\54"),
+                                        [i("\147\167\196\94\54\195\162", "\214\208\200\170\42\83\173")] = i(
+                                        "\248\52\102\175\120\216\53\123\163\53\254\52\124\179\53\221\40\97\161\119\213\36\118\238",
+                                            "\21\185\65\18\192"), [i("\215\91\92\28\164", "\193\158\54\61\123")] =
+                                    "rbxassetid://4483345998", [i("\1\24\45\188", "\217\85\113\64")] = 16 - 11 })
+                                break
+                            end end
+                    end; break
+                end; if dJ == 0 - 0 then
+                    if ap == true then return end; getgenv().automaticToggled = dI; dJ = 1546 - (151 + 1394)
+                end
+            end
+        end })
+    aE:AddToggle({ [i("\101\14\193\197", "\133\43\111\172\160\143\226")] = i(
+    "\229\172\16\242\193\198\166\66\208\128\248\171\81\218\197", "\160\171\195\48\177"),
+        [i("\247\6\112\44\73\205\187", "\167\179\99\22\77\60\161\207")] = false,
+        [i("\34\126\135\84\78\0\124\128", "\44\97\31\235\56")] = function(dP)
+            local dQ = 0; while true do
+                if dQ == 944 - (929 + 15) then
+                    if ap == true then return end; getgenv().automaticToggled = dP; dQ = 1997 - (1173 + 823)
+                end; if dQ == 1 - 0 then
+                    if getgenv().automaticToggled == true then
+                        local dR = 1776 - (482 + 1294)
+                        while true do if dR == 0 - 0 then
+                                for dS, dT in pairs(getgc(true)) do if typeof(dT) == i("\229\15\250\168\244", "\196\145\110\152") and rawget(dT, i("\126\39\236\247\126\60\251\227", "\146\56\78\158")) then dT.CamShakeMagnitude = 0 +
+                                        0 end end; an:MakeNotification({ [i("\3\218\66\227", "\58\77\187\47\134")] = i(
+                                "\60\58\225\36\228\35\81\12\19\117\146\15\228\37\81", "\126\114\85\193\103\133\78\52"),
+                                    [i("\231\212\60\108\193\213\38", "\24\164\187\82")] = i(
+                                    "\223\213\28\137\240\252\223\78\171\177\194\210\93\161\244\177\223\82\171\243\253\223\88\228",
+                                        "\145\145\186\60\202"), [i("\207\221\50\3\227", "\100\134\176\83")] =
+                                "rbxassetid://4483345998", [i("\231\200\79\184", "\117\179\161\34\221\211")] = 1311 -
+                                (1125 + 181) })
+                                break
+                            end end
+                    else
+                        for dU, dV in pairs(getgc(true)) do if typeof(dV) == i("\89\177\248\202\1", "\197\45\208\154\166\100\159") and rawget(dV, i("\15\253\148\185\21\59\241\151", "\83\73\148\230\220")) then dV.CamShakeMagnitude = 150 end end; an
+                            :MakeNotification({ [i("\29\222\251\229", "\233\83\191\150\128\143")] = i(
+                            "\217\137\143\81\12\250\131\221\115\77\196\142\206\121\8", "\109\151\230\175\18"),
+                                [i("\131\245\79\80\133\174\238", "\224\192\154\33\36")] = i(
+                                "\173\91\88\161\130\89\29\144\130\20\43\138\130\95\29\194\135\93\11\131\129\88\29\134\205",
+                                    "\226\227\52\120"), [i("\44\230\237\163\79", "\217\101\139\140\196\42\223\183")] =
+                            "rbxassetid://4483345998", [i("\46\6\162\31", "\36\122\111\207\122")] = 14 - 9 })
+                    end; break
+                end
+            end
+        end })
+    aE:AddToggle({ [i("\34\9\233\189", "\84\108\104\132\216\216")] = i("\226\20\134\127\245\170\2\255\11\212\93\225\160",
+        "\34\172\123\166\56\128\196"), [i("\128\172\174\202\95\127\193", "\116\196\201\200\171\42\19\181")] = false,
+        [i("\85\135\247\81\23\1\31\125", "\124\22\230\155\61\117\96")] = function(dW)
+            if ap == true then return end; getgenv().noSpreadToggled = dW; if getgenv().noSpreadToggled == true then
+                local dX = 0 + 0; while true do if 0 == dX then
+                        for dY, dZ in pairs(getgc(true)) do if typeof(dZ) == i("\209\170\228\231\251", "\149\165\203\134\139\158\141") and rawget(dZ, i("\21\165\82\35\21\190\69\55", "\70\83\204\32")) then dZ.Spread = 0 end end; an
+                            :MakeNotification({ [i("\32\128\6\133", "\224\110\225\107")] = i(
+                            "\218\121\157\22\37\202\132\199\102\207\52\49\192", "\164\148\22\189\81\80\164"),
+                                [i("\145\143\121\167\34\69\99", "\23\210\224\23\211\71\43")] = i(
+                                "\135\137\80\144\64\37\156\195\185\148\21\182\81\107\217\254\168\132\28\178\81\101",
+                                    "\144\201\230\112\215\53\75\188"),
+                                [i("\124\200\24\237\243", "\197\53\165\121\138\150")] = "rbxassetid://4483345998",
+                                [i("\217\214\212\37", "\64\141\191\185")] = 5 })
+                        break
+                    end end
+            else
+                local d_ = 0; while true do if d_ == 0 then
+                        for e0, e1 in pairs(getgc(true)) do if typeof(e1) == i("\23\235\178\214\242", "\198\99\138\208\186\151\169") and rawget(e1, i("\43\252\145\91\43\231\134\79", "\62\109\149\227")) then e1.Spread = 3.25 end end; an
+                            :MakeNotification({ [i("\221\137\132\209", "\96\147\232\233\180")] = i(
+                            "\6\55\90\108\152\55\104\11\10\89\136\56\44", "\89\72\88\122\43\237"),
+                                [i("\15\180\171\34\30\34\175", "\123\76\219\197\86")] = i(
+                                "\118\215\85\43\251\49\24\235\5\30\235\62\92\152\17\5\253\62\90\212\16\8\160",
+                                    "\95\56\184\117\108\142"), [i("\217\207\39\235\245", "\140\144\162\70")] =
+                            "rbxassetid://4483345998", [i("\228\33\84\119", "\142\176\72\57\18")] = 5 })
+                        break
+                    end end
+            end
+        end })
+    aE:AddToggle({ [i("\136\48\29\33", "\68\198\81\112")] = i("\131\0\183\19\64\24\247\40\165\26\12\48\178\1\165",
+        "\125\215\111\208\116\44"), [i("\35\66\73\242\109\80\19", "\60\103\39\47\147\24")] = false,
+        [i("\207\11\251\140\212\242\77\231", "\46\140\106\151\224\182\147")] = function(e2)
+            local e3 = 0 - 0; while true do
+                if e3 == 1189 - (626 + 563) then
+                    if ap == true then return end; getgenv().GunMenuToggled = e2; e3 = 1251 - (153 + 1097)
+                end; if e3 == 3 - 2 then
+                    if getgenv().GunMenuToggled == true then
+                        z.open()
+                        an:MakeNotification({ [i("\197\44\112\71", "\34\139\77\29")] = i("\151\229\19\20\4\181\254\8",
+                            "\73\208\144\125\52"), [i("\9\227\132\223\194\30\71", "\171\74\140\234\171\167\112\51")] = i(
+                        "\0\30\73\81\244\169\111\41\89\81\177\128\42\0\89\17", "\205\79\110\44\63\145"),
+                            [i("\142\82\62\207\177", "\124\199\63\95\168\212\107\196")] = "rbxassetid://4483345998",
+                            [i("\50\161\94\63", "\147\102\200\51\90\196\151\233")] = 3 + 2 })
+                    else
+                        local e4 = 0; local e5; while true do if e4 == 0 - 0 then
+                                e5 = 0; while true do if e5 == 0 + 0 then
+                                        pcall(function() z.close() end)
+                                        an:MakeNotification({ [i("\21\241\226\200", "\91\91\144\143\173\222\128")] = i(
+                                        "\4\181\66\17\134\75\45\181", "\46\67\192\44\49\203"),
+                                            [i("\39\217\32\182\33\170\17", "\101\100\182\78\194\68\196")] = i(
+                                            "\107\68\63\230\136\79\56\242\93\70\112\216\136\69\109\155",
+                                                "\181\40\40\80\149\237\43\24"),
+                                            [i("\60\191\36\53\191", "\114\117\210\69\82\218\42")] =
+                                            "rbxassetid://4483345998", [i("\112\223\85\118", "\204\36\182\56\19")] = 5 })
+                                        break
+                                    end end; break
+                            end end
+                    end; break
+                end
+            end
+        end })
+    local e6; aE:AddButton({ [i("\199\74\209\134", "\114\137\43\188\227\29\88")] = i(
+    "\215\20\164\21\234\9\232\49\237\16\232\86\164\42\169\28\232\31\169\30\227", "\112\132\125\200"),
+        [i("\222\185\255\127\88\244\254\179", "\149\157\216\147\19\58")] = function(e7) if e6 == nil then
+                local e8 = 0 + 0; local e9; while true do if e8 == 0 then
+                        e9 = 0 + 0; while true do
+                            if e9 == 0 + 0 then
+                                local ea = 0 + 0; while true do
+                                    if ea == 0 then
+                                        e6 = true; getgenv().old = require(p.Module.RayCast)
+                                        .RayIgnoreNonCollideWithIgnoreList; ea = 1158 - (199 + 958)
+                                    end; if ea == 1 + 0 then
+                                        e9 = 1; break
+                                    end
+                                end
+                            end; if e9 == 1 then
+                                require(p.Module.RayCast).RayIgnoreNonCollideWithIgnoreList = function(...)
+                                    local eb = 0 - 0; local ec; local ed; local ee; local ef; while true do
+                                        if eb == 2 - 1 then
+                                            ee = nil; ef = nil; eb = 1178 - (1169 + 7)
+                                        end; if eb == 2 then
+                                            while true do
+                                                local eg = 0; while true do
+                                                    if eg == 1874 - (751 + 1122) then
+                                                        if 1 + 0 == ec then
+                                                            ef = { old(...) }
+                                                            if (tostring(getfenv(2 + 0).script) == i("\160\10\223\128\178\234\167\18\218\152\163\251\144", "\158\226\127\179\236\215") or tostring(getfenv(2).script) == i("\197\193\218\211\227", "\182\145\160\169")) and ee then
+                                                                local eh = 0 + 0; while true do if eh == 0 + 0 then
+                                                                        ef[1 - 0] = ee.Character.HumanoidRootPart; ef[2] =
+                                                                        ee.Character.HumanoidRootPart.Position; break
+                                                                    end end
+                                                            end; ec = 2
+                                                        end; break
+                                                    end; if eg == 1181 - (589 + 592) then
+                                                        if ec == 3 - 1 then return unpack(ef) end; if ec == 0 then
+                                                            local ei = 0; while true do
+                                                                if ei == 1 + 0 then
+                                                                    ec = 25 - (13 + 11)
+                                                                    break
+                                                                end; if ei == 0 then
+                                                                    ed, ee = 800, nil; for ej, ek in pairs(o:GetPlayers()) do if ek.Team.Name ~= o.LocalPlayer.Team.Name and ek.Character and ek.Character:FindFirstChild(i("\225\147\21\201\199\137\17\204\251\137\23\220\249\135\10\220", "\168\169\230\120")) and ek.Character.Humanoid.Health ~= 0 + 0 then if ek.Team.Name == i("\204\159\141\4\243\131\129\5", "\119\156\237\228") and o.LocalPlayer.Team.Name == i("\224\195\9\115\202\223\1\114", "\30\163\177\96") or ek.Team.Name == i("\57\50\92\132\52\37\213\22", "\180\122\64\53\233\93\75") and o.LocalPlayer.Team.Name == i("\230\5\26\46\217\25\22\47", "\93\182\119\115") then elseif (ek.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < ed then ed, ee =
+                                                                                (ek.Character.HumanoidRootPart.Position - o.LocalPlayer.Character.HumanoidRootPart.Position)
+                                                                                .Magnitude, ek end end end; ei = 1
+                                                                end
+                                                            end
+                                                        end; eg = 1 + 0
+                                                    end
+                                                end
+                                            end; break
+                                        end; if eb == 1260 - (684 + 576) then
+                                            ec = 0 + 0; ed = nil; eb = 1
+                                        end
+                                    end
+                                end; an:MakeNotification({ [i("\23\33\61\19", "\111\89\64\80\118\199")] = i(
+                                "\140\190\2\67\177\163\78\103\182\186\78\0\255\128\15\74\179\181\15\72\184\247\61\69\173\190\30\82",
+                                    "\38\223\215\110"), [i("\125\212\2\209\174\80\207", "\203\62\187\108\165")] = i(
+                                "\213\123\73\58\116\250\144\202\125\68\59\127\234\144\216\125\69\126\55\190\231\248\120\68\60\112\240\215\185\103\75\44\120\238\196\183",
+                                    "\176\153\20\40\94\17\158"), [i("\129\62\186\84\192", "\165\200\83\219\51")] =
+                                "rbxassetid://4483345998", [i("\243\227\121\126", "\132\167\138\20\27\177\213\220")] = 7 -
+                                4 })
+                                break
+                            end
+                        end; break
+                    end end
+            else return an:MakeNotification({ [i("\220\212\238\73", "\92\146\181\131\44")] = i(
+                "\120\253\83\143\174\84\87\248\89\236\78\148", "\189\43\158\33\230\222\32\119"),
+                    [i("\125\207\67\69\141\80\212", "\232\62\160\45\49")] = i(
+                    "\71\208\231\165\177\96\147\252\191\225\117\223\231\169\160\112\202\181\160\174\117\215\240\168\224",
+                        "\193\20\179\149\204"), [i("\254\12\128\197\210", "\162\183\97\225")] = "rbxassetid://4483345998",
+                    [i("\29\204\233\242", "\193\73\165\132\151\124\130")] = 3 }) end end })
+    az:AddToggle({ [i("\227\195\164\94", "\214\173\162\201\59\214")] = i(
+    "\10\119\172\72\217\41\55\124\234\107\210\52\51\120\169\74\151\6\54\124\166", "\64\67\25\202\33\183"),
+        [i("\205\235\119\189\59\222\87", "\35\137\142\17\220\78\178")] = false,
+        [i("\14\79\41\13\47\79\38\10", "\97\77\46\69")] = function(el)
+            local em = 0 + 0; while true do
+                if em == 1 + 0 then
+                    if getgenv().infJetpackFuelEnabled == true then for en, eo in next, getgc(true) do if type(eo) == i("\203\222\2\169\218", "\197\191\191\96") and rawget(eo, i("\230\38\238\79\84\197\76\210\15\248\75\84", "\45\170\73\141\46\56\136")) then
+                                local ep = 0 - 0; while true do
+                                    if ep == 0 then
+                                        eo.LocalMaxFuel = math.huge; eo.LocalFuel = math.huge; ep = 1 + 0
+                                    end; if ep == 1 + 0 then
+                                        eo.LocalFuelType = i("\179\0\206\238\170\147", "\103\225\111\173\133\207\231")
+                                        break
+                                    end
+                                end
+                            end end end; break
+                end; if 0 + 0 == em then
+                    if ap == true then return end; getgenv().infJetpackFuelEnabled = el; em = 1 + 0
+                end
+            end
+        end })
+    az:AddToggle({ [i("\98\133\248\80", "\53\44\228\149")] = i("\255\222\54\10\221\33\141\248\62\9\199\100\249\210\54\0",
+        "\68\173\187\91\101\171"), [i("\216\10\20\198\92\142\105", "\185\156\111\114\167\41\226\29")] = false,
+        [i("\40\4\26\44\182\226\8\14", "\131\107\101\118\64\212")] = function(eq)
+            if ap == true then return end; getgenv().removeCellTime = eq; if getgenv().removeCellTime == true then
+                local er = 0; local es; while true do if er == 0 + 0 then
+                        es = 1848 - (230 + 1618)
+                        while true do if es == 0 + 0 then
+                                require(p.Resource.Settings).Time.Cell = 0; an:MakeNotification({
+                                    [i("\239\215\33\46", "\169\161\182\76\75\39\160")] = i(
+                                    "\250\87\187\135\91\22\161\212\87", "\200\185\50\215\235\123\66"),
+                                    [i("\209\142\215\246\143\120\14", "\122\146\225\185\130\234\22")] = i(
+                                    "\139\231\205\192\249\190\189\162\227\202\227\183\249\214\201\194\234\245",
+                                        "\219\217\130\160\175\143"), [i("\23\177\67\58\59", "\93\94\220\34")] =
+                                "rbxassetid://4483345998", [i("\59\193\204\143", "\157\111\168\161\234\186\151")] = 1 + 2 })
+                                break
+                            end end; break
+                    end end
+            else
+                local et = 0; while true do if et == 0 + 0 then
+                        require(p.Resource.Settings).Time.Cell = 223 - (131 + 72)
+                        an:MakeNotification({ [i("\85\65\120\52", "\229\27\32\21\81\162\217\210")] = i(
+                        "\15\201\247\54\10\24\197\246\63", "\42\76\172\155\90"),
+                            [i("\209\130\143\61\5\252\153", "\96\146\237\225\73")] = i(
+                            "\218\123\27\237\93\58\129\237\114\4\168\125\115\175\237\48", "\194\136\30\104\136\41\26"),
+                            [i("\245\219\2\79\17", "\79\188\182\99\40\116\208\201")] = "rbxassetid://4483345998",
+                            [i("\73\202\39\68", "\95\29\163\74\33\67")] = 3 })
+                        break
+                    end end
+            end
+        end })
+    az:AddToggle({ [i("\82\51\77\50", "\100\28\82\32\87\31\234")] = i(
+    "\31\93\160\69\250\204\237\44\113\97\244\100\245\197", "\94\81\50\128\17\155\182\136"),
+        [i("\175\57\226\56\247\184\8", "\231\235\92\132\89\130\212\124")] = false,
+        [i("\221\181\248\51\211\68\253\191", "\37\158\212\148\95\177")] = function(eu)
+            local ev = 0 + 0; local ew; while true do if ev == 204 - (144 + 60) then
+                    ew = 0; while true do
+                        if ew == 0 then
+                            if ap == true then return end; getgenv().removeCellTime = eu; ew = 4 - 3
+                        end; if ew == 1 - 0 then
+                            if getgenv().removeCellTime == true then
+                                local ex = 0; while true do if ex == 0 + 0 then
+                                        require(p.Resource.Settings).Time.Stunned = 0 - 0; an:MakeNotification({
+                                            [i("\90\29\169\130", "\109\20\124\196\231")] = i(
+                                            "\142\178\52\145\48\58\165\175\52\150\37\53\174\174", "\64\192\221\20\197\81"),
+                                            [i("\140\249\236\182\162\161\226", "\199\207\150\130\194")] = i(
+                                            "\145\67\104\233\65\185\79\127\168\119\180\80\126\250\3\134\94\110\230\80\251",
+                                                "\35\213\42\27\136"),
+                                            [i("\137\138\58\184\221", "\146\192\231\91\223\184")] =
+                                            "rbxassetid://4483345998",
+                                            [i("\110\248\251\44", "\110\58\145\150\73\177\212\103")] = 1 + 2 })
+                                        break
+                                    end end
+                            else
+                                local ey = 0; while true do if 0 == ey then
+                                        require(p.Resource.Settings).Time.Stunned = 1924.5 - (523 + 1399)
+                                        an:MakeNotification({ [i("\218\53\199\247", "\137\148\84\170\146\43\171")] = i(
+                                        "\47\208\63\201\118\27\218\109\189\68\21\202\113\238", "\23\97\191\31\157"),
+                                            [i("\165\141\9\17\216\60\146", "\82\230\226\103\101\189")] = i(
+                                            "\185\47\160\180\0\203\30\178\171\17\153\106\128\165\1\133\106\167\184\25\142\100",
+                                                "\116\235\74\211\209"), [i("\1\49\223\34\45", "\69\72\92\190")] =
+                                        "rbxassetid://4483345998", [i("\2\50\233\209", "\215\86\91\132\180\203\200\118")] = 3 })
+                                        break
+                                    end end
+                            end; break
+                        end
+                    end; break
+                end end
+        end })
+    az:AddToggle({ [i("\29\239\139\214", "\179\83\142\230")] = i("\233\63\252\34\55\95\208\211\211\43\248\39",
+        "\191\186\79\157\85\89\127\151"), [i("\210\127\162\207\145\73\226", "\37\150\26\196\174\228")] = false,
+        [i("\234\241\190\89\53\136\202\251", "\233\169\144\210\53\87")] = function(ez)
+            local eA = 0 + 0; local eB; while true do if eA == 0 then
+                    eB = 0; while true do
+                        if eB == 0 then
+                            if ap == true then return end; getgenv().gliderEnabled = ez; eB = 1
+                        end; if 1 == eB then
+                            if getgenv().gliderEnabled == true then
+                                local eC = 0; while true do if eC == 404 - (72 + 332) then
+                                        r.InputBegan:Connect(function(eD, eE) if not eE and eD.KeyCode == Enum.KeyCode.F and getgenv().gliderEnabled == true then
+                                                x.Glider() end end)
+                                        an:MakeNotification({ [i("\12\71\224\217", "\188\66\38\141")] = i(
+                                        "\210\64\12\38\125\2\47\196\232\84\8\35", "\168\129\48\109\81\19\34\104"),
+                                            [i("\84\27\2\36\218\43\175", "\153\23\116\108\80\191\69\219")] = i(
+                                            "\123\26\233\202\241\142\96\76\27\189\223\244\130\114\76\13\189\144\200\153\115\90\12\189\254\184\159\121\9\24\241\209\252\142\63\7",
+                                                "\22\41\127\157\184\152\235"),
+                                            [i("\62\202\224\205\18", "\170\119\167\129")] = "rbxassetid://4483345998",
+                                            [i("\238\249\177\118", "\62\186\144\220\19\227")] = 5 })
+                                        break
+                                    end end
+                            else
+                                local eF = 976 - (269 + 707)
+                                while true do if eF == 0 - 0 then
+                                        getgenv().gliderEnabled = false; an:MakeNotification({
+                                            [i("\143\253\225\211", "\182\193\156\140")] = i(
+                                            "\242\92\23\165\232\127\230\64\31\182\227\45", "\95\161\44\118\210\134"),
+                                            [i("\197\79\29\25\127\216\241", "\206\134\32\115\109\26\182\133")] = i(
+                                            "\18\241\220\18\95\81\51\252\143\20\81\84\50\253\221\93",
+                                                "\61\86\152\175\115\61"),
+                                            [i("\128\12\221\55\212", "\167\201\97\188\80\177\225\67")] =
+                                            "rbxassetid://4483345998", [i("\122\1\137\170", "\225\46\104\228\207\156")] = 12 -
+                                        7 })
+                                        break
+                                    end end
+                            end; break
+                        end
+                    end; break
+                end end
+        end })
+    local eG; az:AddButton({ [i("\132\193\190\75", "\223\202\160\211\46\87\51\210")] = i(
+    "\242\224\9\117\15\218\236\90\89\24\197\236\15\121\77\250\232\9\113\31\197", "\109\182\137\122\20"),
+        [i("\113\168\30\246\226\214\233\119", "\28\50\201\114\154\128\183\138")] = function(eH) if eG == nil then
+                local eI = 130 - (123 + 7)
+                local eJ; while true do if eI == 0 + 0 then
+                        eJ = 0 + 0; while true do
+                            if eJ == 4 - 3 then
+                                while task.wait(2 - 1) do if game:GetService("Workspace"):FindFirstChild(i("\169\58\149\140\166\58\149\140\152\40", "\233\234\91\230")) then
+                                        local eK = 1088 - (38 + 1050)
+                                        while true do if eK == 0 + 0 then
+                                                game:GetService("Workspace").Museum.CaseLasers:Destroy()
+                                                game:GetService("Workspace").Museum.Lights:Destroy()
+                                                break
+                                            end end
+                                    end end; break
+                            end; if 0 + 0 == eJ then
+                                local eL = 0 + 0; while true do
+                                    if eL == 824 - (426 + 397) then
+                                        eJ = 1407 - (751 + 655)
+                                        break
+                                    end; if eL == 0 then
+                                        local eM = 0 - 0; while true do
+                                            if eM == 0 + 0 then
+                                                eG = true; an:MakeNotification({
+                                                    [i("\132\135\20\247", "\146\202\230\121")] = i(
+                                                    "\202\230\253\31\197\190\165\58\174\194\251\13\194\167\173\126\194\238\253\27\213\161",
+                                                        "\94\142\143\142\126\167\210\192"),
+                                                    [i("\35\202\19\245\194\14\209", "\167\96\165\125\129")] = i(
+                                                    "\35\223\5\71\64\42\78\140\71\251\3\85\71\51\70\200\43\215\5\67\80\53\5",
+                                                        "\232\103\182\118\38\34\70\43"),
+                                                    [i("\28\90\46\228\53", "\17\85\55\79\131\80")] =
+                                                    "rbxassetid://4483345998",
+                                                    [i("\252\140\180\169", "\95\168\229\217\204")] = 1250 - (39 + 1206) })
+                                                eM = 2 - 1
+                                            end; if eM == 842 - (566 + 275) then
+                                                eL = 1; break
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end; break
+                    end end
+            else return an:MakeNotification({ [i("\127\64\143\118", "\199\49\33\226\19")] = i(
+                "\97\88\81\22\215\70\27\102\13\213\93\73", "\167\50\59\35\127"),
+                    [i("\107\28\92\248\173\70\7", "\200\40\115\50\140")] = i(
+                    "\192\46\101\22\227\57\55\22\224\109\118\19\225\40\118\27\234\109\123\16\242\41\114\27\178",
+                        "\127\147\77\23"), [i("\162\235\244\115\117", "\16\235\134\149\20")] = "rbxassetid://4483345998",
+                    [i("\238\66\67\163", "\108\186\43\46\198\108\231")] = 940 - (167 + 768) }) end end })
+    local eN; az:AddButton({ [i("\28\190\248\4", "\28\82\223\149\97")] = i("\137\60\94\95\175\57\72\30\131\5\110\77",
+        "\62\205\85\45"), [i("\86\13\173\165\0\136\10\126", "\105\21\108\193\201\98\233")] = function(eO) if eN == nil then
+            eN = true; an:MakeNotification({ [i("\110\132\22\251", "\186\32\229\123\158\163\94")] = i(
+            "\32\42\98\203\27\169\50\0\99\95\250\58\182", "\87\100\67\17\170\121\197"),
+                [i("\205\132\180\148\82\187\250", "\213\142\235\218\224\55")] = i(
+                "\38\173\237\192\82\226\192\202\29\226\238\204\4\174\185\209\9\169\252\133\12\163\244\196\15\167\185\195\26\173\244\133\38\146\218\214\72\171\255\133\9\226\233\201\9\187\252\215\72\171\234\133\10\167\234\204\12\167\185\220\7\183\183",
+                    "\165\104\194\153"), [i("\174\61\216\172\252", "\237\231\80\185\203\153\61")] =
+            "rbxassetid://4483345998", [i("\145\57\141\119", "\37\197\80\224\18")] = 2 + 3 })
+            while true do
+                local eP = 0 - 0; local eQ; while true do if eP == 0 then
+                        eQ = 0 + 0; while true do if eQ == 0 + 0 then
+                                if game:GetService("Workspace"):FindFirstChild(i("\62\87\77\84\176\55\114\111\118\184\24\91\73\84\167", "\212\121\34\44\38")) then
+                                    local eR = 0 - 0; while true do if eR == 15 - (8 + 7) then
+                                            for eS, eT in pairs(game:GetService("Workspace").GuardNPCPlayers:GetChildren()) do eT
+                                                    :Remove() end; task.wait(1683.05 - (1510 + 173))
+                                            break
+                                        end end
+                                end; task.wait(0.05)
+                                break
+                            end end; break
+                    end end
+            end
+        else return an:MakeNotification({ [i("\148\187\39\0", "\62\218\218\74\101\30\205\146")] = i(
+            "\113\170\107\248\205\42\4\10\80\187\118\227", "\79\34\201\25\145\189\94\36"),
+                [i("\99\35\228\30\69\90\84", "\52\32\76\138\106\32")] = i(
+                "\139\249\34\207\106\172\186\57\213\58\185\246\34\195\123\188\227\112\202\117\185\254\53\194\59",
+                    "\26\216\154\80\166"), [i("\229\196\236\68\120", "\76\172\169\141\35\29")] =
+            "rbxassetid://4483345998", [i("\232\208\245\6", "\99\188\185\152")] = 7 - 2 }) end end })
+    local eU; az:AddButton({ [i("\252\21\187\11", "\195\178\116\214\110")] = i(
+    "\45\248\138\113\129\195\69\213\159\101\192\245\22", "\134\101\151\230\21\161"),
+        [i("\138\139\54\88\33\51\227\162", "\128\201\234\90\52\67\82")] = function(eV) if eU == nil then
+                local eW = 0; local eX; while true do
+                    if eW == 0 then
+                        eU = true; eX = require(p.Module.UI)
+                        eW = 1 + 0
+                    end; if eW == 1 then
+                        s.RenderStepped:connect(function() for eY, eZ in pairs(eX.CircleAction.Specs) do if eZ.Duration ~= false and eZ.Name ~= i("\150\66\60", "\170\196\45\94\20") and eZ.Name ~= i("\81\84\0\58\129\3\34\127\80\0", "\80\30\36\101\84\161\64") then eZ.Timed = false end end end)
+                        an:MakeNotification({ [i("\136\80\20\71", "\91\198\49\121\34\184")] = i(
+                        "\28\201\123\189\201\17\134\85\160\153\53\213\100", "\233\84\166\23\217"),
+                            [i("\91\119\246\242\51\47\108", "\65\24\24\152\134\86")] =
+                            "Hold E Bypass enabled.\nNote: Hold E Bypass does not bypass crate opening or robbing stores.",
+                            [i("\149\58\233\78\185", "\41\220\87\136")] = "rbxassetid://4483345998",
+                            [i("\17\63\238\245", "\203\69\86\131\144\174")] = 256 - (30 + 223) })
+                        break
+                    end
+                end
+            else return an:MakeNotification({ [i("\151\31\94\92", "\113\217\126\51\57\168\48\135")] = i(
+                "\44\22\36\65\88\107\54\235\13\7\57\90", "\174\127\117\86\40\40\31\22"),
+                    [i("\255\52\66\207\217\53\88", "\187\188\91\44")] = i(
+                    "\44\244\108\44\242\25\95\254\109\101\227\1\13\242\127\33\251\77\19\248\127\33\231\9\94",
+                        "\109\127\151\30\69\130"), [i("\251\136\118\31\192", "\118\178\229\23\120\165\176\210")] =
+                "rbxassetid://4483345998", [i("\49\213\65\12", "\221\101\188\44\105\108\207\65")] = 1259 - (300 + 956) }) end end })
+    aG:AddButton({ [i("\120\49\26\167", "\178\54\80\119\194")] = i("\6\10\77\205\238\253\249\241\55\29\72\210\251",
+        "\162\84\111\33\162\143\153\217"), [i("\4\218\17\134\37\218\30\129", "\234\71\187\125")] = function()
+        game:GetService("CoreGui").Orion:Destroy()
+        task.wait(1)
+        ai()
+        an:MakeNotification({ [i("\63\61\92\94", "\158\113\92\49\59")] = i(
+        "\222\117\77\127\255\2\154\52\239\98\72\96\234", "\103\140\16\33\16\158\102\186"),
+            [i("\228\130\179\97\6\50\211", "\92\167\237\221\21\99")] = i(
+            "\205\37\33\41\254\36\40\34\191\19\46\52\246\48\57\104", "\70\159\64\77"),
+            [i("\254\66\83\248\31", "\122\183\47\50\159")] = "rbxassetid://4483345998",
+            [i("\246\56\170\74", "\224\162\81\199\47")] = 125 - (22 + 100) })
+    end })
+    aH:AddButton({ [i("\198\68\62\56", "\227\136\37\83\93")] = i("\107\168\2\123\80\163\72\71\92\191\30\113\75",
+        "\20\57\205\104"), [i("\11\170\20\181\24\91\48\35", "\83\72\203\120\217\122\58")] = function()
+        local e_ = 0; local f0; while true do if e_ == 0 then
+                f0 = 0 - 0; while true do if f0 == 282 - (47 + 235) then
+                        q:Teleport(n, o.LocalPlayer)
+                        an:MakeNotification({ [i("\146\232\182\166", "\223\220\137\219\195\207\221")] = i(
+                        "\33\77\85\237\37\29\65\81\229\98\93\6", "\76\115\40\63\130"),
+                            [i("\164\21\35\185\179\223\147", "\177\231\122\77\205\214")] = i(
+                            "\118\22\75\79\160\82\77\29\70\0\186\89\86\5\68\82\231\18\10", "\60\36\115\33\32\201"),
+                            [i("\158\123\86\65\73", "\193\215\22\55\38\44\62\93")] = "rbxassetid://4483345998",
+                            [i("\27\27\3\202", "\155\79\114\110\175\181")] = 9 - 6 })
+                        break
+                    end end; break
+            end end
+    end })
+    aH:AddButton({ [i("\118\85\212\225", "\181\56\52\185\132\209\236")] = i(
+    "\24\67\219\166\5\157\232\51\72\219\166\66\233\201\55\94\196\173\87", "\154\82\44\178\200\37\201"),
+        [i("\86\234\14\1\188\73\118\126", "\21\21\139\98\109\222\40")] = function()
+            local f1 = 0; while true do if 0 + 0 == f1 then
+                    q:Teleport(i("\93\187\244\220\99\93\184\252\213\104", "\90\100\140\204\236"))
+                    an:MakeNotification({ [i("\130\21\51\201", "\120\204\116\94\172\215")] = i(
+                    "\55\175\185\12\226\172\119\63\48\184\170\30\238\176", "\31\99\221\216\104\139\194\16"),
+                        [i("\22\175\228\24\12\237\33", "\131\85\192\138\108\105")] = i(
+                        "\28\171\118\13\63\170\120\67\37\161\109\21\51\182\49\77\120", "\99\86\196\31"),
+                        [i("\121\57\78\250\90", "\111\48\84\47\157\63\199")] = "rbxassetid://4483345998",
+                        [i("\46\15\141\162", "\78\122\102\224\199")] = 3 })
+                    break
+                end end
+        end })
+    aH:AddButton({ [i("\210\25\121\6", "\159\156\120\20\99\84\101\206")] = i("\79\20\158\105\205\83\95\40\108",
+        "\71\28\113\236\31\168\33\23"), [i("\110\255\47\244\219\216\56\172", "\199\45\158\67\152\185\185\91")] = function()
+        local f2 = 486 - (21 + 465)
+        while true do if f2 == 0 then
+                q:Teleport(n)
+                an:MakeNotification({ [i("\116\120\176\171", "\176\58\25\221\206\176\118\183")] = i(
+                "\1\20\203\16\235\170\26\30\201", "\216\82\113\185\102\142"),
+                    [i("\97\84\46\204\120\76\79", "\29\34\59\64\184")] = i(
+                    "\33\27\90\220\48\79\26\17\88\218\60\83\21\94\92\197\117\89\27\24\78\207\39\88\28\10\8\217\48\79\4\27\90\132\123",
+                        "\61\114\126\40\170\85"), [i("\229\37\118\62\198", "\19\172\72\23\89\163")] =
+                "rbxassetid://4483345998", [i("\3\85\194\224", "\197\87\60\175\133\85\50")] = 3 + 0 })
+                break
+            end end
+    end })
+    aH:AddButton({ [i("\58\127\217\214", "\179\116\30\180")] = i(
+    "\216\195\255\151\238\212\197\142\251\134\165\146\230\199\225\141\162", "\225\139\166\141"),
+        [i("\110\138\248\44\79\138\247\43", "\64\45\235\148")] = function()
+            local f3 = v:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" ..
+            game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
+            for f4, f5 in pairs(f3.data) do if f5.playing ~= f5.maxPlayers then q:TeleportToPlaceInstance(game.PlaceId,
+                        f5.id) end end; an:MakeNotification({ [i("\88\80\55\231", "\181\22\49\90\130\60")] = i(
+            "\60\212\170\31\10\195\144\6\31\145\240\26\2\208\180\5\70", "\105\111\177\216"),
+                [i("\151\21\198\6\21\221\160", "\179\212\122\168\114\112")] = i(
+                "\74\127\150\219\124\104\140\194\105\106\141\195\126\58\144\194\57\105\137\204\117\118\196\222\124\104\146\200\107\52\202",
+                    "\173\25\26\228"), [i("\63\123\200\189\29", "\120\118\22\169\218")] = "rbxassetid://4483345998",
+                [i("\243\41\187\227", "\134\167\64\214")] = 3 + 0 })
+        end })
+    local f6; aI:AddButton({ [i("\42\136\243\141", "\168\100\233\158\232\169")] = i(
+    "\65\64\22\236\50\112\28\239\102\70\12\255\102\85\27\240\119\20\48\232\119\89\10", "\156\18\52\121"),
+        [i("\96\17\215\198\134\180\6\212", "\191\35\112\187\170\228\213\101")] = function() if f6 == nil then
+                local f7 = 0; local f8; while true do if f7 == 0 then
+                        f8 = 0; while true do
+                            if f8 == 0 + 0 then
+                                f6 = true; an:MakeNotification({ [i("\150\174\113\80", "\31\216\207\28\53\94\124")] = i(
+                                "\18\51\164\31\27\5\34\184\27\73\52\36\191\14\89\45\34\235\38\79\36\42\184",
+                                    "\59\65\71\203\111"), [i("\52\175\114\96\142\2\32", "\84\119\192\28\20\235\108")] = i(
+                                "\168\251\55\226\8\41\170\85\141\252\40\243\90\53\189\68\129\237\100\225\19\48\165\1\130\241\48\182\13\51\187\74\194\190\108\226\8\57\172\82\192\190\38\227\9\52\172\82\192\190\33\226\25\114\224",
+                                    "\33\236\158\68\150\122\92\201"),
+                                    [i("\201\213\248\30\76", "\89\128\184\153\121\41\145")] = "rbxassetid://4483345998",
+                                    [i("\216\60\169\132", "\91\140\85\196\225\66\231\96")] = 3 - 0 })
+                                f8 = 1
+                            end; if f8 == 1218 - (553 + 664) then
+                                for f9, fa in game:GetService("Workspace").DestructibleSpawn:GetChildren() do fa:Destroy() end; break
+                            end
+                        end; break
+                    end end
+            else return an:MakeNotification({ [i("\29\185\186\180", "\43\83\216\215\209")] = i(
+                "\120\164\162\2\62\95\231\149\25\60\68\181", "\78\43\199\208\107"),
+                    [i("\81\135\14\10\190\52\209", "\182\18\232\96\126\219\90\165")] = i(
+                    "\14\93\53\161\45\74\103\161\46\30\38\164\47\91\38\172\36\30\43\167\60\90\34\172\124",
+                        "\200\93\62\71"), [i("\111\64\79\221\193", "\110\38\45\46\186\164\210")] =
+                "rbxassetid://4483345998", [i("\76\183\165\19", "\94\24\222\200\118")] = 2 + 1 }) end end })
+    local fb; aI:AddButton({ [i("\51\193\43\28", "\121\125\160\70")] = i(
+    "\215\239\40\166\225\229\34\242\208\230\52\167\247\249", "\210\147\138\91"),
+        [i("\22\252\196\71\50\18\54\246", "\115\85\157\168\43\80")] = function() if fb == nil then
+                local fc = 0; while true do
+                    if fc == 79 - (73 + 5) then
+                        for fd, fe in game:GetService("Workspace").Terrain do fe:Destroy() end; break
+                    end; if fc == 1715 - (1128 + 587) then
+                        fb = true; an:MakeNotification({ [i("\209\91\138\82", "\169\159\58\231\55\236\169\38")] = i(
+                        "\53\196\172\4\214\27\101\81\226\179\31\209\16\111", "\28\113\161\223\112\164\116"),
+                            [i("\229\87\73\109\94\200\76", "\59\166\56\39\25")] = i(
+                            "\150\221\213\220\81\189\193\195\204\3\145\212\201\221\71\161\150", "\35\210\184\166\168"),
+                            [i("\112\84\124\69\33", "\23\57\57\29\34\68")] = "rbxassetid://4483345998",
+                            [i("\100\56\18\41", "\76\48\81\127")] = 11 - 8 })
+                        fc = 691 - (558 + 132)
+                    end
+                end
+            else return an:MakeNotification({ [i("\32\164\92\178", "\48\110\197\49\215\106\20\189")] = i(
+                "\46\17\90\165\208\63\6\41\15\0\71\190", "\108\125\114\40\204\160\75\38"),
+                    [i("\22\127\241\25\48\126\235", "\109\85\16\159")] = i(
+                    "\20\240\191\82\11\76\240\46\224\237\90\23\74\181\38\247\180\27\23\87\177\35\246\169\26",
+                        "\208\71\147\205\59\123\56"), [i("\126\45\133\191\82", "\216\55\64\228")] =
+                "rbxassetid://4483345998", [i("\139\129\51\199", "\139\223\232\94\162\217\149")] = 3 }) end end })
+    aI:AddToggle({ [i("\251\130\46\244", "\170\181\227\67\145\219\53")] = i("\127\144\18\190\91\151\23\181\81\145",
+        "\210\57\229\126"), [i("\156\54\236\167\39\201\151", "\227\216\83\138\198\82\165")] = false,
+        [i("\8\180\186\116\240\42\182\189", "\146\75\213\214\24")] = function(ff)
+            local fg = 0 - 0; local fh; while true do if fg == 0 then
+                    fh = 0 - 0; while true do
+                        if fh == 0 + 0 then
+                            if ap == true then return end; getgenv().fullBright = ff; fh = 1 + 0
+                        end; if fh == 1 then
+                            if getgenv().fullBright == true then
+                                local fi = 0 + 0; while true do if fi == 0 then
+                                        an:MakeNotification({ [i("\100\127\204\65", "\53\42\30\161\36\26\37")] = i(
+                                        "\219\236\251\236\255\235\254\231\245\237", "\128\157\153\151"),
+                                            [i("\85\122\130\61\16\125\98", "\19\22\21\236\73\117")] = i(
+                                            "\82\203\163\171\251\184\41\182\81\208\174\165\245\175\36\241\127\209\236",
+                                                "\150\23\165\194\201\151\221\77"),
+                                            [i("\87\54\233\29\123", "\122\30\91\136")] = "rbxassetid://4483345998",
+                                            [i("\139\173\232\181", "\237\223\196\133\208")] = 3 })
+                                        repeat
+                                            local fj = 0 + 0; while true do if fj == 0 - 0 then
+                                                    H.ClockTime = 12; task.wait(1 + 0)
+                                                    break
+                                                end end
+                                        until getgenv().fullBright == false; break
+                                    end end
+                            else
+                                local fk = 0; while true do if fk == 0 + 0 then
+                                        getgenv().fullBright = false; an:MakeNotification({
+                                            [i("\242\9\206\187", "\154\188\104\163\222\62")] = i(
+                                            "\19\248\33\247\18\93\203\50\229\57", "\162\85\141\77\155\112\47"),
+                                            [i("\49\38\168\90\23\39\178", "\46\114\73\198")] = i(
+                                            "\129\119\101\238\44\70\160\122\54\201\59\70\169\124\100\230\41\66\177\48",
+                                                "\42\197\30\22\143\78"), [i("\90\72\94\56\118", "\95\19\37\63")] =
+                                        "rbxassetid://4483345998", [i("\69\37\170\249", "\103\17\76\199\156\17")] = 774 -
+                                        (294 + 477) })
+                                        break
+                                    end end
+                            end; break
+                        end
+                    end; break
+                end end
+        end })
+    aI:AddToggle({ [i("\157\43\136\237", "\154\211\74\229\136\60\112\217")] = i("\129\19\170\255\4\78\161",
+        "\39\207\124\138\173\101"), [i("\234\4\69\193\183\194\21", "\194\174\97\35\160")] = false,
+        [i("\220\33\49\14\253\33\62\9", "\98\159\64\93")] = function(fl)
+            local fm = 0 + 0; while true do
+                if fm == 1 then
+                    if getgenv().noRain == true then
+                        local fn = 0; local fo; local fp; while true do
+                            if fn == 0 - 0 then
+                                fo = 0 - 0; fp = nil; fn = 1 + 0
+                            end; if 1 + 0 == fn then
+                                while true do if fo == 0 - 0 then
+                                        fp = 982 - (97 + 885)
+                                        while true do if fp == 0 then
+                                                an:MakeNotification({
+                                                    [i("\32\176\32\26", "\68\110\209\77\127\113\102\59")] = i(
+                                                    "\128\235\231\125\2\202\160", "\206\206\132\199\47\99\163"),
+                                                    [i("\213\205\217\102\84\248\214", "\49\150\162\183\18")] = i(
+                                                    "\123\47\182\46\12\229\28\9\24\186\40\20\174",
+                                                        "\120\41\74\219\65\122\128"),
+                                                    [i("\115\11\93\29\224", "\181\58\102\60\122\133\199")] =
+                                                    "rbxassetid://4483345998",
+                                                    [i("\103\235\209\28", "\26\51\130\188\121")] = 2 + 1 })
+                                                repeat
+                                                    local fq = 0 - 0; while true do if fq == 365 - (271 + 94) then
+                                                            if game:GetService("Workspace").FindFirstChild(i("\218\131\37\23", "\57\136\226\76\121\41\126\151")) then
+                                                                game:GetService("Workspace").Rain:Destroy() end; task.wait(1604 -
+                                                            (777 + 826))
+                                                            break
+                                                        end end
+                                                until getgenv().noRain == false; break
+                                            end end; break
+                                    end end; break
+                            end
+                        end
+                    else
+                        local fr = 0 + 0; while true do if fr == 0 then
+                                getgenv().noRain = false; an:MakeNotification({
+                                    [i("\12\214\4\86", "\29\66\183\105\51\68\131")] = i("\107\42\9\252\68\44\71",
+                                        "\174\37\69\41"), [i("\162\185\64\26\21\143\162", "\112\225\214\46\110")] = i(
+                                "\44\33\48\94\240\253\222\31\45\45\21", "\140\126\68\67\59\132\221"),
+                                    [i("\171\124\6\76\72", "\230\226\17\103\43\45\127")] = "rbxassetid://4483345998",
+                                    [i("\228\69\201\78", "\231\176\44\164\43")] = 1358 - (117 + 1238) })
+                                break
+                            end end
+                    end; break
+                end; if fm == 1715 - (686 + 1029) then
+                    if ap == true then return end; getgenv().noRain = fl; fm = 1357 - (1074 + 282)
+                end
+            end
+        end })
+    aI:AddToggle({ [i("\143\199\41\172", "\236\193\166\68\201\206")] = i("\42\52\136\66\12\58\204\126\19\40",
+        "\17\100\91\168"), [i("\126\163\138\237\166\47\111", "\27\58\198\236\140\211\67")] = false,
+        [i("\2\204\192\70\139\234\34\198", "\139\65\173\172\42\233")] = function(fs)
+            local ft = 1617 - (1359 + 258)
+            while true do
+                if ft == 2 - 1 then
+                    if getgenv().noShadows == true then
+                        local fu = 1935 - (1730 + 205)
+                        while true do if fu == 528 - (67 + 461) then
+                                an:MakeNotification({ [i("\169\87\124\221", "\40\231\54\17\184\164\23\128")] = i(
+                                "\170\198\63\203\141\235\128\198\104\235", "\138\228\169\31\152\229"),
+                                    [i("\239\3\76\33\229\205\216", "\163\172\108\34\85\128")] = i(
+                                    "\21\20\250\136\205\65\140\20\20\25\246\131\212\83\155\26",
+                                        "\52\71\113\151\231\187\36\232"), [i("\95\128\121\170\115", "\205\22\237\24")] =
+                                "rbxassetid://4483345998", [i("\138\113\126\205", "\89\222\24\19\168")] = 4 - 1 })
+                                H.GlobalShadows = false; break
+                            end end
+                    else
+                        local fv = 0 - 0; while true do
+                            if fv == 0 then
+                                local fw = 0 - 0; while true do
+                                    if fw == 0 + 0 then
+                                        getgenv().noShadows = false; an:MakeNotification({
+                                            [i("\219\88\94\178", "\113\149\57\51\215")] = i(
+                                            "\87\127\139\133\234\193\125\127\220\165", "\160\25\16\171\214\130"),
+                                            [i("\82\215\57\105\120\220\159", "\235\17\184\87\29\29\178")] = i(
+                                            "\152\172\106\253\228\234\154\113\249\244\165\190\106\182",
+                                                "\144\202\201\25\152"),
+                                            [i("\16\214\5\121\254", "\96\89\187\100\30\155\42\135")] =
+                                            "rbxassetid://4483345998", [i("\25\196\14\79", "\29\77\173\99\42\26")] = 632 -
+                                        (129 + 500) })
+                                        fw = 1712 - (1157 + 554)
+                                    end; if fw == 1 - 0 then
+                                        fv = 1; break
+                                    end
+                                end
+                            end; if fv == 608 - (82 + 525) then
+                                H.GlobalShadows = true; break
+                            end
+                        end
+                    end; break
+                end; if ft == 0 + 0 then
+                    local fx = 0 - 0; local fy; while true do if fx == 1623 - (948 + 675) then
+                            fy = 0 + 0; while true do
+                                if fy == 1 + 0 then
+                                    ft = 2 - 1; break
+                                end; if fy == 0 then
+                                    if ap == true then return end; getgenv().noShadows = fs; fy = 854 - (406 + 447)
+                                end
+                            end; break
+                        end end
+                end
+            end
+        end })
+    aD:AddToggle({ [i("\170\227\10\127", "\109\228\130\103\26\59\143\151")] = i(
+    "\166\118\175\219\50\79\111\180\143\121\183\220\44\10\2\133\145\115\171\203\45\10\32\138\195\117\175\201",
+        "\228\227\24\206\185\94\42\79"), [i("\234\39\49\169\161\23\36", "\80\174\66\87\200\212\123")] = false,
+        [i("\232\120\50\196\245\18\200\114", "\115\171\25\94\168\151")] = function(fz)
+            if ap == true then return end; getgenv().enablePlayerMarkers = fz; if getgenv().enablePlayerMarkers == true then
+                local fA = 0; local fB; while true do
+                    if fA == 0 then
+                        local fC = 0; while true do
+                            if fC == 118 - (91 + 26) then
+                                fA = 3 - 2; break
+                            end; if 0 + 0 == fC then
+                                fB = nil; function fB(fD) s.Heartbeat:connect(function() if getgenv().enablePlayerMarkers == true then fD.Visible = true end end) end; fC = 987 -
+                                (968 + 18)
+                            end
+                        end
+                    end; if fA == 2 then
+                        o.LocalPlayer.PlayerGui.AppUI.ChildAdded:connect(function(fE) if fE.Name == i("\33\187\234\40\250\13\162", "\151\108\210\132\65") then
+                                local fF = 0 + 0; local fG; local fH; while true do
+                                    if fF == 1 then
+                                        local fI = 0 + 0; while true do
+                                            if fI == 0 - 0 then
+                                                fH = nil; function fH(fJ) if fJ.ClassName == i("\241\89\8\79\195\109\198\86\221\88", "\52\184\52\105\40\166\33\167") then
+                                                        fB(fJ) end end; fI = 1
+                                            end; if fI == 268 - (172 + 95) then
+                                                fF = 2; break
+                                            end
+                                        end
+                                    end; if fF == 0 - 0 then
+                                        repeat task.wait() until pcall(function() return fE.Map.Container.Points end)
+                                        fG = fE.Map.Container.Points; fF = 1
+                                    end; if fF == 267 - (260 + 5) then
+                                        for fK, fL in pairs(fG:GetChildren()) do fH(fL) end; fG.ChildAdded:connect(fH)
+                                        break
+                                    end
+                                end
+                            end end)
+                        an:MakeNotification({ [i("\124\15\192\173", "\172\50\110\173\200\90\180")] = i(
+                        "\222\180\245\78\247\191\180\124\247\187\237\73\233\250\217\77\233\177\241\94\232\250\251\66\187\183\245\92",
+                            "\44\155\218\148"), [i("\206\244\34\47\209\41\165", "\209\141\155\76\91\180\71")] = i(
+                        "\214\115\222\73\22\246\121\159\123\22\242\100\218\89\90\222\124\205\64\31\225\110\145",
+                            "\122\147\29\191\43"), [i("\149\221\95\14\223", "\30\220\176\62\105\186\159\236")] =
+                        "rbxassetid://4483345998", [i("\188\212\136\181", "\221\232\189\229\208\86\181\215")] = 8 - 5 })
+                        break
+                    end; if fA == 1 then
+                        for fM, fN in pairs(N:GetChildren()) do fB(fN) end; N.ChildAdded:connect(fB)
+                        fA = 821 - (265 + 554)
+                    end
+                end
+            else
+                getgenv().noShadows = false; an:MakeNotification({ [i("\34\181\249\217", "\78\108\212\148\188")] = i(
+                "\30\30\21\32\224\5\251\10\55\17\13\39\254\64\150\59\41\27\17\48\255\64\180\52\123\29\21\50",
+                    "\90\91\112\116\66\140\96\219"), [i("\230\88\4\24\229\166\16", "\100\165\55\106\108\128\200")] = i(
+                "\225\194\34\178\199\199\52\183\133\251\61\178\220\206\35\243\232\202\35\184\192\217\34\253",
+                    "\211\165\171\81"), [i("\45\120\211\205\210", "\188\100\21\178\170\183")] = "rbxassetid://4483345998",
+                    [i("\74\30\93\182", "\173\30\119\48\211\210")] = 1574 - (1440 + 131) })
+            end
+        end })
+    aD:AddToggle({ [i("\117\216\52\63", "\90\59\185\89")] = i(
+    "\101\254\91\77\55\120\0\192\86\78\34\120\82\176\110\93\58\126\69\226\73", "\29\32\144\58\47\91"),
+        [i("\55\48\119\188\84\173\7", "\193\115\85\17\221\33")] = false,
+        [i("\206\122\2\18\173\221\238\112", "\188\141\27\110\126\207")] = function(fO)
+            local fP = 0 - 0; while true do
+                if fP == 1396 - (253 + 1142) then
+                    getgenv().TracerColor = Color3.fromRGB(508 - (133 + 120), 0, 0 - 0)
+                    getgenv().TracerThickness = 5; fP = 1958 - (809 + 1147)
+                end; if fP == 3 then
+                    if getgenv().enablePlayerTracers == true then
+                        local fQ = 497 - (178 + 319)
+                        local fR; while true do
+                            if fQ == 0 then
+                                fR = nil; function fR()
+                                    for fS, fT in next, o:GetPlayers() do if fT.Name ~= game:GetService("Players").LocalPlayer.Name then
+                                            local fU = 0 - 0; local fV; while true do
+                                                if fU == 1 + 0 then
+                                                    o.PlayerRemoving:Connect(function() fV.Visible = false end)
+                                                    break
+                                                end; if fU == 1270 - (1255 + 15) then
+                                                    local fW = 0; while true do
+                                                        if fW == 1542 - (1221 + 321) then
+                                                            fV = Drawing.new(i("\161\63\80\114",
+                                                                "\105\237\86\62\23\132\136"))
+                                                            s.RenderStepped:Connect(function() if game:GetService("Workspace"):FindFirstChild(fT.Name) ~= nil and game:GetService("Workspace")[fT.Name]:FindFirstChild(i("\145\92\49\76\45\18\176\77\14\66\44\9\137\72\46\89", "\125\217\41\92\45\67")) ~= nil then
+                                                                    local fX = 0 - 0; local fY; local fZ; local f_; local g0; while true do
+                                                                        if 3 == fX then
+                                                                            if g0 == true and getgenv().enablePlayerTracers == true then
+                                                                                local g1 = 0 + 0; while true do if g1 == 0 then
+                                                                                        fV.To = Vector2.new(f_.X, f_.Y)
+                                                                                        if fT.Team.Name == i("\105\187\10\86\128\94", "\59\57\212\102\63\227") and o.LocalPlayer.Team.Name == i("\77\250\118\20\114\230\122\21", "\103\29\136\31") or fT.Team.Name == i("\61\60\211\39\79\16\47\214", "\38\126\78\186\74") and o.LocalPlayer.Team.Name == i("\241\79\38\131\68\129", "\228\161\32\74\234\39") or fT.Team.Name == i("\14\139\6\188\243\132", "\224\94\228\106\213\144\225\84") and o.LocalPlayer.Team.Name == i("\147\250\78\205\8\190\233\75", "\97\208\136\39\160") then fV.Visible = true else fV.Visible = false end; break
+                                                                                    end end
+                                                                            else fV.Visible = false end; break
+                                                                        end; if fX == 0 - 0 then
+                                                                            local g2 = 0 - 0; while true do
+                                                                                if g2 == 1 + 0 then
+                                                                                    fX = 1 + 0; break
+                                                                                end; if g2 == 0 - 0 then
+                                                                                    fY, fZ =
+                                                                                    game:GetService("Workspace")[fT.Name]
+                                                                                    .HumanoidRootPart.CFrame,
+                                                                                        game:GetService("Workspace")[fT.Name]
+                                                                                        .HumanoidRootPart.Size *
+                                                                                        (408 - (204 + 203))
+                                                                                    f_, g0 = I:WorldToViewportPoint(fY *
+                                                                                    CFrame.new(78 - (48 + 30), -fZ.Y, 0 +
+                                                                                    0).p)
+                                                                                    g2 = 1965 - (1472 + 492)
+                                                                                end
+                                                                            end
+                                                                        end; if fX == 1 then
+                                                                            fV.Thickness = getgenv().TracerThickness; fV.Transparency =
+                                                                            getgenv().TracerTransparency; fX = 5 - 3
+                                                                        end; if 2 + 0 == fX then
+                                                                            fV.Color = getgenv().TracerColor; fV.From =
+                                                                            Vector2.new(I.ViewportSize.X /
+                                                                            (613 - (258 + 353)), I.ViewportSize.Y)
+                                                                            fX = 1997 - (1382 + 612)
+                                                                        end
+                                                                    end
+                                                                else fV.Visible = false end end)
+                                                            fW = 1 + 0
+                                                        end; if fW == 1 then
+                                                            fU = 1; break
+                                                        end
+                                                    end
+                                                end
+                                            end
+                                        end end; o.PlayerAdded:Connect(function(g3) g3.CharacterAdded:Connect(function(
+                                            g4) if g4.Name ~= o.LocalPlayer.Name then
+                                                local g5 = Drawing.new(i("\218\32\205\131", "\91\150\73\163\230\57\114"))
+                                                s.RenderStepped:Connect(function() if game:GetService("Workspace"):FindFirstChild(g4.Name) ~= nil and game:GetService("Workspace")[g4.Name]:FindFirstChild(i("\102\184\191\87\254\4\183\91\124\162\189\66\192\10\172\75", "\63\46\205\210\54\144\107\222")) ~= nil then
+                                                        local g6 = 0 + 0; local g7; local g8; local g9; local ga; while true do
+                                                            if g6 == 2 then
+                                                                g5.Color = getgenv().TracerColor; g5.From = Vector2.new(
+                                                                I.ViewportSize.X / (1 + 1), I.ViewportSize.Y)
+                                                                g6 = 8 - 5
+                                                            end; if g6 == 3 + 0 then
+                                                                if ga == true and getgenv().enablePlayerTracers == true then
+                                                                    g5.To = Vector2.new(g9.X, g9.Y)
+                                                                    if g4.Team.Name == i("\192\35\248\78\223\245", "\188\144\76\148\39") and o.LocalPlayer.Team.Name == i("\181\89\124\183\67\2\39\71", "\53\229\43\21\196\44\108\66") or g4.Team.Name == i("\16\39\30\168\58\59\22\169", "\197\83\85\119") and o.LocalPlayer.Team.Name == i("\127\245\18\62\76\255", "\87\47\154\126") or g4.Team.Name == i("\27\119\192\210\209\209", "\180\75\24\172\187\178") and o.LocalPlayer.Team.Name == i("\224\203\236\14\117\42\248\28", "\112\163\185\133\99\28\68\153") then g5.Visible = true else g5.Visible = false end
+                                                                else g5.Visible = false end; break
+                                                            end; if g6 == 120 - (35 + 84) then
+                                                                g5.Thickness = getgenv().TracerThickness; g5.Transparency =
+                                                                getgenv().TracerTransparency; g6 = 217 - (75 + 140)
+                                                            end; if g6 == 0 - 0 then
+                                                                g7, g8 = game:GetService("Workspace")[g4.Name].HumanoidRootPart.CFrame,
+                                                                    game:GetService("Workspace")[g4.Name].HumanoidRootPart.Size *
+                                                                    (1800 - (923 + 876))
+                                                                g9, ga = I:WorldToViewportPoint(g7 *
+                                                                CFrame.new(0, -g8.Y, 0 - 0).p)
+                                                                g6 = 1
+                                                            end
+                                                        end
+                                                    else g5.Visible = false end end)
+                                                o.PlayerRemoving:Connect(function() g5.Visible = false end)
+                                            end end) end)
+                                end; fQ = 813 - (284 + 528)
+                            end; if fQ == 1020 - (867 + 152) then
+                                fR()
+                                an:MakeNotification({ [i("\133\85\241\206", "\171\203\52\156")] = i(
+                                "\138\198\124\168\47\147\253\148\168\203\126\180\56\146",
+                                    "\192\218\170\29\209\74\225\221"),
+                                    [i("\160\211\85\20\202\67\61", "\157\227\188\59\96\175\45\73")] = i(
+                                    "\154\196\214\20\61\186\206\151\34\35\190\201\210\4\34\241", "\81\223\170\183\118"),
+                                    [i("\15\76\173\188\252", "\113\70\33\204\219\153\82")] = "rbxassetid://4483345998",
+                                    [i("\197\139\50\57", "\208\145\226\95\92\158")] = 1109 - (709 + 397) })
+                                break
+                            end
+                        end
+                    else
+                        local gb = 0 - 0; while true do if gb == 0 then
+                                getgenv().enablePlayerTracers = false; an:MakeNotification({
+                                    [i("\144\224\208\73", "\120\222\129\189\44\143\149\207")] = i(
+                                    "\180\29\28\168\207\89\57\140\150\16\30\180\216\88", "\216\228\113\125\209\170\43\25"),
+                                    [i("\218\245\86\81\119\112\237", "\30\153\154\56\37\18")] = i(
+                                    "\57\176\228\13\57\17\188\243\76\15\15\184\244\9\41\14\247", "\91\125\217\151\108"),
+                                    [i("\208\30\167\119\219", "\190\153\115\198\16")] = "rbxassetid://4483345998",
+                                    [i("\14\114\167\130", "\231\90\27\202")] = 39 - (21 + 15) })
+                                break
+                            end end
+                    end; break
+                end; if fP == 2 - 0 then
+                    getgenv().TracerTransparency = 1 - 0; getgenv().enablePlayerTracers = fO; fP = 1 + 2
+                end; if fP == 0 - 0 then
+                    if ap == true then return end; getgenv().TracersVisible = true; fP = 2 - 1
+                end
+            end
+        end })
+    aD:AddToggle({ [i("\175\133\85\167", "\62\225\228\56\194")] = i(
+    "\51\183\184\47\120\80\86\137\181\44\109\80\4\249\156\30\68", "\53\118\217\217\77\20"),
+        [i("\141\26\226\223\58\165\11", "\79\201\127\132\190")] = false,
+        [i("\11\21\229\197\42\21\234\194", "\169\72\116\137")] = function(gc)
+            if ap == true then return end; getgenv().TextColor = Color3.new(0.678, 0.847 + 0, 0.902)
+            getgenv().TextSize = 16; getgenv().Center = true; getgenv().Outline = true; getgenv().OutlineColor = Color3
+            .fromRGB(0, 135 - (97 + 38), 80 - (52 + 28))
+            getgenv().TextTransparency = 0.7; getgenv().TextFont = Drawing.Fonts.UI; getgenv().enablePlayerESP = gc; if getgenv().enablePlayerESP == true then
+                local gd = 0; local ge; while true do
+                    if gd == 0 + 0 then
+                        local gf = 849 - (59 + 790)
+                        while true do
+                            if gf == 0 + 0 then
+                                ge = nil; function ge()
+                                    local gg = 0 + 0; while true do if gg == 0 then
+                                            for gh, gi in next, o:GetPlayers() do if gi.Name ~= o.LocalPlayer.Name then
+                                                    local gj = Drawing.new(i("\77\127\209\178", "\198\25\26\169"))
+                                                    s.RenderStepped:Connect(function() if game:GetService("Workspace"):FindFirstChild(gi.Name) ~= nil and game:GetService("Workspace")[gi.Name]:FindFirstChild(i("\97\102\208\39\137\94\114\123\123\124\210\50\183\80\105\107", "\31\41\19\189\70\231\49\27")) ~= nil then
+                                                            local gk = 940 - (467 + 473)
+                                                            local gl; local gm; while true do
+                                                                if gk == 9 - 7 then
+                                                                    gj.OutlineColor = getgenv().OutlineColor; gj.Color =
+                                                                    getgenv().TextColor; gk = 7 - 4
+                                                                end; if 3 == gk then
+                                                                    gj.Transparency = getgenv().TextTransparency; gj.Font =
+                                                                    getgenv().TextFont; gk = 9 - 5
+                                                                end; if 2 - 1 == gk then
+                                                                    gj.Center = getgenv().Center; gj.Outline = getgenv()
+                                                                    .Outline; gk = 1 + 1
+                                                                end; if gk == 0 - 0 then
+                                                                    gl, gm = I:WorldToViewportPoint(game:GetService("Workspace")
+                                                                    [gi.Name]:WaitForChild(
+                                                                    i("\159\214\80\226", "\134\215\179\49"), math.huge)
+                                                                    .Position)
+                                                                    gj.Size = getgenv().TextSize; gk = 3 - 2
+                                                                end; if gk == 6 - 2 then
+                                                                    if gm == true and getgenv().enablePlayerESP == true then
+                                                                        local gn = 0 + 0; local go; local gp; local gq; while true do
+                                                                            if gn == 1 + 0 then
+                                                                                gq = (go - gp).Magnitude; gj.Position =
+                                                                                Vector2.new(gl.X, gl.Y - (10 + 15))
+                                                                                gn = 239 - (58 + 179)
+                                                                            end; if gn == 0 - 0 then
+                                                                                go = game:GetService("Workspace"):WaitForChild(gi.Name,
+                                                                                    math.huge):WaitForChild(
+                                                                                i(
+                                                                                "\201\225\91\231\91\28\232\240\100\233\90\7\209\245\68\242",
+                                                                                    "\115\129\148\54\134\53"), math.huge)
+                                                                                .Position; gp = game:GetService("Workspace")
+                                                                                :WaitForChild(o.LocalPlayer.Name,
+                                                                                    math.huge):WaitForChild(
+                                                                                i(
+                                                                                "\193\146\93\74\214\7\26\237\181\95\68\204\56\18\251\147",
+                                                                                    "\115\137\231\48\43\184\104"),
+                                                                                    math.huge).Position or 1253 -
+                                                                                (677 + 576)
+                                                                                gn = 1 + 0
+                                                                            end; if gn == 2 then
+                                                                                gj.Text = "[" ..
+                                                                                tostring(math.round(tonumber(gq))) ..
+                                                                                i("\228\169",
+                                                                                    "\95\185\137\122\131\201\192") ..
+                                                                                gi.Name ..
+                                                                                i("\54\13", "\69\22\86\167\115") ..
+                                                                                tostring(math.round(game:GetService("Workspace")
+                                                                                [gi.Name].Humanoid.Health)) .. "]"
+                                                                                if gi.Team.Name == i("\104\139\75\136\70\34", "\71\56\228\39\225\37") and o.LocalPlayer.Team.Name == i("\128\243\237\58\245\227\39\162", "\66\208\129\132\73\154\141") or gi.Team.Name == i("\105\77\223\240\67\81\215\241", "\157\42\63\182") and o.LocalPlayer.Team.Name == i("\235\49\37\245\204\222", "\175\187\94\73\156") or gi.Team.Name == i("\22\48\67\41\24\38", "\160\70\95\47\64\123\67") and o.LocalPlayer.Team.Name == i("\253\72\125\60\215\84\117\61", "\81\190\58\20") then gj.Visible = true else gj.Visible = false end; break
+                                                                            end
+                                                                        end
+                                                                    else gj.Visible = false end; break
+                                                                end
+                                                            end
+                                                        else gj.Visible = false end end)
+                                                    o.PlayerRemoving:Connect(function() gj.Visible = false end)
+                                                end end; o.PlayerAdded:Connect(function(gr) gr.CharacterAdded:Connect(function(
+                                                    gs) if gs.Name ~= o.LocalPlayer.Name then
+                                                        local gt = 0 - 0; local gu; local gv; while true do
+                                                            if gt == 220 - (88 + 132) then
+                                                                gu = 0 + 0; gv = nil; gt = 4 - 3
+                                                            end; if gt == 1 then
+                                                                while true do
+                                                                    if gu == 0 then
+                                                                        gv = Drawing.new(i("\120\72\174\99",
+                                                                            "\83\44\45\214\23\227\73\63"))
+                                                                        s.RenderStepped:Connect(function() if game:GetService("Workspace"):FindFirstChild(gs.Name) ~= nil and game:GetService("Workspace")[gs.Name]:FindFirstChild(i("\221\175\75\191\46\250\179\66\140\47\250\174\118\191\50\225", "\64\149\218\38\222")) ~= nil then
+                                                                                local gw = 0 - 0; local gx; local gy; while true do
+                                                                                    if gw == 293 - (12 + 279) then
+                                                                                        gv.OutlineColor = getgenv()
+                                                                                        .OutlineColor; gv.Color = getgenv()
+                                                                                        .TextColor; gw = 3
+                                                                                    end; if gw == 1 - 0 then
+                                                                                        gv.Center = getgenv().Center; gv.Outline =
+                                                                                        getgenv().Outline; gw = 1 + 1
+                                                                                    end; if gw == 947 - (652 + 295) then
+                                                                                        gx, gy = I:WorldToViewportPoint(
+                                                                                        game:GetService("Workspace")[gs.Name]
+                                                                                        :WaitForChild(
+                                                                                        i("\50\162\203\212",
+                                                                                            "\176\122\199\170"),
+                                                                                            math.huge).Position)
+                                                                                        gv.Size = getgenv().TextSize; gw = 1 +
+                                                                                        0
+                                                                                    end; if gw == 2 + 1 then
+                                                                                        gv.Transparency = getgenv()
+                                                                                        .TextTransparency; if gy == true and getgenv().enablePlayerESP == true then
+                                                                                            local gz = 989 - (848 + 141)
+                                                                                            local gA; local gB; local gC; local gD; while true do
+                                                                                                if gz == 742 - (372 + 368) then
+                                                                                                    while true do
+                                                                                                        if gA == 2 + 0 then
+                                                                                                            gv.Text = "(" ..
+                                                                                                            tostring(
+                                                                                                            math.floor(
+                                                                                                            tonumber(gD))) ..
+                                                                                                            i("\64\83",
+                                                                                                                "\38\105\115\45\146\210") ..
+                                                                                                            gs.Name ..
+                                                                                                            i("\66\45",
+                                                                                                                "\83\98\118\108\22") ..
+                                                                                                            game:GetService("Workspace")
+                                                                                                            [gs.Name]
+                                                                                                            .Humanoid
+                                                                                                            .Health ..
+                                                                                                            "]"
+                                                                                                            if gs.Team.Name == i("\121\228\117\36\166\129", "\67\41\139\25\77\197\228") and o.LocalPlayer.Team.Name == i("\216\188\199\57\89\230\237\188", "\136\136\206\174\74\54") or gs.Team.Name == i("\7\225\143\136\90\170\186\40", "\219\68\147\230\229\51\196") and o.LocalPlayer.Team.Name == i("\76\65\250\233\5\66", "\123\28\46\150\128\102\39") or gs.Team.Name == i("\53\70\17\94\24\140", "\21\101\41\125\55\123\233\91") and o.LocalPlayer.Team.Name == i("\161\249\167\254\5\60\131\231", "\82\226\139\206\147\108") then gv.Visible = true else gv.Visible = false end; break
+                                                                                                        end; if gA == 1130 - (542 + 588) then
+                                                                                                            gB = game
+                                                                                                            .Workspace
+                                                                                                            :WaitForChild(
+                                                                                                            gs.Name,
+                                                                                                                math.huge)
+                                                                                                            :WaitForChild(
+                                                                                                            i(
+                                                                                                            "\58\30\189\209\63\36\27\15\130\223\62\63\34\10\162\196",
+                                                                                                                "\75\114\107\208\176\81"),
+                                                                                                                math.huge)
+                                                                                                            .Position; gC =
+                                                                                                            game:GetService("Workspace")
+                                                                                                            :WaitForChild(
+                                                                                                            o.LocalPlayer
+                                                                                                            .Name,
+                                                                                                                math.huge)
+                                                                                                            :WaitForChild(
+                                                                                                            i(
+                                                                                                            "\209\62\36\116\247\36\32\113\203\36\38\97\201\42\59\97",
+                                                                                                                "\21\153\75\73"),
+                                                                                                                math.huge)
+                                                                                                            .Position or
+                                                                                                            0; gA = 819 -
+                                                                                                            (6 + 812)
+                                                                                                        end; if gA == 1706 - (1599 + 106) then
+                                                                                                            gD = (gB - gC)
+                                                                                                            .Magnitude; gv.Position =
+                                                                                                            Vector2.new(
+                                                                                                            gx.X, gx.Y -
+                                                                                                            25)
+                                                                                                            gA = 2
+                                                                                                        end
+                                                                                                    end; break
+                                                                                                end; if gz == 1 then
+                                                                                                    gC = nil; gD = nil; gz = 2
+                                                                                                end; if 0 - 0 == gz then
+                                                                                                    gA = 0 + 0; gB = nil; gz = 1 +
+                                                                                                    0
+                                                                                                end
+                                                                                            end
+                                                                                        else gv.Visible = false end; break
+                                                                                    end
+                                                                                end
+                                                                            else gv.Visible = false end end)
+                                                                        gu = 3 - 2
+                                                                    end; if gu == 1 - 0 then
+                                                                        o.PlayerRemoving:Connect(function() gv.Visible = false end)
+                                                                        break
+                                                                    end
+                                                                end; break
+                                                            end
+                                                        end
+                                                    end end) end)
+                                            break
+                                        end end
+                                end; gf = 1
+                            end; if 1 == gf then
+                                gd = 1; break
+                            end
+                        end
+                    end; if gd == 1 then
+                        ge()
+                        an:MakeNotification({ [i("\223\7\64\180", "\172\145\102\45\209")] = i(
+                        "\196\1\13\89\142\108\180\40\63\112", "\30\148\109\108\32\235"),
+                            [i("\55\72\31\75\17\73\5", "\63\116\39\113")] = i(
+                            "\29\94\198\238\28\45\172\120\96\203\237\9\45\186\120\117\244\220\94",
+                                "\200\88\48\167\140\112\72"), [i("\235\83\41\172\231", "\130\162\62\72\203")] =
+                        "rbxassetid://4483345998", [i("\151\190\176\117", "\157\195\215\221\16\231\224\143")] = 3 })
+                        break
+                    end
+                end
+            else
+                local gE = 0 + 0; while true do if gE == 0 then
+                        getgenv().enablePlayerESP = false; an:MakeNotification({
+                            [i("\81\216\6\137", "\131\31\185\107\236")] = i("\155\167\75\61\174\185\10\1\152\155",
+                                "\68\203\203\42"), [i("\96\88\123\205\70\89\97", "\185\35\55\21")] = i(
+                        "\151\240\172\133\177\245\186\128\243\201\179\133\170\252\173\196\150\202\143\202",
+                            "\228\211\153\223"), [i("\125\226\89\58\63", "\102\52\143\56\93\90")] =
+                        "rbxassetid://4483345998", [i("\114\30\173\45", "\133\38\119\192\72")] = 1 + 2 })
+                        break
+                    end end
+            end
+        end })
 end
