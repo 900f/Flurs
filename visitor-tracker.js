@@ -1,5 +1,5 @@
 // Replace this with your Discord webhook URL
-const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1439014935547084936/2biZ42YXRxzLnCayzsmK2REI13caqw2aj-CTpWRXv-CD37uBkLYBqhjbHikkck2SBibz';
+const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1440057894216401057/dL-kBKOWvi8JNT-n1YsgvGOshn_rcUPx5BJzsVDU4X314e17r0QsmqEQKXwUVTZOT22r';
 
 // List of IPs to block from sending data
 const BLOCKED_IPS = ['92.29.204.199', '77.100.219.194'];
