@@ -21,7 +21,6 @@
                 <li><a href="#home" class="nav-link active" data-page="home" aria-current="page"><span class="nav-icon">Home</span>Home</a></li>
                 <li><a href="#about" class="nav-link" data-page="about"><span class="nav-icon">About</span>About</a></li>
                 <li><a href="#scripts" class="nav-link" data-page="scripts"><span class="nav-icon">Scripts</span>Scripts</a></li>
-                <li><a href="#configs" class="nav-link" data-page="configs"><span class="nav-icon">Configs</span>Configs</a></li>
                 <li><a href="#brainrots" class="nav-link" data-page="brainrots"><span class="nav-icon">Brainrots</span>Brainrots</a></li>
             </ul>
         </div>
@@ -199,7 +198,7 @@
         </div>
     </section>
 
-    <!-- ABOUT PAGE (unchanged) -->
+    <!-- ABOUT PAGE -->
     <section id="about-page" class="page">
         <div class="container">
             <div class="page-header">
@@ -224,17 +223,23 @@
                             <div class="metrics-chart">
                                 <div class="metric-bar">
                                     <span class="metric-label">Engagement</span>
-                                    <div class="bar"><div class="bar-fill" data-width="85%"></div></div>
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="85%"></div>
+                                    </div>
                                     <span class="metric-value">85%</span>
                                 </div>
                                 <div class="metric-bar">
                                     <span class="metric-label">Activity</span>
-                                    <div class="bar"><div class="bar-fill" data-width="90%"></div></div>
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="90%"></div>
+                                    </div>
                                     <span class="metric-value">90%</span>
                                 </div>
                                 <div class="metric-bar">
                                     <span class="metric-label">Growth</span>
-                                    <div class="bar"><div class="bar-fill" data-width="75%"></div></div>
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="75%"></div>
+                                    </div>
                                     <span class="metric-value">75%</span>
                                 </div>
                             </div>
@@ -245,7 +250,7 @@
         </div>
     </section>
 
-    <!-- SCRIPTS PAGE (unchanged) -->
+    <!-- SCRIPTS PAGE -->
     <section id="scripts-page" class="page">
         <div class="container">
             <div class="page-header">
@@ -257,8 +262,6 @@
                     <input type="text" id="script-search" placeholder="Search scripts by name or tags...">
                 </div>
                 <div class="scripts-grid">
-                    <!-- All your original script cards here (unchanged) -->
-                    <!-- Example one kept for reference -->
                     <div class="script-card" data-name="Soluna Arsenal" data-tags="Soluna Arsenal">
                         <div class="script-image">
                             <img src="./images/Sol.png" alt="Soluna Arsenal Preview">
@@ -279,18 +282,218 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Keep all your other script cards exactly as before -->
+                    <div class="script-card" data-name="Infinite Yield" data-tags="Cmds Universal">
+                        <div class="script-image">
+                            <img src="./images/IY.png" alt="Infinite Yield Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Infinite Yield</h3>
+                            <p class="script-description">Admin commands for every game</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Cmds</span>
+                                <span class="tag">Universal</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Weed Client" data-tags="Arsenal Universal Rivals">
+                        <div class="script-image">
+                            <img src="./images/Weed.png" alt="Weed Client Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Weed Client</h3>
+                            <p class="script-description">Universal Aimbot + ESP.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/ex55/weed-client/refs/heads/main/main.lua"))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Arsenal</span>
+                                <span class="tag">Universal</span>
+                                <span class="tag">Rivals</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Argon Cheat - Blade Ball" data-tags="Blade Ball Argon">
+                        <div class="script-image">
+                            <img src="./images/Argon.png" alt="Argon Cheat Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Argon Cheat - Blade Ball</h3>
+                            <p class="script-description">Blade ball cheats for the best gameplay.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/SoyAdriYT/PitbullHubX/refs/heads/main/PitbullHubX.lua", true))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Blade Ball</span>
+                                <span class="tag">Argon</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Plutonium Cheat" data-tags="Cheat Hub Blade Ball">
+                        <div class="script-image">
+                            <img src="./images/Plut.png" alt="Plutonium Cheat Preview">
+                            <div class="script-overlay">
+                                <span class="script toţi">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Plutonium Cheat</h3>
+                            <p class="script-description">Advanced cheat hub for a variety of games.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/PawsThePaw/Plutonium.AA/main/Plutonium.Loader.lua", true))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Cheat</span>
+                                <span class="tag">Hub</span>
+                                <span class="tag">Blade Ball</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Thunder Hub" data-tags="MM2 Murder Mystery">
+                        <div class="script-image">
+                            <img src="./images/Thunder.png" alt="Thunder Hub Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Thunder Hub</h3>
+                            <p class="script-description">Dominate people in Murder Mystery 2.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">MM2</span>
+                                <span class="tag">Murder Mystery</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="TALENTLESS" data-tags="Piano TALENTLESS Auto Play">
+                        <div class="script-image">
+                            <img src="./images/Piano.png" alt="TALENTLESS Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">TALENTLESS</h3>
+                            <p class="script-description">Play roblox digital piano in any game automatically with 400 songs to choose from.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/TALENTLESS", true))() end)</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Piano</span>
+                                <span class="tag">TALENTLESS</span>
+                                <span class="tag">Auto Play</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Fisch Eclipse" data-tags="Fisch Eclipse Auto Play">
+                        <div class="script-image">
+                            <img src="./images/Fisch.png" alt="Fish Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Fisch Eclipse</h3>
+                            <p class="script-description">Get the best things from the game fish and play automatically.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(Game:HttpGet("https://raw.githubusercontent.com/yolobradda/eclipsefisch/refs/heads/main/eclipsefisch"))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div  </div>
+                            <div class="script-tags">
+                                <span class="tag">Fisch</span>
+                                <span class="tag">Eclipse</span>
+                                <span class="tag">Auto Play</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Strucid Cheats" data-tags="Strucid Hitboxes Cheats">
+                        <div class="script-image">
+                            <img src="./images/Weed.png" alt="Strucid Cheats Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Strucid Cheats</h3>
+                            <p class="script-description">Strucid Cheats.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/10x00/Public-Cracks/main/Apollo%20Hub%20Crack.lua"))();</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Strucid</span>
+                                <span class="tag">Hitboxes</span>
+                                <span class="tag">Cheats</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Soluna Rivals" data-tags="Rivals Aimbot Cheats">
+                        <div class="script-image">
+                            <img src="./images/Rivals.png" alt="Soluna Rivals Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Soluna Rivals</h3>
+                            <p class="script-description">Rivals Cheats.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://soluna-script.vercel.app/rivals-modern.lua"))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Rivals</span>
+                                <span class="tag">Aimbot</span>
+                                <span class="tag">Cheats</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="script-card" data-name="Nameless Hub" data-tags="Steal A brainrot">
+                        <div class="script-image">
+                            <img src="./images/Name.png" alt="Nameless Cheat Preview">
+                            <div class="script-overlay">
+                                <span class="script-status">Active</span>
+                            </div>
+                        </div>
+                        <div class="script-content">
+                            <h3 class="script-name">Nameless Hub - Steal A Brainrot</h3>
+                            <p class="script-description">Steal a brainrot cheats for the most expensive steals.</p>
+                            <div class="script-code-container">
+                                <code class="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/ily123950/Vulkan/refs/heads/main/Tr"))()</code>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="script-tags">
+                                <span class="tag">Steal A Brainrot</span>
+                                <span class="tag">SAB</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CONFIGS PAGE (unchanged) -->
-    <section id="configs-page" class="page">
-        <!-- Your original configs page here (unchanged) -->
-    </section>
-
-    <!-- NEW BRAINROTS PAGE -->
+    <!-- BRAINROTS SHOP PAGE -->
     <section id="brainrots-page" class="page">
         <div class="container">
             <div class="page-header">
@@ -302,7 +505,6 @@
                     <input type="text" id="brainrot-search" placeholder="Search brainrots by name or tags...">
                 </div>
                 <div class="scripts-grid">
-                    <!-- Brainrot Items -->
                     <div class="script-card" data-name="Skibidi Sigma" data-tags="skibidi sigma ohio rare">
                         <div class="script-image">
                             <img src="./images/brainrots/skibidi.jpg" alt="Skibidi Sigma">
@@ -311,7 +513,7 @@
                         <div class="script-content">
                             <h3 class="script-name">Skibidi Sigma</h3>
                             <p class="script-description">The original 2025 toilet warrior – only 8 left</p>
-                            <div class="script-code-container" style="background:#10b981;color:#000;font-weight:700;text-align:center;">
+                            <div class="script-code-container" style="background:#10b981;color:#000;font-weight:700;text-align:center;padding:1.2rem 0;font-size:1.3rem;">
                                 <code class="script-code">49.99 USD</code>
                             </div>
                             <div class="script-tags">
@@ -331,7 +533,7 @@
                         <div class="script-content">
                             <h3 class="script-name">Mewing Master</h3>
                             <p class="script-description">Level 100 jawline enhancer + free looksmax guide</p>
-                            <div class="script-code-container" style="background:#10b981;color:#000;font-weight:700;text-align:center;">
+                            <div class="script-code-container" style="background:#10b981;color:#000;font-weight:700;text-align:center;padding:1.2rem 0;font-size:1.3rem;">
                                 <code class="script-code">34.99 USD</code>
                             </div>
                             <div class="script-tags">
@@ -350,7 +552,7 @@
                         <div class="script-content">
                             <h3 class="script-name">Ohio Final Boss</h3>
                             <p class="script-description">Only real ones can handle this level of brainrot</p>
-                            <div class="script-code-container" style="background:#ef4444;color:#fff;font-weight:700;text-align:center;">
+                            <div class="script-code-container" style="background:#ef4444;color:#fff;font-weight:700;text-align:center;padding:1.2rem 0;font-size:1.3rem;">
                                 <code class="script-code">149.99 USD</code>
                             </div>
                             <div class="script-tags">
@@ -360,7 +562,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add as many brainrots as you want -->
+                    <!-- Add as many brainrots as you want here -->
                 </div>
             </div>
         </div>
