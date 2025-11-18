@@ -557,5 +557,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, 200);
-    });
+
+    const brainrotSearchInput = document.getElementById('brainrot-search');
+    const brainrotCards = document.querySelectorAll('#brainrots-page .script-card');
+
+    if (brainrotSearchInput) {
+        brainrotSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+
+            brainrotCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const tags = card.getAttribute('data-tags').toLowerCase();
+
+                if (searchTerm === '' || name.includes(searchTerm) || tags.includes(searchTerm)) {
+                    card.style.display = '';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    requestAnimationFrame(() => {
+                        card.style.transition = 'all 0.4s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => { card.style.display = 'none'; }, 400);
+                }
+            });
+        });
+
+        brainrotSearchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                const event = new Event('input');
+                this.dispatchEvent(event);
+            }
+        });
+    }
+
 });
